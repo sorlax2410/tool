@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">MitDroid</string>
+    <string name="settings">scan option</string>
+    <string name="mapNetwork">scan local network</string>
+    <string name="getTarget">input target</string>
+    <string name="scanResult">Ip Adresses</string>
+    <string name="greetings">
+        WELCOME TO MITDROID. THE HACKING TOOL\n
+        \n
+        DISCLAIMER\n
+        This tool is use for study purpose only. I do not hold any responsibilities to any kind of action you
+        do. Thus please becareful when using the tool.\n
+        \n
+        BRIEF INFO ABOUT THE TOOL\n
+        Mitdroid is divided into 3 parts, each part is for different kind of users, from beginner to
+        advance users. If you detect any bug, please report the information to the following email.\n
+        \n
+        Email: sorlax2410@gmail.com\n
+        \n
+        For more information about the tool, please contact through the mail above. Thank you for using the tool
+        and have a good day.
+    </string>
+    <string name="attackButton">attack the target</string>
+</resources>

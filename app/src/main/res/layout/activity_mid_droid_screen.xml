@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp">
+
+            <Button
+                android:id="@+id/inputTarget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/scanOption"
+                android:layout_alignBottom="@+id/scanOption"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="11dp"
+                android:text="@string/getTarget"
+                android:onClick="inputTarget"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="101dp" />
+
+            <Button
+                android:id="@+id/mapNetwork"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="@string/mapNetwork"
+                android:onClick="scanLocalNetwork"
+                tools:layout_editor_absoluteX="191dp"
+                tools:layout_editor_absoluteY="101dp" />
+
+            <Button
+                android:id="@+id/scanOption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/mapNetwork"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="13dp"
+                android:onClick="scanOtionButton"
+                android:text="@string/settings"
+                tools:layout_editor_absoluteX="135dp"
+                tools:layout_editor_absoluteY="231dp" />
+
+            <TextView
+                android:id="@+id/scanResult"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@+id/inputTarget"
+                android:layout_marginTop="83dp"
+                android:maxLines="1000"
+                android:scrollbars="vertical"
+                android:text="@string/scanResult"
+                android:textColor="@color/green"
+                android:background="@color/black" />
+
+            <Button
+                android:id="@+id/attackButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/inputTarget"
+                android:layout_centerHorizontal="true"
+                android:onClick="attackButton"
+                android:text="@string/attackButton" />
+
+        </RelativeLayout>
+    </GridLayout>
+
+</android.support.constraint.ConstraintLayout>
