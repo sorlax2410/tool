@@ -23,7 +23,7 @@ public class optionScan {
     private String command = "./nmap ";
     private workRecord executor;
 
-    private String log;
+    public String log;
 
     private String quickOption = "-sP";
     private String allOption = "-A";
@@ -49,14 +49,21 @@ public class optionScan {
     }
 
     private void getGatewayInfo(Context context) {
-        WifiManager wifiManager = (WifiManager)context.getSystemService(Context.WIFI_SERVICE);
-        DhcpInfo dhcpInfo = wifiManager.getDhcpInfo();
-        defaultGateway = ipTransformation(dhcpInfo.gateway);
-        dns1 = ipTransformation(dhcpInfo.dns1) + '\n';
-        dns2 = ipTransformation(dhcpInfo.dns2) + '\n';
-        serverAdress = ipTransformation(dhcpInfo.serverAddress) + '\n';
-        ipAdress = ipTransformation(dhcpInfo.ipAddress) + '\n';
-        netmask = ipTransformation(dhcpInfo.netmask) + '\n';
+        DhcpInfo dhcpInfo = null;
+        WifiManager wifiManager = (WifiManager)context.getApplicationContext()
+                .getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiManager != null)
+            dhcpInfo = wifiManager.getDhcpInfo();
+
+        if (dhcpInfo != null) {
+            defaultGateway = ipTransformation(dhcpInfo.gateway);
+            dns1 = ipTransformation(dhcpInfo.dns1) + '\n';
+            dns2 = ipTransformation(dhcpInfo.dns2) + '\n';
+            serverAdress = ipTransformation(dhcpInfo.serverAddress) + '\n';
+            ipAdress = ipTransformation(dhcpInfo.ipAddress) + '\n';
+            netmask = ipTransformation(dhcpInfo.netmask) + '\n';
+        }
     }
 
     public String getDefaultGateway() { return defaultGateway + "\n"; }
@@ -101,7 +108,6 @@ public class optionScan {
      */
     //TODO: use another class instead of asynctask
     //TODO: make a work record that pairs the views and the update functions
-    //TODO: write code to see if the binaries are placed correctly(error: cannot find nmap-services)
     public class AsyncCommandExecutor extends AsyncTask<String, Void, Void> {
 
         public String returnOutput, debugTag;
