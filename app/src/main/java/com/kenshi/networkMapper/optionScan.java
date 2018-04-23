@@ -6,6 +6,7 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 
 import com.kenshi.fileHandler.workRecord;
 
@@ -79,6 +80,7 @@ public class optionScan {
         //quick scan the local network
         String scanOption = quickOption + " " + defaultGateway + "/24";
         new AsyncCommandExecutor(context).execute(command + scanOption);
+
     }
 
     public void normalScan(Context context, String targetIp) {

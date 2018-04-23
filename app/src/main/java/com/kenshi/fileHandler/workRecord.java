@@ -1,5 +1,8 @@
 package com.kenshi.fileHandler;
 
+import android.content.Intent;
+import android.view.View;
+
 /**
  * Created by kenshi on 03/03/2018.
  *
@@ -19,4 +22,8 @@ package com.kenshi.fileHandler;
 
 public class workRecord {
     //TODO: make threads and pair it up with UI object
+    public Intent startWork(View object) {
+        Intent result = new Intent();
+        return result;
+    }
 }
