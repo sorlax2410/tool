@@ -58,11 +58,11 @@
                 android:layout_alignParentEnd="true"
                 android:layout_below="@+id/inputTarget"
                 android:layout_marginTop="83dp"
+                android:background="@color/black"
                 android:maxLines="1000"
                 android:scrollbars="vertical"
                 android:text="@string/scanResult"
-                android:textColor="@color/green"
-                android:background="@color/black" />
+                android:textColor="@color/green" />
 
             <Button
                 android:id="@+id/attackButton"

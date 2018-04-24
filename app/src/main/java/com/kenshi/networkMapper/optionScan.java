@@ -32,7 +32,7 @@ public class optionScan {
     public optionScan(Context context) {
         //initial scan
         getGatewayInfo(context);
-        initialScan(context);
+        //initialScan(context);
     }
 
     /**

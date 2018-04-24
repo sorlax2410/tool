@@ -53,13 +53,14 @@ public class midDroidScreenActivity extends AppCompatActivity {
         //scan the local network
         optionScan scanner = new optionScan(this);
         scanner.initialScan(this);
-        scanResult.setText(scanner.log);
-        scanResult.append("Default gateway: " + scanner.getDefaultGateway());
+        Log.d("Log: ", scanner.log);
+        scanResult.setText("Default gateway: " + scanner.getDefaultGateway());
         scanResult.append("Dns 1: " + scanner.getDns1());
         scanResult.append("Dns 2: " + scanner.getDns2());
         scanResult.append("Server address: " + scanner.getServerAdress());
         scanResult.append("Your ip address: " + scanner.getIpAdress());
         scanResult.append("Subnet mask: " + scanner.getNetmask());
+        scanResult.append(scanner.log);
     }
 
     public void inputTarget(View view) {
