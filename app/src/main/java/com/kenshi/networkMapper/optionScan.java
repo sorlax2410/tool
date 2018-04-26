@@ -4,13 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.view.View;
 
 import com.kenshi.fileHandler.workRecord;
 
-import java.io.File;
 import java.io.IOException;
 
 /**
@@ -32,7 +28,6 @@ public class optionScan {
     public optionScan(Context context) {
         //initial scan
         getGatewayInfo(context);
-        //initialScan(context);
     }
 
     /**
@@ -76,25 +71,80 @@ public class optionScan {
 
     public String showLog() { return log; }
 
-    public void initialScan(Context context) {
+    public void initialScan(Context context) throws IOException, InterruptedException {
         //quick scan the local network
         String scanOption = quickOption + " " + defaultGateway + "/24";
-        new AsyncCommandExecutor(context).execute(command + scanOption);
-
+        log = commandExecution(context, scanOption);
     }
 
-    public void normalScan(Context context, String targetIp) {
-        new AsyncCommandExecutor(context).execute(command + targetIp);
+    @SuppressLint("WrongConstant")
+    public void normalScan(Context context, String targetIp) throws IOException, InterruptedException {
+        log = commandExecution(context, targetIp);
     }
 
-    public void detailScan(Context context, String targetIp) {
+    public void detailScan(Context context, String targetIp) throws IOException, InterruptedException {
         String scanAll = targetIp + allOption;
-        new AsyncCommandExecutor(context).execute(command + scanAll);
+        log = commandExecution(context, scanAll);
     }
 
-    private void commandExecution(Context context) {
+    @SuppressLint("WrongConstant")
+    private String commandExecution(Context context, String option) throws IOException, InterruptedException {
         //TODO: execute commands passed in
+        return commandProcessor.runCommand(command + option,
+                context.getDir("bin", Context.MODE_MULTI_PROCESS));
     }
+
+
+        /*
+
+                String[]binaries = {
+                        "nmap",
+                        "nmap_os_db",
+                        "nmap_payloads",
+                        "nmap_protocols",
+                        "nmap_rpc",
+                        "nmap_service_probes",
+                        "nmap_services"
+                };
+
+                private void display(String[] parameter) {
+                    try {
+                        String workingDirectory = commandProcessor.runCommand("pwd",
+                                binary.getAbsoluteFile());
+                        Log.d("Working directory", binary.getAbsolutePath());
+                        Log.d("Path", workingDirectory);
+                    }
+                    catch(IOException e) { Log.d(debugTag, e.getMessage()); }
+                    catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
+
+                    for(int i = 0; i < binaries.length; i++) {
+                        try {
+                            String listDetail = commandProcessor.runCommand("ls -la " + binaries[i],
+                                    binary.getAbsoluteFile());
+
+                            Log.d("Listing Tag", "ls -la output: " + listDetail);
+                        }
+                        catch(IOException e) { Log.d(debugTag, e.getMessage()); }
+                        catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
+                    }
+
+                    for(int i = 0; i < parameter.length; i++) { Log.d("Parameters", parameter[i]); }
+                }
+
+                private void checkFile(String path) {
+                    File checker = new File(path);
+                    Log.d("Path", checker.getAbsolutePath());
+                    if (checker.exists())
+                        Log.d("Path", "Path available !!");
+
+                    for(int i = 0; i < binaries.length; i++) {
+                        checker = new File(path, binaries[i]);
+                        Log.d("Path", checker.getAbsolutePath());
+                        if (checker.exists())
+                            Log.d("Path", "Path available !!");
+                    }
+                }
+        */
 
     /**
      * Note: Asyntask class is used only for publishing results to the screen and cannot manipulate
@@ -110,65 +160,11 @@ public class optionScan {
      */
     //TODO: use another class instead of asynctask
     //TODO: make a work record that pairs the views and the update functions
-    public class AsyncCommandExecutor extends AsyncTask<String, Void, Void> {
+/*    public class AsyncCommandExecutor extends AsyncTask<String, Void, Void> {
 
         public String returnOutput, debugTag;
         public File binary;
 
-        String[]binaries = {
-                "nmap",
-                "nmap_os_db",
-                "nmap_payloads",
-                "nmap_protocols",
-                "nmap_rpc",
-                "nmap_service_probes",
-                "nmap_services"
-        };
-
-        @SuppressLint("WrongConstant")
-        public AsyncCommandExecutor(Context context) {
-            this.binary = context.getDir("bin", Context.MODE_MULTI_PROCESS);
-            this.debugTag = "debugTag";
-        }
-/*
-        private void display(String[] parameter) {
-            try {
-                String workingDirectory = commandProcessor.runCommand("pwd",
-                        binary.getAbsoluteFile());
-                Log.d("Working directory", binary.getAbsolutePath());
-                Log.d("Path", workingDirectory);
-            }
-            catch(IOException e) { Log.d(debugTag, e.getMessage()); }
-            catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
-
-            for(int i = 0; i < binaries.length; i++) {
-                try {
-                    String listDetail = commandProcessor.runCommand("ls -la " + binaries[i],
-                            binary.getAbsoluteFile());
-
-                    Log.d("Listing Tag", "ls -la output: " + listDetail);
-                }
-                catch(IOException e) { Log.d(debugTag, e.getMessage()); }
-                catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
-            }
-
-            for(int i = 0; i < parameter.length; i++) { Log.d("Parameters", parameter[i]); }
-        }
-
-        private void checkFile(String path) {
-            File checker = new File(path);
-            Log.d("Path", checker.getAbsolutePath());
-            if (checker.exists())
-                Log.d("Path", "Path available !!");
-
-            for(int i = 0; i < binaries.length; i++) {
-                checker = new File(path, binaries[i]);
-                Log.d("Path", checker.getAbsolutePath());
-                if (checker.exists())
-                    Log.d("Path", "Path available !!");
-            }
-        }
-*/
         @Override
         protected Void doInBackground(String... params) {
             try {
@@ -186,5 +182,5 @@ public class optionScan {
             return null;
         }
     }
-
+*/
 }
