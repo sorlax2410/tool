@@ -8,6 +8,7 @@ import android.net.wifi.WifiManager;
 import com.kenshi.fileHandler.workRecord;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by kenshi on 01/02/2018.
@@ -21,6 +22,7 @@ public class optionScan {
     private workRecord executor;
 
     public String log;
+    public ArrayList<String> targets;
 
     private String quickOption = "-sP";
     private String allOption = "-A";
@@ -72,24 +74,24 @@ public class optionScan {
     public String showLog() { return log; }
 
     public void initialScan(Context context) throws IOException, InterruptedException {
-        //quick scan the local network
         String scanOption = quickOption + " " + defaultGateway + "/24";
         log = commandExecution(context, scanOption);
     }
 
-    @SuppressLint("WrongConstant")
-    public void normalScan(Context context, String targetIp) throws IOException, InterruptedException {
+    public void normalScan(Context context, String targetIp) throws IOException,
+            InterruptedException {
         log = commandExecution(context, targetIp);
     }
 
-    public void detailScan(Context context, String targetIp) throws IOException, InterruptedException {
+    public void detailScan(Context context, String targetIp) throws IOException,
+            InterruptedException {
         String scanAll = targetIp + allOption;
         log = commandExecution(context, scanAll);
     }
 
     @SuppressLint("WrongConstant")
-    private String commandExecution(Context context, String option) throws IOException, InterruptedException {
-        //TODO: execute commands passed in
+    private String commandExecution(Context context, String option) throws IOException,
+            InterruptedException {
         return commandProcessor.runCommand(command + option,
                 context.getDir("bin", Context.MODE_MULTI_PROCESS));
     }

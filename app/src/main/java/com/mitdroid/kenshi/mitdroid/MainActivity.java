@@ -86,9 +86,7 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage("The binary is already installed")
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //TODO: Fix the problem of displaying multiple times while rotate the screen
-                    }
+                    public void onClick(DialogInterface dialog, int which) {}
                 })
                 .show();
     }
@@ -124,9 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage(successMsg)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //TODO: fix the problem of display multiple times while rotate the screen
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) {}
                 })
                 .show();
     }
@@ -141,10 +137,7 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage(failedMsg)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        //turn off the program
-                        //TODO: make the program turned off after ok button is pressed
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) { onDestroy(); }
                 })
                 .show();
     }

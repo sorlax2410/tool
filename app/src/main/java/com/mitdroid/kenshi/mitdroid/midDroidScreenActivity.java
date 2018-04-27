@@ -1,11 +1,14 @@
 package com.mitdroid.kenshi.mitdroid;
 
-import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.kenshi.networkMapper.optionScan;
@@ -13,33 +16,67 @@ import com.kenshi.networkMapper.optionScan;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-public class midDroidScreenActivity extends Activity implements Thread.UncaughtExceptionHandler {
+public class midDroidScreenActivity extends AppCompatActivity
+        implements Thread.UncaughtExceptionHandler {
 
     public TextView scanResult;
     public EditText targetInputSpace;
+    public RadioGroup radioGroup;
+    public RadioButton scanLocalNetwork;
+    public RadioButton scanTarget;
+    public RadioButton detailScan;
+
     private String targetip;
     private String log, logName;
     private String pcap = ".pcap";
+
+    optionScan scanner = new optionScan(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mid_droid_screen);
-        scanResult = findViewById(R.id.scanResult);
-    }
-
-    public void scanLocalNetwork(View view) throws InterruptedException, IOException {
-        //scan the local network
-        optionScan scanner = new optionScan(this);
-        scanner.initialScan(this);
-        Log.d("Log: ", scanner.log);
+        //scanResult = findViewById(R.id.scanResult);
+        radioGroup = findViewById(R.id.radioGroup);
+        scanLocalNetwork = findViewById(R.id.scanLocalNetwork);
+        scanTarget = findViewById(R.id.scanTarget);
+        detailScan = findViewById(R.id.scanDetail);
+/*
         scanResult.setText("Default gateway: " + scanner.getDefaultGateway());
         scanResult.append("Dns 1: " + scanner.getDns1());
         scanResult.append("Dns 2: " + scanner.getDns2());
         scanResult.append("Server address: " + scanner.getServerAdress());
         scanResult.append("Your ip address: " + scanner.getIpAdress());
         scanResult.append("Subnet mask: " + scanner.getNetmask());
-        scanResult.append(scanner.log);
+*/
+    }
+
+    public void changeString(View view, int options) throws IOException,
+            InterruptedException {
+        //change the string on the scan button and set the flags
+        switch (options) {
+            case 1:
+                scanLocalNetwork();
+                break;
+
+            case 2:
+                normalScan();
+                break;
+
+            case 3:
+                detailScan();
+                break;
+        }
+    }
+
+    public void scanLocalNetwork() throws InterruptedException, IOException {
+        //scan the local network
+        scanner.initialScan(this);
+        //Log.d("Log: ", scanner.log);
+        //scanResult.setText(scanner.log);
+        Intent switcher = new Intent(this, displayTarget.class)
+                .putExtra("target list", scanner.log);
+        startActivity(switcher);
     }
 
     public void inputTarget(View view) {
@@ -49,6 +86,7 @@ public class midDroidScreenActivity extends Activity implements Thread.UncaughtE
 
     public void scanOtionButton(View view) {
         //display scan option
+        radioGroup.setVisibility(View.VISIBLE);
     }
 
     public void attackButton(View view) {

@@ -21,4 +21,7 @@
         and have a good day.
     </string>
     <string name="attackButton">attack the target</string>
+    <string name="scanLocalNetwork">Scan Local Network</string>
+    <string name="scanTarget">Scan a specific target</string>
+    <string name="scanDetail">Thoroughly scan a target</string>
 </resources>
