@@ -41,6 +41,9 @@ public class midDroidScreenActivity extends Activity {
         setContentView(R.layout.activity_mid_droid_screen);
         scanResult = findViewById(R.id.scanResult);
         radioGroup = findViewById(R.id.radioGroup);
+        scanLocalNetworkButton = findViewById(R.id.scanLocalNetwork);
+        scanTargetButton = findViewById(R.id.scanTarget);
+        detailScanButton = findViewById(R.id.scanDetail);
     }
 
     /**
