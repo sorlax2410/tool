@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
+import android.widget.EditText;
 
 import com.kenshi.fileHandler.workRecord;
 
@@ -22,10 +23,14 @@ public class optionScan {
     private workRecord executor;
 
     public String log;
+    public String filename = null;
     public ArrayList<String> targets;
 
-    private String quickOption = "-sP";
-    private String allOption = "-A";
+    private String quickOption = " -sP ";
+    private String allOption = " -A ";
+    private String formatString = " -oG - ";
+
+    private boolean saveLog = false;
 
     public optionScan(Context context) {
         //initial scan
@@ -64,6 +69,9 @@ public class optionScan {
         }
     }
 
+    public void setFilename(String filename) { this.filename = filename; }
+    public void setSaveLog(boolean active) { this.saveLog = active; }
+
     public String getDefaultGateway() { return defaultGateway + "\n"; }
     public String getDns1() { return dns1; }
     public String getDns2() { return dns2; }
@@ -71,21 +79,30 @@ public class optionScan {
     public String getIpAdress() { return ipAdress; }
     public String getNetmask() { return netmask; }
 
-    public String showLog() { return log; }
+    public String getLog() { return log; }
+
+    public boolean saveFile(Context context, String filename) {
+        if(saveLog)
+            if(filename != null) {
+                this.filename = filename;
+                return true;
+            }
+        return false;
+    }
 
     public void initialScan(Context context) throws IOException, InterruptedException {
-        String scanOption = quickOption + " " + defaultGateway + "/24";
+        String scanOption = quickOption + defaultGateway + "/24" + formatString;
         log = commandExecution(context, scanOption);
     }
 
     public void normalScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        log = commandExecution(context, targetIp);
+        log = commandExecution(context, targetIp + formatString);
     }
 
     public void detailScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        String scanAll = targetIp + allOption;
+        String scanAll = targetIp + allOption + formatString;
         log = commandExecution(context, scanAll);
     }
 
@@ -96,6 +113,13 @@ public class optionScan {
                 context.getDir("bin", Context.MODE_MULTI_PROCESS));
     }
 
+    /**
+     * Description: this function is to get only the ip addresses
+     */
+    public void ipv4Seperation() {
+        //seperate target ip address
+        //TODO: seperate the strings to get only the ip addresses
+    }
 
         /*
 
