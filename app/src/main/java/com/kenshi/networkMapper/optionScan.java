@@ -69,26 +69,13 @@ public class optionScan {
         }
     }
 
-    public void setFilename(String filename) { this.filename = filename; }
-    public void setSaveLog(boolean active) { this.saveLog = active; }
-
     public String getDefaultGateway() { return defaultGateway + "\n"; }
     public String getDns1() { return dns1; }
     public String getDns2() { return dns2; }
     public String getServerAdress() { return serverAdress; }
     public String getIpAdress() { return ipAdress; }
     public String getNetmask() { return netmask; }
-
     public String getLog() { return log; }
-
-    public boolean saveFile(Context context, String filename) {
-        if(saveLog)
-            if(filename != null) {
-                this.filename = filename;
-                return true;
-            }
-        return false;
-    }
 
     public void initialScan(Context context) throws IOException, InterruptedException {
         String scanOption = quickOption + defaultGateway + "/24" + formatString;
