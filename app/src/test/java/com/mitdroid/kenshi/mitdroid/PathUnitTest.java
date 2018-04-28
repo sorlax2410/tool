@@ -23,43 +23,12 @@ public class PathUnitTest {
     }
 
     @Test
-    public void display(String[] parameter) {
-        try {
-            String workingDirectory = commandProcessor.runCommand("pwd",
-                    binary.getAbsoluteFile());
-            Log.d("Working directory", binary.getAbsolutePath());
-            Log.d("Path", workingDirectory);
-        }
-        catch(IOException e) { Log.d(debugTag, e.getMessage()); }
-        catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
-
-        for(int i = 0; i < binaries.length; i++) {
-            try {
-                String listDetail = commandProcessor.runCommand("ls -la " + binaries[i],
-                        binary.getAbsoluteFile());
-
-                Log.d("Listing Tag", "ls -la output: " + listDetail);
-            }
-            catch(IOException e) { Log.d(debugTag, e.getMessage()); }
-            catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
-        }
-
-        for(int i = 0; i < parameter.length; i++) { Log.d("Parameters", parameter[i]); }
-    }
-
-    @Test
-    public void checkFile(String path) {
-        File checker = new File(path);
-        Log.d("Path", checker.getAbsolutePath());
-        if (checker.exists())
-            Log.d("Path", "Path available !!");
-
-        for(int i = 0; i < binaries.length; i++) {
-            checker = new File(path, binaries[i]);
-            Log.d("Path", checker.getAbsolutePath());
-            if (checker.exists())
-                Log.d("Path", "Path available !!");
-        }
+    public void arrayStringCanBePassed() throws Exception {
+        String[]a = new String[]{"sample A", "sample B", "sample C"};
+        String[]b = new String[a.length];
+        for(int index = 0; index < a.length; index++)
+            b[index] = a[index];
+        assertArrayEquals(a, b);
     }
 
 }

@@ -57,19 +57,6 @@ public class midDroidScreenActivity extends AppCompatActivity
                 break;
         }
     }
-*/
-/*
-    public void scanLocalNetwork(View view) throws InterruptedException, IOException {
-        scanner.initialScan(this);
-        //Log.d("Log: ", scanner.log);
-        scanResult.setText(scanner.log);
-/*        String seperation = scanner.log;
-        String[]containers = seperation.split("for");
-        for(int index = 0; index < containers.length; index++)
-            Log.d("Test strings: ", containers[index]);
-        /*
-    }
-
     public void scanOtionButton(View view) {
         //display scan option
         //radioGroup.setVisibility(View.VISIBLE);
@@ -145,6 +132,17 @@ public class midDroidScreenActivity extends Activity {
         scanResult = findViewById(R.id.scanResult);
     }
 
+    /**
+     * Description: this function is to quickly displayed the targets in a local network. It will
+     * display least information possible for faster scanning. The function should activate another
+     * activity and display the targets in that activity.
+     *
+     * Note: the last ip address is the attacker's ip address
+     *
+     * @param view
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public void scanLocalNetwork(View view) throws InterruptedException, IOException {
         //scan the local network
         optionScan scanner = new optionScan(this);
@@ -160,6 +158,13 @@ public class midDroidScreenActivity extends Activity {
         String[]container = string.split("\\n");
         int limiter = container.length - 2;
         int counter = 0;
+        targetips = new String[--limiter];
+        Log.d("Index limit: ", String.valueOf(limiter));
+        Log.d("Actual splited number: ", String.valueOf(container.length));
+
+        for (int index = 0; index < container.length; index++)
+            Log.d("Container Strings: ", container[index]);
+
         for(int index = 1; index < limiter; index++) {
             targetips[counter] = container[index];
             scanResult.append(targetips[counter]);
