@@ -111,9 +111,11 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kenshi.networkMapper.optionScan;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -154,13 +156,13 @@ public class midDroidScreenActivity extends Activity {
         scanResult.append("Your ip address: " + scanner.getIpAdress());
         scanResult.append("Subnet mask: " + scanner.getNetmask());
 
-        String string = scanner.log;
+        String string = log = scanner.log;
         String[]container = string.split("\\n");
         int limiter = container.length - 2;
         int counter = 0;
         targetips = new String[--limiter];
-        Log.d("Index limit: ", String.valueOf(limiter));
-        Log.d("Actual splited number: ", String.valueOf(container.length));
+        //Log.d("Index limit: ", String.valueOf(limiter));
+        //Log.d("Actual splited number: ", String.valueOf(container.length));
 
         for (int index = 0; index < container.length; index++)
             Log.d("Container Strings: ", container[index]);
@@ -228,10 +230,7 @@ public class midDroidScreenActivity extends Activity {
 
         editText.setLayoutParams(layoutParams);
 
-        if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT)
-            dialog = new AlertDialog.Builder(this, android.R.style.Theme);
-        else
-            dialog = new AlertDialog.Builder(this);
+        dialog = new AlertDialog.Builder(this);
         dialog.setView(editText);
         dialog.setTitle("Save file")
                 .setMessage("Do you want to save the log to file?")
@@ -248,6 +247,7 @@ public class midDroidScreenActivity extends Activity {
                         dialog.cancel();
                     }
                 });
+        dialog.show();
     }
 
     public void saveLogs() {
@@ -258,6 +258,11 @@ public class midDroidScreenActivity extends Activity {
             );
             writer.write(log);
             writer.close();
+            File file = this.getDir("file", Context.MODE_PRIVATE);
+            Toast.makeText(this,
+                    "File " + logName + " saved to " + file.getAbsolutePath(),
+                    Toast.LENGTH_LONG)
+                    .show();
         }catch(IOException e) {
             Log.e("Exception", "File write fail" + e.toString());
         }
