@@ -1,100 +1,3 @@
-/*
-package com.mitdroid.kenshi.mitdroid;
-
-public class midDroidScreenActivity extends AppCompatActivity
-        implements Thread.UncaughtExceptionHandler {
-
-    public TextView scanResult;
-    /*
-    public RadioGroup radioGroup;
-    public RadioButton scanLocalNetworkButton;
-    public RadioButton scanTargetButton;
-    public RadioButton detailScan;
-
-
-    private String targetips;
-    private String log, logName;
-    private String extension = ".txt";
-
-    optionScan scanner = new optionScan(this);
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mid_droid_screen);
-
-        scanResult = findViewById(R.id.scanResult);
-        //radioGroup = findViewById(R.id.radioGroup);
-        /*
-        scanLocalNetwork = findViewById(R.id.scanLocalNetwork);
-        scanTarget = findViewById(R.id.scanTarget);
-        detailScan = findViewById(R.id.scanDetail);
-
-/*
-        scanResult.setText("Default gateway: " + scanner.getDefaultGateway());
-        scanResult.append("Dns 1: " + scanner.getDns1());
-        scanResult.append("Dns 2: " + scanner.getDns2());
-        scanResult.append("Server address: " + scanner.getServerAdress());
-        scanResult.append("Your ip address: " + scanner.getIpAdress());
-        scanResult.append("Subnet mask: " + scanner.getNetmask());
-
-    }
-/*
-    public void changeString(View view, int options) throws IOException,
-            InterruptedException {
-        //change the string on the scan button and set the flags
-        switch (options) {
-            case 1:
-                scanLocalNetwork();
-                break;
-
-            case 2:
-                normalScan();
-                break;
-
-            case 3:
-                detailScan();
-                break;
-        }
-    }
-    public void scanOtionButton(View view) {
-        //display scan option
-        //radioGroup.setVisibility(View.VISIBLE);
-    }
-
-    public void attackButton(View view) {
-        //display attack methods
-    }
-
-    public void detailScan() throws IOException, InterruptedException {
-        optionScan scanner = new optionScan(this);
-        scanner.detailScan(this, targetips);
-        log = scanner.getLog();
-    }
-
-    public void normalScan() throws IOException, InterruptedException {
-        optionScan scanner = new optionScan(this);
-        scanner.normalScan(this, targetips);
-        log = scanner.getLog();
-    }
-
-    public void saveLogs() {
-        //saved the captured log
-        try {
-                OutputStreamWriter writer = new OutputStreamWriter(
-                        this.openFileOutput(
-                        logName + extension, Context.MODE_APPEND)
-                );
-                writer.write(log);
-                writer.close();
-        }catch(IOException e) {
-            Log.e("Exception", "File write fail" + e.toString());
-        }
-    }
-}
-
-*/
-
 package com.mitdroid.kenshi.mitdroid;
 
 import android.app.Activity;
@@ -122,6 +25,11 @@ import java.io.OutputStreamWriter;
 public class midDroidScreenActivity extends Activity {
 
     public TextView scanResult;
+    public RadioGroup radioGroup;
+    public RadioButton scanLocalNetworkButton;
+    public RadioButton scanTargetButton;
+    public RadioButton detailScanButton;
+
     //public EditText targetInputSpace;
     private String[] targetips;
     private String log, logName;
@@ -132,6 +40,7 @@ public class midDroidScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mid_droid_screen);
         scanResult = findViewById(R.id.scanResult);
+        radioGroup = findViewById(R.id.radioGroup);
     }
 
     /**
@@ -196,8 +105,27 @@ public class midDroidScreenActivity extends Activity {
         targetips = String.valueOf(targetInputSpace.getText());
     }
 */
+    public void changeString(View view, int options) throws IOException,
+            InterruptedException {
+        //change the string on the scan button and set the flags
+        switch (options) {
+            case 1:
+                scanLocalNetwork(view);
+                break;
+
+            case 2:
+                normalScan(targetips[0]);
+                break;
+
+            case 3:
+                detailScan(targetips[0]);
+                break;
+        }
+    }
+
     public void scanOtionButton(View view) {
         //display scan option
+        radioGroup.setVisibility(View.VISIBLE);
     }
 
     public void attackButton(View view) {
@@ -258,7 +186,7 @@ public class midDroidScreenActivity extends Activity {
             );
             writer.write(log);
             writer.close();
-            File file = this.getDir("file", Context.MODE_PRIVATE);
+            File file = this.getDir("files", Context.MODE_PRIVATE);
             Toast.makeText(this,
                     "File " + logName + " saved to " + file.getAbsolutePath(),
                     Toast.LENGTH_LONG)

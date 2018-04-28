@@ -51,6 +51,34 @@
                 tools:layout_editor_absoluteX="135dp"
                 tools:layout_editor_absoluteY="231dp" />
 
+            <RadioGroup
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="17dp"
+                android:layout_marginTop="13dp"
+                android:layout_below="@+id/radioGroup"
+                android:visibility="invisible">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scanLocalNetwork"
+                    android:text="@string/scanLocalNetwork"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scanTarget"
+                    android:text="@string/scanTarget"/>
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/scanDetail"
+                    android:text="@string/scanDetail"/>
+
+            </RadioGroup>
+
             <TextView
                 android:id="@+id/scanResult"
                 android:layout_width="fill_parent"
