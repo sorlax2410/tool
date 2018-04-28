@@ -24,11 +24,12 @@ public class midDroidScreenActivity extends AppCompatActivity
         implements Thread.UncaughtExceptionHandler {
 
     public TextView scanResult;
-    public EditText targetInputSpace;
+    /*
     public RadioGroup radioGroup;
     public RadioButton scanLocalNetworkButton;
     public RadioButton scanTargetButton;
     public RadioButton detailScan;
+     */
 
     private String targetip;
     private String log, logName;
@@ -40,8 +41,9 @@ public class midDroidScreenActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mid_droid_screen);
+
         scanResult = findViewById(R.id.scanResult);
-        radioGroup = findViewById(R.id.radioGroup);
+        //radioGroup = findViewById(R.id.radioGroup);
         /*
         scanLocalNetwork = findViewById(R.id.scanLocalNetwork);
         scanTarget = findViewById(R.id.scanTarget);
@@ -56,7 +58,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult.append("Subnet mask: " + scanner.getNetmask());
 */
     }
-
+/*
     public void changeString(View view, int options) throws IOException,
             InterruptedException {
         //change the string on the scan button and set the flags
@@ -74,7 +76,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                 break;
         }
     }
-
+*/
     public void setSaveFile() {
         AlertDialog.Builder dialog;
         final EditText editText = new EditText(this);
@@ -98,6 +100,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                         scanner.setSaveLog(true);
                         logName = editText.getText().toString();
                         scanner.setFilename(logName);
+                        saveLogs();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -110,8 +113,6 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     public void scanLocalNetwork() throws InterruptedException, IOException {
-        //scan the local network
-        setSaveFile();
         scanner.initialScan(this);
         //Log.d("Log: ", scanner.log);
         scanResult.setText(scanner.log);
@@ -126,14 +127,17 @@ public class midDroidScreenActivity extends AppCompatActivity
         */
     }
 
-    public void inputTarget(View view) {
-        //display the text area to input the target
-        targetip = String.valueOf(targetInputSpace.getText());
+    public void selectTarget(View view) {
+        //TODO: select a displayed targets
+    }
+
+    public void displayTargets(View view) {
+        //TODO: display scanned targets
     }
 
     public void scanOtionButton(View view) {
         //display scan option
-        radioGroup.setVisibility(View.VISIBLE);
+        //radioGroup.setVisibility(View.VISIBLE);
     }
 
     public void attackButton(View view) {
@@ -152,11 +156,11 @@ public class midDroidScreenActivity extends AppCompatActivity
         log = scanner.getLog();
     }
 
-    public void saveLogs(Context context) {
+    public void saveLogs() {
         //saved the captured log
         try {
                 OutputStreamWriter writer = new OutputStreamWriter(
-                        context.openFileOutput(
+                        this.openFileOutput(
                         logName + extension, Context.MODE_APPEND)
                 );
                 writer.write(log);
