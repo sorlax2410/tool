@@ -21,6 +21,7 @@ import com.kenshi.networkMapper.optionScan;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
 
 public class midDroidScreenActivity extends Activity {
 
@@ -31,8 +32,8 @@ public class midDroidScreenActivity extends Activity {
     public RadioButton detailScanButton;
 
     //public EditText targetInputSpace;
-    private String[] targetips;
-    private String log, logName;
+    private ArrayList<String> ipAddresses = new ArrayList<>();
+    private String log, logName, target;
     private String extension = ".txt";
 
     @Override
@@ -44,6 +45,43 @@ public class midDroidScreenActivity extends Activity {
         scanLocalNetworkButton = findViewById(R.id.scanLocalNetwork);
         scanTargetButton = findViewById(R.id.scanTarget);
         detailScanButton = findViewById(R.id.scanDetail);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+
+        }
     }
 
     /**
@@ -69,28 +107,30 @@ public class midDroidScreenActivity extends Activity {
         scanResult.append("Subnet mask: " + scanner.getNetmask());
 
         String string = log = scanner.log;
+        splitString(string);
+
+        for(int index = 0; index < ipAddresses.size(); index++)
+            scanResult.append(ipAddresses.get(index));
+
+        changeScreen();
+        setSaveFile(scanner);
+    }
+
+    private void changeScreen() {
+        Intent switcher = new Intent(this, displayTarget.class)
+                .putExtra("target list", ipAddresses);
+        startActivityForResult(switcher, 1);
+    }
+
+    private void splitString(String string) {
+        //split the string
         String[]container = string.split("\\n");
         int limiter = container.length - 2;
-        int counter = 0;
-        targetips = new String[--limiter];
-        //Log.d("Index limit: ", String.valueOf(limiter));
-        //Log.d("Actual splited number: ", String.valueOf(container.length));
-
         for (int index = 0; index < container.length; index++)
             Log.d("Container Strings: ", container[index]);
 
-        for(int index = 1; index < limiter; index++) {
-            targetips[counter] = container[index];
-            scanResult.append(targetips[counter]);
-            counter++;
-        }
-
-        setSaveFile(scanner);
-/*
-        Intent switcher = new Intent(this, displayTarget.class)
-                .putExtra("target list", targetips);
-        startActivity(switcher);
-*/
+        for(int index = 1; index < limiter; index++)
+            ipAddresses.add(container[index]);
     }
 
     public void selectTarget(View view) {
@@ -101,11 +141,18 @@ public class midDroidScreenActivity extends Activity {
         //TODO: display scanned targets
     }
 
-    /*
+    /**
+     * Description
+     * @param view
+     * @param options
+     * @throws IOException
+     * @throws InterruptedException
+     */
+/*
     public void inputTarget(View view) {
         //display the text area to input the target
-        String targetips = new String();
-        targetips = String.valueOf(targetInputSpace.getText());
+        String ipAddresses = new String();
+        ipAddresses = String.valueOf(targetInputSpace.getText());
     }
 */
     public void changeString(View view, int options) throws IOException,
@@ -117,11 +164,11 @@ public class midDroidScreenActivity extends Activity {
                 break;
 
             case 2:
-                normalScan(targetips[0]);
+                normalScan(target);
                 break;
 
             case 3:
-                detailScan(targetips[0]);
+                detailScan(target);
                 break;
         }
     }
@@ -160,6 +207,7 @@ public class midDroidScreenActivity extends Activity {
         );
 
         editText.setLayoutParams(layoutParams);
+        editText.setHint("File name here");
 
         dialog = new AlertDialog.Builder(this);
         dialog.setView(editText);
