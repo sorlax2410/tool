@@ -1,6 +1,7 @@
 package com.mitdroid.kenshi.mitdroid;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,8 @@ public class displayTarget extends Activity {
 
     public ArrayList<String> targets = new ArrayList<>();
     public RadioGroup radioGroup;
-    public ArrayList<RadioButton> radioButtons = new ArrayList<>();
+
+    public ArrayList<RadioButton>radioButtons = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +25,7 @@ public class displayTarget extends Activity {
         radioGroup = findViewById(R.id.radioGroup);
         targets = getIntent().getStringArrayListExtra("target list");
         for(int index = 0; index < targets.size(); index++) {
-            RadioButton radioButton = new RadioButton(this);
+            final RadioButton radioButton = new RadioButton(this);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
@@ -33,11 +35,14 @@ public class displayTarget extends Activity {
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Intent intent = new Intent();
+                    intent.putExtra("target ip", radioButton.getText().toString());
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             });
-            radioGroup.addView(radioButton);
             radioButtons.add(radioButton);
+            radioGroup.addView(radioButtons.get(index));
         }
     }
 }

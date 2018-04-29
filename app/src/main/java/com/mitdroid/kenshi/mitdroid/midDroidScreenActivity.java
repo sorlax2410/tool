@@ -31,7 +31,6 @@ public class midDroidScreenActivity extends Activity {
     public RadioButton scanTargetButton;
     public RadioButton detailScanButton;
 
-    //public EditText targetInputSpace;
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private String log, logName, target;
     private String extension = ".txt";
@@ -47,42 +46,6 @@ public class midDroidScreenActivity extends Activity {
         detailScanButton = findViewById(R.id.scanDetail);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1 && resultCode == RESULT_OK) {
-
-        }
-    }
 
     /**
      * Description: this function is to quickly displayed the targets in a local network. It will
@@ -120,6 +83,18 @@ public class midDroidScreenActivity extends Activity {
         Intent switcher = new Intent(this, displayTarget.class)
                 .putExtra("target list", ipAddresses);
         startActivityForResult(switcher, 1);
+        onStop();
+        onDestroy();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+            target = data.getStringExtra("target ip");
+            scanResult.setText("The chosen target:\n" + target);
+        }
+        ipAddresses.clear();
     }
 
     private void splitString(String string) {
@@ -129,7 +104,7 @@ public class midDroidScreenActivity extends Activity {
         for (int index = 0; index < container.length; index++)
             Log.d("Container Strings: ", container[index]);
 
-        for(int index = 1; index < limiter; index++)
+        for(int index = 2; index < limiter; index++)
             ipAddresses.add(container[index]);
     }
 
