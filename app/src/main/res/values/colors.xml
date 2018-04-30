@@ -6,4 +6,7 @@
     <color name="black">#000000</color>
     <color name="green">#00ff00</color>
     <color name="white">#ffffff</color>
+    <color name="dark_cyan">#009688</color>
+    <color name="deep_cyan">#00695C</color>
+    <color name="strong_color">#4DB6AC</color>
 </resources>
