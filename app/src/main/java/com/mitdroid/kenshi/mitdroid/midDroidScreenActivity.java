@@ -4,11 +4,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -30,10 +31,12 @@ public class midDroidScreenActivity extends Activity {
     public RadioButton scanLocalNetworkButton;
     public RadioButton scanTargetButton;
     public RadioButton detailScanButton;
+    public Button button;
 
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private String log, logName, target;
     private String extension = ".txt";
+    private optionScan holder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,14 @@ public class midDroidScreenActivity extends Activity {
         scanLocalNetworkButton = findViewById(R.id.scanLocalNetwork);
         scanTargetButton = findViewById(R.id.scanTarget);
         detailScanButton = findViewById(R.id.scanDetail);
+        button = findViewById(R.id.mapNetwork);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        setSaveFile(holder);
+    }
 
     /**
      * Description: this function is to quickly displayed the targets in a local network. It will
@@ -76,15 +85,13 @@ public class midDroidScreenActivity extends Activity {
             scanResult.append(ipAddresses.get(index));
 
         changeScreen();
-        setSaveFile(scanner);
+        holder = scanner;
     }
 
     private void changeScreen() {
         Intent switcher = new Intent(this, displayTarget.class)
                 .putExtra("target list", ipAddresses);
         startActivityForResult(switcher, 1);
-        onStop();
-        onDestroy();
     }
 
     @Override
@@ -108,28 +115,43 @@ public class midDroidScreenActivity extends Activity {
             ipAddresses.add(container[index]);
     }
 
-    public void selectTarget(View view) {
-        //TODO: select a displayed targets
-    }
-
-    public void displayTargets(View view) {
-        //TODO: display scanned targets
-    }
-
     /**
      * Description
      * @param view
-     * @param options
      * @throws IOException
      * @throws InterruptedException
      */
-/*
+
     public void inputTarget(View view) {
         //display the text area to input the target
-        String ipAddresses = new String();
-        ipAddresses = String.valueOf(targetInputSpace.getText());
+        final EditText editText = new EditText(this);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        editText.setLayoutParams(layoutParams);
+        editText.setHint("Enter your target here");
+        alertDialog.setView(editText);
+        alertDialog.setTitle("Take target")
+                .setMessage("Please enter the victim's ip address")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        target = editText.getText().toString();
+                        scanResult.setText(target);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        alertDialog.show();
     }
-*/
+
     public void changeString(View view, int options) throws IOException,
             InterruptedException {
         //change the string on the scan button and set the flags
