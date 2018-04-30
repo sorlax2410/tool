@@ -26,4 +26,5 @@
     <string name="scanDetail">Thoroughly scan a target</string>
     <string name="navigation_title">MitDroid</string>
     <string name="navigation_subtitle">sorlax2410@gmail.com</string>
+    <string name="scanOption">Scan option</string>
 </resources>
