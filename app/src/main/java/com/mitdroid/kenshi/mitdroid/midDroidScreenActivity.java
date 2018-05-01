@@ -5,8 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,14 +34,23 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-public class midDroidScreenActivity extends Activity {
+public class midDroidScreenActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     public TextView scanResult;
+    /*
     public RadioGroup radioGroup;
     public RadioButton scanLocalNetworkButton;
     public RadioButton scanTargetButton;
     public RadioButton detailScanButton;
+    */
     public Button button;
+    public android.support.v7.widget.Toolbar toolbar;
+    public FloatingActionButton floatingActionButton;
+    public DrawerLayout drawerLayout;
+    public NavigationView navigationView;
+    public ActionBarDrawerToggle actionBarDrawerToggle;
+
 
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private String log, logName, target;
@@ -43,11 +62,97 @@ public class midDroidScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mid_droid_screen);
         scanResult = findViewById(R.id.scanResult);
+        /*
         radioGroup = findViewById(R.id.radioGroup);
         scanLocalNetworkButton = findViewById(R.id.scanLocalNetwork);
         scanTargetButton = findViewById(R.id.scanTarget);
         detailScanButton = findViewById(R.id.scanDetail);
+        */
         button = findViewById(R.id.mapNetwork);
+        toolbar = findViewById(R.id.toolBar);
+        floatingActionButton = findViewById(R.id.fab);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        navigationView = findViewById(R.id.navigationView);
+        actionBarDrawerToggle = new ActionBarDrawerToggle(
+                this,
+                drawerLayout,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+
+        setSupportActionBar(toolbar);
+        actionBarDrawerToggle.syncState();
+        drawerLayout.addDrawerListener(actionBarDrawerToggle);
+        navigationView.setNavigationItemSelectedListener(this);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "", Snackbar.LENGTH_LONG)
+                        .setAction("", null)
+                        .show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.scanLocalNetworkItem:
+                try {
+                    changeString(1);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case R.id.scanTargetItem:
+                try {
+                    changeString(2);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case R.id.scanDetailItem:
+                try {
+                    changeString(3);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                break;
+        }
+
+        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START);
+        else
+            super.onBackPressed();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        if(item.getItemId() == R.id.actionSettings)
+            return true;
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -63,11 +168,10 @@ public class midDroidScreenActivity extends Activity {
      *
      * Note: the last ip address is the attacker's ip address
      *
-     * @param view
      * @throws InterruptedException
      * @throws IOException
      */
-    public void scanLocalNetwork(View view) throws InterruptedException, IOException {
+    public void scanLocalNetwork() throws InterruptedException, IOException {
         //scan the local network
         optionScan scanner = new optionScan(this);
         scanner.initialScan(this);
@@ -152,29 +256,59 @@ public class midDroidScreenActivity extends Activity {
         alertDialog.show();
     }
 
-    public void changeString(View view, int options) throws IOException,
+    public void changeString(int options) throws IOException,
             InterruptedException {
         //change the string on the scan button and set the flags
         switch (options) {
             case 1:
-                scanLocalNetwork(view);
+                button.setText(R.string.scanLocalNetwork);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            scanLocalNetwork();
+                        } catch (InterruptedException | IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 break;
 
             case 2:
-                normalScan(target);
+                button.setText(R.string.scanTarget);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            normalScan(target);
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 break;
 
             case 3:
-                detailScan(target);
+                button.setText(R.string.scanDetail);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        try {
+                            detailScan(target);
+                        } catch (IOException | InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
                 break;
         }
     }
-
+/*
     public void scanOtionButton(View view) {
         //display scan option
-        radioGroup.setVisibility(View.VISIBLE);
+        //radioGroup.setVisibility(View.VISIBLE);
     }
-
+*/
     public void attackButton(View view) {
         //display attack methods
     }
