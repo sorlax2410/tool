@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 
-public class midDroidScreenActivity extends AppCompatActivity
+public class midDroidScreenActivity extends Activity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public TextView scanResult;
@@ -81,7 +81,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                 R.string.navigation_drawer_close
         );
 
-        setSupportActionBar(toolbar);
+        //setSupportActionBar(toolbar);
         actionBarDrawerToggle.syncState();
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
