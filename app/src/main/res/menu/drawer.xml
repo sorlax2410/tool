@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="@layout/navigation">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/scanLocalNetworkItem"
-            android:title="@string/scanLocalNetwork" />
-        <item
-            android:id="@+id/scanTargetItem"
-            android:title="@string/scanTarget" />
-        <item
-            android:id="@+id/scanDetailItem"
-            android:title="@string/scanDetail" />
-    </group>
+    <item
+        android:id="@+id/scanLocalNetworkItem"
+        android:title="@string/scanLocalNetwork" />
+    <item
+        android:id="@+id/scanTargetItem"
+        android:title="@string/scanTarget" />
+    <item
+        android:id="@+id/scanDetailItem"
+        android:title="@string/scanDetail" />
 </menu>

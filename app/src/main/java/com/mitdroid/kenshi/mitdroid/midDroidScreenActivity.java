@@ -1,30 +1,23 @@
 package com.mitdroid.kenshi.mitdroid;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,25 +27,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class midDroidScreenActivity extends Activity
+public class midDroidScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public TextView scanResult;
-    /*
-    public RadioGroup radioGroup;
-    public RadioButton scanLocalNetworkButton;
-    public RadioButton scanTargetButton;
-    public RadioButton detailScanButton;
-    */
     public Button button;
-    /*
-    public android.support.v7.widget.Toolbar toolbar;
-    public FloatingActionButton floatingActionButton;
-    public DrawerLayout drawerLayout;
+    public DrawerLayout drawer;
+    public ActionBarDrawerToggle toggle;
     public NavigationView navigationView;
-    public ActionBarDrawerToggle actionBarDrawerToggle;
-*/
 
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private String log, logName, target;
@@ -64,82 +48,20 @@ public class midDroidScreenActivity extends Activity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mid_droid_screen);
         scanResult = findViewById(R.id.scanResult);
-        /*
-        radioGroup = findViewById(R.id.radioGroup);
-        scanLocalNetworkButton = findViewById(R.id.scanLocalNetwork);
-        scanTargetButton = findViewById(R.id.scanTarget);
-        detailScanButton = findViewById(R.id.scanDetail);
-        */
         button = findViewById(R.id.mapNetwork);
-        /*
-        toolbar = findViewById(R.id.toolBar);
-        //floatingActionButton = findViewById(R.id.fab);
-        drawerLayout = findViewById(R.id.drawerLayout);
+        drawer = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
-        actionBarDrawerToggle = new ActionBarDrawerToggle(
-                this,
-                drawerLayout,
-                toolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close
-        );
-
-        //setSupportActionBar(toolbar);
-        actionBarDrawerToggle.syncState();
-        drawerLayout.addDrawerListener(actionBarDrawerToggle);
-        navigationView.setNavigationItemSelectedListener(this);
-        /*
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "", Snackbar.LENGTH_LONG)
-                        .setAction("", null)
-                        .show();
-            }
-        });
-        */
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
-        //setSupportActionBar(toolbar);
-/*
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-*/
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        toggle = new ActionBarDrawerToggle(
                 this,
                 drawer,
-                toolbar,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
-            drawerLayout.closeDrawer(GravityCompat.START);
-        else
-            super.onBackPressed();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override
@@ -147,50 +69,51 @@ public class midDroidScreenActivity extends Activity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        if(item.getItemId() == R.id.actionSettings) {
-            Log.d("Something test", "Settings is clicked");
+        if(toggle.onOptionsItemSelected(item )) {
+            Log.d("Option test", "Settings is clicked");
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.scanLocalNetworkItem) {
-            try {
-                changeString(1);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.d("Item test: ", "item " + item.getTitle() + " is pressed");
-        }
+        switch (item.getItemId()) {
+            case R.id.scanLocalNetworkItem:
+                try {
+                    changeString(1);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
+                Log.d("Item test ", "item " + item.getTitle() + " is pressed");
+        break;
 
-        else if(id == R.id.scanTargetItem) {
-            try {
-                changeString(2);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.d("Item test: ", "item " + item.getTitle() + " is pressed");
-        }
+            case R.id.scanTargetItem:
+                try {
+                    changeString(2);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
+                Log.d("Item test ", "item " + item.getTitle() + " is pressed");
+            break;
 
-        else if(id == R.id.scanDetailItem) {
-            try {
-                changeString(3);
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
-            Log.d("Item test: ", "item " + item.getTitle() + " is pressed");
-        }
+            case R.id.scanDetailItem:
+                try {
+                    changeString(3);
+                } catch (IOException | InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
+                Log.d("Item test ", "item " + item.getTitle() + " is pressed");
+            break;
 
-        else
-            Log.d("Item test", "No item is clicked");
-
-        Log.d("Menu test", "Menu is clicked");
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        drawerLayout.closeDrawer(GravityCompat.START);
+            default:
+                Log.d("Item test", "No item is clicked");
+            break;
+    }
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
