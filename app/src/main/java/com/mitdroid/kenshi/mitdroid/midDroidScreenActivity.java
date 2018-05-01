@@ -70,7 +70,7 @@ public class midDroidScreenActivity extends Activity
         */
         button = findViewById(R.id.mapNetwork);
         toolbar = findViewById(R.id.toolBar);
-        floatingActionButton = findViewById(R.id.fab);
+        //floatingActionButton = findViewById(R.id.fab);
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
         actionBarDrawerToggle = new ActionBarDrawerToggle(
@@ -85,6 +85,7 @@ public class midDroidScreenActivity extends Activity
         actionBarDrawerToggle.syncState();
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         navigationView.setNavigationItemSelectedListener(this);
+        /*
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +94,7 @@ public class midDroidScreenActivity extends Activity
                         .show();
             }
         });
+        */
     }
 
     @Override
