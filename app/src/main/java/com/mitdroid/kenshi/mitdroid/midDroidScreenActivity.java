@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,12 +46,13 @@ public class midDroidScreenActivity extends Activity
     public RadioButton detailScanButton;
     */
     public Button button;
+    /*
     public android.support.v7.widget.Toolbar toolbar;
     public FloatingActionButton floatingActionButton;
     public DrawerLayout drawerLayout;
     public NavigationView navigationView;
     public ActionBarDrawerToggle actionBarDrawerToggle;
-
+*/
 
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private String log, logName, target;
@@ -69,6 +71,7 @@ public class midDroidScreenActivity extends Activity
         detailScanButton = findViewById(R.id.scanDetail);
         */
         button = findViewById(R.id.mapNetwork);
+        /*
         toolbar = findViewById(R.id.toolBar);
         //floatingActionButton = findViewById(R.id.fab);
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -95,39 +98,32 @@ public class midDroidScreenActivity extends Activity
             }
         });
         */
-    }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.scanLocalNetworkItem:
-                try {
-                    changeString(1);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                break;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolBar);
+        //setSupportActionBar(toolbar);
+/*
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+*/
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawerLayout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this,
+                drawer,
+                toolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close
+        );
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
 
-            case R.id.scanTargetItem:
-                try {
-                    changeString(2);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                break;
-
-            case R.id.scanDetailItem:
-                try {
-                    changeString(3);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
-
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -151,10 +147,51 @@ public class midDroidScreenActivity extends Activity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        if(item.getItemId() == R.id.actionSettings)
+        if(item.getItemId() == R.id.actionSettings) {
+            Log.d("Something test", "Settings is clicked");
             return true;
-
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.scanLocalNetworkItem) {
+            try {
+                changeString(1);
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("Item test: ", "item " + item.getTitle() + " is pressed");
+        }
+
+        else if(id == R.id.scanTargetItem) {
+            try {
+                changeString(2);
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("Item test: ", "item " + item.getTitle() + " is pressed");
+        }
+
+        else if(id == R.id.scanDetailItem) {
+            try {
+                changeString(3);
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+            Log.d("Item test: ", "item " + item.getTitle() + " is pressed");
+        }
+
+        else
+            Log.d("Item test", "No item is clicked");
+
+        Log.d("Menu test", "Menu is clicked");
+        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 
     @Override

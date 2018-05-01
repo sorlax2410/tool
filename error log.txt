@@ -1,0 +1,32 @@
+I/dalvikvm: Failed resolving Landroid/support/v4/widget/DrawerLayout$1; interface 2544 'Landroid/view/View$OnApplyWindowInsetsListener;'
+W/dalvikvm: Link of class 'Landroid/support/v4/widget/DrawerLayout$1;' failed
+E/dalvikvm: Could not find class 'android.support.v4.widget.DrawerLayout$1', referenced from method android.support.v4.widget.DrawerLayout.<init>
+W/dalvikvm: VFY: unable to resolve new-instance 1804 (Landroid/support/v4/widget/DrawerLayout$1;) in Landroid/support/v4/widget/DrawerLayout;
+D/dalvikvm: VFY: replacing opcode 0x22 at 0x00a7
+E/dalvikvm: Could not find class 'android.view.WindowInsets', referenced from method android.support.v4.widget.DrawerLayout.onDraw
+W/dalvikvm: VFY: unable to resolve check-cast 2577 (Landroid/view/WindowInsets;) in Landroid/support/v4/widget/DrawerLayout;
+D/dalvikvm: VFY: replacing opcode 0x1f at 0x0018
+E/dalvikvm: Could not find class 'android.view.WindowInsets', referenced from method android.support.v4.widget.DrawerLayout.onMeasure
+W/dalvikvm: VFY: unable to resolve check-cast 2577 (Landroid/view/WindowInsets;) in Landroid/support/v4/widget/DrawerLayout;
+D/dalvikvm: VFY: replacing opcode 0x1f at 0x0088
+E/dalvikvm: Could not find class 'android.view.WindowInsets', referenced from method android.support.v4.widget.DrawerLayout.onMeasure
+W/dalvikvm: VFY: unable to resolve check-cast 2577 (Landroid/view/WindowInsets;) in Landroid/support/v4/widget/DrawerLayout;
+D/dalvikvm: VFY: replacing opcode 0x1f at 0x00cf
+I/dalvikvm: Failed resolving Landroid/support/v4/widget/DrawerLayout$1; interface 2544 'Landroid/view/View$OnApplyWindowInsetsListener;'
+W/dalvikvm: Link of class 'Landroid/support/v4/widget/DrawerLayout$1;' failed
+D/dalvikvm: DexOpt: unable to opt direct call 0x32d2 at 0xa9 in Landroid/support/v4/widget/DrawerLayout;.<init>
+I/dalvikvm: Could not find method android.support.design.widget.AppBarLayout.setKeyboardNavigationCluster, referenced from method android.support.design.widget.AppBarLayout.<init>
+W/dalvikvm: VFY: unable to resolve virtual method 3054: Landroid/support/design/widget/AppBarLayout;.setKeyboardNavigationCluster (Z)V
+D/dalvikvm: VFY: replacing opcode 0x6e at 0x006e
+I/dalvikvm: Could not find method android.support.design.widget.AppBarLayout.setTouchscreenBlocksFocus, referenced from method android.support.design.widget.AppBarLayout.<init>
+W/dalvikvm: VFY: unable to resolve virtual method 3057: Landroid/support/design/widget/AppBarLayout;.setTouchscreenBlocksFocus (Z)V
+D/dalvikvm: VFY: replacing opcode 0x6e at 0x007f
+I/dalvikvm: Could not find method android.view.ViewConfiguration.getScaledHorizontalScrollFactor, referenced from method android.support.v4.view.ViewConfigurationCompat.getScaledHorizontalScrollFactor
+W/dalvikvm: VFY: unable to resolve virtual method 21008: Landroid/view/ViewConfiguration;.getScaledHorizontalScrollFactor ()F
+D/dalvikvm: VFY: replacing opcode 0x6e at 0x0006
+I/dalvikvm: Could not find method android.view.ViewConfiguration.getScaledVerticalScrollFactor, referenced from method android.support.v4.view.ViewConfigurationCompat.getScaledVerticalScrollFactor
+W/dalvikvm: VFY: unable to resolve virtual method 21013: Landroid/view/ViewConfiguration;.getScaledVerticalScrollFactor ()F
+I/dalvikvm: Could not find method android.support.v7.widget.LinearLayoutCompat.drawableHotspotChanged, referenced from method android.support.design.internal.ForegroundLinearLayout.drawableHotspotChanged
+W/dalvikvm: VFY: unable to resolve virtual method 17660: Landroid/support/v7/widget/LinearLayoutCompat;.drawableHotspotChanged (FF)V
+D/dalvikvm: VFY: replacing opcode 0x6f at 0x0000
+
