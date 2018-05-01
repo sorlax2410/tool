@@ -80,31 +80,19 @@ public class midDroidScreenActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.scanLocalNetworkItem:
-                try {
-                    changeString(1);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+                changeString(1);
                 Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
                 Log.d("Item test ", "item " + item.getTitle() + " is pressed");
-        break;
+            break;
 
             case R.id.scanTargetItem:
-                try {
-                    changeString(2);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+                changeString(2);
                 Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
                 Log.d("Item test ", "item " + item.getTitle() + " is pressed");
             break;
 
             case R.id.scanDetailItem:
-                try {
-                    changeString(3);
-                } catch (IOException | InterruptedException e) {
-                    e.printStackTrace();
-                }
+                changeString(3);
                 Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
                 Log.d("Item test ", "item " + item.getTitle() + " is pressed");
             break;
@@ -218,8 +206,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         alertDialog.show();
     }
 
-    public void changeString(int options) throws IOException,
-            InterruptedException {
+    public void changeString(int options) {
         //change the string on the scan button and set the flags
         switch (options) {
             case 1:
@@ -265,12 +252,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                 break;
         }
     }
-/*
-    public void scanOtionButton(View view) {
-        //display scan option
-        //radioGroup.setVisibility(View.VISIBLE);
-    }
-*/
+
     public void attackButton(View view) {
         //display attack methods
     }
