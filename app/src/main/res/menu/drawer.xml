@@ -3,11 +3,14 @@
 
     <item
         android:id="@+id/scanLocalNetworkItem"
-        android:title="@string/scanLocalNetwork" />
+        android:title="@string/scanLocalNetwork" >
+    </item>
     <item
         android:id="@+id/scanTargetItem"
-        android:title="@string/scanTarget" />
+        android:title="@string/scanTarget" >
+    </item>
     <item
         android:id="@+id/scanDetailItem"
-        android:title="@string/scanDetail" />
+        android:title="@string/scanDetail" >
+    </item>
 </menu>

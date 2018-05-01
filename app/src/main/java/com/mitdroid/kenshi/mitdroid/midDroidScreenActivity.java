@@ -34,7 +34,7 @@ public class midDroidScreenActivity extends AppCompatActivity
 
     public TextView scanResult;
     public Button button;
-    public DrawerLayout drawer;
+    public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle toggle;
     public NavigationView navigationView;
 
@@ -49,18 +49,17 @@ public class midDroidScreenActivity extends AppCompatActivity
         setContentView(R.layout.activity_mid_droid_screen);
         scanResult = findViewById(R.id.scanResult);
         button = findViewById(R.id.mapNetwork);
-        drawer = findViewById(R.id.drawerLayout);
-        navigationView = findViewById(R.id.navigationView);
+        drawerLayout = findViewById(R.id.drawerLayout);
         toggle = new ActionBarDrawerToggle(
                 this,
-                drawer,
+                drawerLayout,
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
-
-        drawer.addDrawerListener(toggle);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -69,39 +68,47 @@ public class midDroidScreenActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        if(toggle.onOptionsItemSelected(item )) {
-            Log.d("Option test", "Settings is clicked");
+        if(toggle.onOptionsItemSelected(item))
             return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Called when an item in the navigation menu is selected.
+     *
+     * @param item The selected item
+     * @return true to display the item as the selected item
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.scanLocalNetworkItem:
                 changeString(1);
-                Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
-                Log.d("Item test ", "item " + item.getTitle() + " is pressed");
-            break;
+                Toast.makeText(this,
+                        item.getTitle() + " selected",
+                        Toast.LENGTH_LONG)
+                        .show();
+                Log.d("Item test ", item.getTitle() + " selected");
+                break;
 
             case R.id.scanTargetItem:
                 changeString(2);
-                Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
-                Log.d("Item test ", "item " + item.getTitle() + " is pressed");
-            break;
+                Toast.makeText(this,
+                        item.getTitle() + " selected",
+                        Toast.LENGTH_LONG)
+                        .show();
+                Log.d("Item test ", item.getTitle() + " selected");
+                break;
 
             case R.id.scanDetailItem:
                 changeString(3);
-                Toast.makeText(this, item.getTitle() + " selected", Toast.LENGTH_LONG);
-                Log.d("Item test ", "item " + item.getTitle() + " is pressed");
-            break;
-
-            default:
-                Log.d("Item test", "No item is clicked");
-            break;
-    }
-        drawer.closeDrawer(GravityCompat.START);
+                Toast.makeText(this,
+                        "nothing selected",
+                        Toast.LENGTH_LONG)
+                        .show();
+                break;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
