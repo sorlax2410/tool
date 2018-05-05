@@ -4,12 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
-import android.widget.EditText;
 
 import com.kenshi.fileHandler.workRecord;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by kenshi on 01/02/2018.
@@ -106,58 +106,53 @@ public class optionScan {
     public void ipv4Seperation() {
         //seperate target ip address
         //TODO: seperate the strings to get only the ip addresses
+
     }
 
-        /*
+    private String splitLine() {
+        String[]container = log.split("\\n");
+        ArrayList<String>targetcontainer = new ArrayList<>();
+        int limiter = container.length - 2;
 
-                String[]binaries = {
-                        "nmap",
-                        "nmap_os_db",
-                        "nmap_payloads",
-                        "nmap_protocols",
-                        "nmap_rpc",
-                        "nmap_service_probes",
-                        "nmap_services"
-                };
+        for(int index = 2; index < limiter; index++)
+            targetcontainer.add(container[index]);
 
-                private void display(String[] parameter) {
-                    try {
-                        String workingDirectory = commandProcessor.runCommand("pwd",
-                                binary.getAbsoluteFile());
-                        Log.d("Working directory", binary.getAbsolutePath());
-                        Log.d("Path", workingDirectory);
-                    }
-                    catch(IOException e) { Log.d(debugTag, e.getMessage()); }
-                    catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
+        return Arrays.toString(targetcontainer.toArray());
+    }
 
-                    for(int i = 0; i < binaries.length; i++) {
-                        try {
-                            String listDetail = commandProcessor.runCommand("ls -la " + binaries[i],
-                                    binary.getAbsoluteFile());
+    private String splitTab() {
+        String container = splitLine();
+        ArrayList<String>targetscontainer = new ArrayList<>();
+        String[]targets = container.split("\\t");
+        boolean meetTab;
 
-                            Log.d("Listing Tag", "ls -la output: " + listDetail);
-                        }
-                        catch(IOException e) { Log.d(debugTag, e.getMessage()); }
-                        catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
-                    }
+        for(int index = targets.length; index > -1; index++) {
+            if(checkStatus(Arrays.toString(targets)))
+                meetTab = true;
+            else
+                meetTab = false;
+            if(meetTab)
+                targetscontainer.add(targets[index - 1]);
+        }
+        return Arrays.toString(targetscontainer.toArray());
+    }
 
-                    for(int i = 0; i < parameter.length; i++) { Log.d("Parameters", parameter[i]); }
-                }
+    private ArrayList<String> splitHosts() {
+        String string = splitTab();
+        String[]targets = string.split("Host: ");
+        ArrayList<String>targetContainer = new ArrayList<>();
 
-                private void checkFile(String path) {
-                    File checker = new File(path);
-                    Log.d("Path", checker.getAbsolutePath());
-                    if (checker.exists())
-                        Log.d("Path", "Path available !!");
+        for(int index = 0; index < targets.length; index++)
+            if(!targets[index].equals("Host: "))
+                targetContainer.add(targets[index]);
+        return targetContainer;
+    }
 
-                    for(int i = 0; i < binaries.length; i++) {
-                        checker = new File(path, binaries[i]);
-                        Log.d("Path", checker.getAbsolutePath());
-                        if (checker.exists())
-                            Log.d("Path", "Path available !!");
-                    }
-                }
-        */
+    private boolean checkStatus(String status) {
+        if(status.equals("Status: UP"))
+            return true;
+        return false;
+    }
 
     /**
      * Note: Asyntask class is used only for publishing results to the screen and cannot manipulate
