@@ -19,14 +19,14 @@ public class optionScan {
 
     private String defaultGateway;
     private String dns1, dns2, serverAdress, ipAdress, netmask;
-    private String command = "./nmap ";
+    private String command = "su ./nmap ";
     private workRecord executor;
 
     public String log;
     public String filename = null;
     public ArrayList<String> targets;
 
-    private String quickOption = " -sP ";
+    private String quickOption = " -sP -n ";
     private String allOption = " -A ";
     private String formatString = " -oG - ";
 
@@ -77,20 +77,37 @@ public class optionScan {
     public String getNetmask() { return netmask; }
     public String getLog() { return log; }
 
-    public void initialScan(Context context) throws IOException, InterruptedException {
+    public void initialFormatScan(Context context) throws IOException, InterruptedException {
         String scanOption = quickOption + defaultGateway + "/24" + formatString;
         log = commandExecution(context, scanOption);
     }
 
-    public void normalScan(Context context, String targetIp) throws IOException,
+    public void initialScan(Context context) throws IOException,
+            InterruptedException {
+        String scanOption = quickOption + defaultGateway + "/24";
+        log = commandExecution(context, scanOption);
+    }
+
+    public void normalFormatScan(Context context, String targetIp) throws IOException,
             InterruptedException {
         log = commandExecution(context, targetIp + formatString);
     }
 
-    public void detailScan(Context context, String targetIp) throws IOException,
+    public void normalScan(Context context, String targetIp) throws IOException,
+            InterruptedException {
+        log = commandExecution(context, targetIp);
+    }
+
+    public void detailFormatScan(Context context, String targetIp) throws IOException,
             InterruptedException {
         String scanAll = targetIp + allOption + formatString;
         log = commandExecution(context, scanAll);
+    }
+
+    public void detailScan(Context context, String targetIp) throws IOException,
+            InterruptedException {
+        String scanAll = targetIp + allOption;
+        log = commandExecution(context, allOption);
     }
 
     @SuppressLint("WrongConstant")
@@ -98,15 +115,6 @@ public class optionScan {
             InterruptedException {
         return commandProcessor.runCommand(command + option,
                 context.getDir("bin", Context.MODE_MULTI_PROCESS));
-    }
-
-    /**
-     * Description: this function is to get only the ip addresses
-     */
-    public void ipv4Seperation() {
-        //seperate target ip address
-        //TODO: seperate the strings to get only the ip addresses
-
     }
 
     private String splitLine() {
@@ -137,7 +145,7 @@ public class optionScan {
         return Arrays.toString(targetscontainer.toArray());
     }
 
-    private ArrayList<String> splitHosts() {
+    public ArrayList<String> splitHosts() {
         String string = splitTab();
         String[]targets = string.split("Host: ");
         ArrayList<String>targetContainer = new ArrayList<>();
@@ -152,6 +160,40 @@ public class optionScan {
         if(status.equals("Status: UP"))
             return true;
         return false;
+    }
+
+    public ArrayList<String> splitIPV4() {
+        ArrayList<String>container = new ArrayList<>();
+        String[]string = log.split("for ");
+        for(int index = 0; index < string.length; index++)
+            if(index % 2 == 0)
+                container.add(string[index]);
+        string = container.toString().split("\\n");
+        for(int index = 0; index < string.length; index++)
+            if(index % 2 != 0)
+                container.add(string[index]);
+        return container;
+    }
+
+    public ArrayList<String> splitManufacturer() {
+        ArrayList<String>container = new ArrayList<>();
+        String[]string = log.split("MAC Address:");
+        for(int index = 0; index < string.length; index++)
+            if(index % 2 == 0)
+                container.add(string[index]);
+        string = container.toString().split("\\n");
+        for(int index = 0; index < string.length; index++)
+            if(index % 2 != 0)
+                container.add(string[index]);
+        string = container.toString().split("\\p{P}");
+        for(int index = 0; index < string.length; index++)
+            if(index % 2 == 0)
+                container.add(string[index]);
+        string = container.toString().split("\\p{P}");
+        for(int index = 0; index < string.length; index++)
+            if(index % 2 != 0)
+                container.add(string[index]);
+        return container;
     }
 
     /**

@@ -46,6 +46,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     private String log, logName, target;
     private String extension = ".txt";
     private optionScan holder;
+    private boolean format;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +117,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                         Toast.LENGTH_LONG)
                         .show();
                 Log.d("Item test ", item.getTitle() + " selected");
+                activateFormat();
                 break;
 
             case R.id.scanTargetItem:
@@ -125,6 +127,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                         Toast.LENGTH_LONG)
                         .show();
                 Log.d("Item test ", item.getTitle() + " selected");
+                activateFormat();
                 break;
 
             case R.id.scanDetailItem:
@@ -133,6 +136,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                         "nothing selected",
                         Toast.LENGTH_LONG)
                         .show();
+                activateFormat();
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -156,9 +160,11 @@ public class midDroidScreenActivity extends AppCompatActivity
      * @throws IOException
      */
     public void scanLocalNetwork() throws InterruptedException, IOException {
-        //scan the local network
         optionScan scanner = new optionScan(this);
-        scanner.initialScan(this);
+        if(format)
+            scanner.initialFormatScan(this);
+        else
+            scanner.initialScan(this);
         scanResult.setText("Default gateway: " + scanner.getDefaultGateway());
         scanResult.append("Dns 1: " + scanner.getDns1());
         scanResult.append("DNS 2: " + scanner.getDns2());
@@ -166,14 +172,38 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult.append("Your ip address: " + scanner.getIpAdress());
         scanResult.append("Subnet mask: " + scanner.getNetmask());
 
-        String string = log = scanner.log;
-        splitString(string);
+        if(format)
+            ipAddresses = scanner.splitHosts();
+        else
+            ipAddresses = scanner.splitIPV4();
 
         for(int index = 0; index < ipAddresses.size(); index++)
             scanResult.append(ipAddresses.get(index));
 
-        changeScreen();
+        //changeScreen();
         holder = scanner;
+    }
+
+    private void activateFormat() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle("Activate format")
+                .setMessage("Do you want to display targets in a nice format?" +
+                        " (Note: Manufacturer will not be discover)")
+                .setPositiveButton(android.R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        format = true;
+                    }
+                })
+                .setNegativeButton(android.R.string.no,
+                        new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        format = false;
+                    }
+                })
+                .show();
     }
 
     private void changeScreen() {
@@ -295,12 +325,14 @@ public class midDroidScreenActivity extends AppCompatActivity
         optionScan scanner = new optionScan(this);
         scanner.detailScan(this, target);
         log = scanner.getLog();
+        scanResult.setText(log);
     }
 
     public void normalScan(String target) throws IOException, InterruptedException {
         optionScan scanner = new optionScan(this);
         scanner.normalScan(this, target);
         log = scanner.getLog();
+        scanResult.setText(log);
     }
 
 
