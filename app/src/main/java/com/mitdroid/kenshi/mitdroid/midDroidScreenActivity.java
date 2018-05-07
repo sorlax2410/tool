@@ -47,6 +47,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     private String extension = ".txt";
     private optionScan holder;
     private boolean format;
+    private enum options{scanlocalnetwork, scanspecifictarget, scandetail};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +66,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                 R.string.navigation_drawer_open,
                 R.string.navigation_drawer_close
         );
-        NavigationView navigationView = findViewById(R.id.navigationView);
+        navigationView = findViewById(R.id.navigationView);
 
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -111,7 +112,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.scanLocalNetworkItem:
-                changeString(1);
+                changeString(options.scanlocalnetwork, this);
                 Toast.makeText(this,
                         item.getTitle() + " selected",
                         Toast.LENGTH_LONG)
@@ -121,7 +122,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                 break;
 
             case R.id.scanTargetItem:
-                changeString(2);
+                changeString(options.scanspecifictarget, this);
                 Toast.makeText(this,
                         item.getTitle() + " selected",
                         Toast.LENGTH_LONG)
@@ -131,9 +132,9 @@ public class midDroidScreenActivity extends AppCompatActivity
                 break;
 
             case R.id.scanDetailItem:
-                changeString(3);
+                changeString(options.scandetail, this);
                 Toast.makeText(this,
-                        "nothing selected",
+                        item.getTitle() + " selected",
                         Toast.LENGTH_LONG)
                         .show();
                 activateFormat();
@@ -222,17 +223,6 @@ public class midDroidScreenActivity extends AppCompatActivity
         ipAddresses.clear();
     }
 
-    private void splitString(String string) {
-        //split the string
-        String[]container = string.split("\\n");
-        int limiter = container.length - 2;
-        for (int index = 0; index < container.length; index++)
-            Log.d("Container Strings: ", container[index]);
-
-        for(int index = 2; index < limiter; index++)
-            ipAddresses.add(container[index]);
-    }
-
     /**
      * Description
      * @param view
@@ -241,7 +231,6 @@ public class midDroidScreenActivity extends AppCompatActivity
      */
 
     public void inputTarget(View view) {
-        //display the text area to input the target
         final EditText editText = new EditText(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -270,28 +259,49 @@ public class midDroidScreenActivity extends AppCompatActivity
         alertDialog.show();
     }
 
-    public void changeString(int options) {
-        //change the string on the scan button and set the flags
-        switch (options) {
-            case 1:
-                button.setText(R.string.scanLocalNetwork);
+    private void click(View button, final Context context, options option) {
+        if(option == options.scanlocalnetwork) {
+            try {
+                scanLocalNetwork();
+            } catch (IOException | InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        else if(option == options.scanspecifictarget) {
+            if(target == null) {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        try {
-                            scanLocalNetwork();
-                        } catch (InterruptedException | IOException e) {
-                            e.printStackTrace();
+                        if(target == null) {
+                            final EditText editText = new EditText(context);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT
+                            );
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            editText.setLayoutParams(layoutParams);
+                            editText.setHint("Enter your target here");
+                            builder.setView(editText);
+                            builder.setTitle("No target selected")
+                                    .setMessage("Please enter a target to scan")
+                                    .setPositiveButton(android.R.string.yes,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    target = editText.getText().toString();
+                                                }
+                                            })
+                                    .setNegativeButton(android.R.string.no,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+                                    .show();
                         }
-                    }
-                });
-                break;
-
-            case 2:
-                button.setText(R.string.scanTarget);
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
                         try {
                             normalScan(target);
                         } catch (IOException | InterruptedException e) {
@@ -299,13 +309,42 @@ public class midDroidScreenActivity extends AppCompatActivity
                         }
                     }
                 });
-                break;
-
-            case 3:
-                button.setText(R.string.scanDetail);
+            }
+        }
+        else {
+            if(target == null) {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        if(target == null) {
+                            final EditText editText = new EditText(context);
+                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                                    ViewGroup.LayoutParams.MATCH_PARENT,
+                                    ViewGroup.LayoutParams.MATCH_PARENT
+                            );
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            editText.setLayoutParams(layoutParams);
+                            editText.setHint("Enter your target here");
+                            builder.setTitle("No target selected")
+                                    .setMessage("Please enter a target to scan")
+                                    .setPositiveButton(android.R.string.yes,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    target = editText.getText().toString();
+                                                }
+                                            })
+                                    .setNegativeButton(android.R.string.no,
+                                            new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    dialog.cancel();
+                                                }
+                                            })
+                                    .show();
+                        }
                         try {
                             detailScan(target);
                         } catch (IOException | InterruptedException e) {
@@ -313,6 +352,26 @@ public class midDroidScreenActivity extends AppCompatActivity
                         }
                     }
                 });
+            }
+        }
+    }
+
+    public void changeString(options option, final Context context) {
+        //change the string on the scan button and set the flags
+        switch (option) {
+            case scanlocalnetwork:
+                button.setText(R.string.scanLocalNetwork);
+                click(button, context, options.scanlocalnetwork);
+                break;
+
+            case scanspecifictarget:
+                button.setText(R.string.scanTarget);
+                click(button, context, options.scanspecifictarget);
+                break;
+
+            case scandetail:
+                button.setText(R.string.scanDetail);
+                click(button, context, options.scandetail);
                 break;
         }
     }

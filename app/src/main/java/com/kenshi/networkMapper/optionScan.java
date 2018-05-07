@@ -19,7 +19,7 @@ public class optionScan {
 
     private String defaultGateway;
     private String dns1, dns2, serverAdress, ipAdress, netmask;
-    private String command = "su ./nmap ";
+    private String command = "su -c ./nmap ";
     private workRecord executor;
 
     public String log;
