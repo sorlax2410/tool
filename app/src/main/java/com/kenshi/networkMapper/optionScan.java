@@ -163,8 +163,6 @@ public class optionScan {
         for(int index = 1; index < string.length; index++)
             targets.add(string[index]);
 
-        Log.d("NOTIFY", "END FIRST SPLIT");
-
         string = targets.toString().split("\\n");
         targets.trimToSize();
         targets.clear();
@@ -174,26 +172,16 @@ public class optionScan {
                 targets.add(string[index]);
 
         String replacement;
-/*
-        replacement = replacement.replaceAll("\\[", "");
-        targets.set(0, replacement);
-*/
         replacement = targets.toString()
                 .replaceAll("\\[", "")
                 .replaceAll("]", "");
-        Log.d("REPLACEMENT TEST", replacement);
         string = replacement.split(", ");
-        for(int index = 0; index < string.length; index++)
-            Log.d("STRING TEST " + String.valueOf(index), string[index]);
         targets.trimToSize();
         targets.clear();
 
-        targets.addAll(Arrays.asList(string));
-
-        for(int index = 0; index < targets.size(); index++)
-            Log.d("Splitter ipv4 test " + String.valueOf(index), targets.get(index));
-
-        Log.d("NOTIFY", "END SECOND SPLIT");
+        for(int index = 0; index < string.length; index++)
+            if(!string[index].equals(""))
+                targets.add(string[index]);
         return targets;
     }
 
