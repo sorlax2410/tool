@@ -112,32 +112,18 @@ public class midDroidScreenActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.scanLocalNetworkItem:
-                changeString(options.scanlocalnetwork, this);
-                Toast.makeText(this,
-                        item.getTitle() + " selected",
-                        Toast.LENGTH_LONG)
-                        .show();
-                Log.d("Item test ", item.getTitle() + " selected");
                 activateFormat();
+                changeString(options.scanlocalnetwork, this);
                 break;
 
             case R.id.scanTargetItem:
-                changeString(options.scanspecifictarget, this);
-                Toast.makeText(this,
-                        item.getTitle() + " selected",
-                        Toast.LENGTH_LONG)
-                        .show();
-                Log.d("Item test ", item.getTitle() + " selected");
                 activateFormat();
+                changeString(options.scanspecifictarget, this);
                 break;
 
             case R.id.scanDetailItem:
-                changeString(options.scandetail, this);
-                Toast.makeText(this,
-                        item.getTitle() + " selected",
-                        Toast.LENGTH_LONG)
-                        .show();
                 activateFormat();
+                changeString(options.scandetail, this);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -147,7 +133,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        setSaveFile(holder);
+        setSaveFile();
     }
 
     /**
@@ -181,7 +167,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         for(int index = 0; index < ipAddresses.size(); index++)
             scanResult.append(ipAddresses.get(index));
 
-        //changeScreen();
+        changeScreen();
         holder = scanner;
     }
 
@@ -261,47 +247,22 @@ public class midDroidScreenActivity extends AppCompatActivity
 
     private void click(View button, final Context context, options option) {
         if(option == options.scanlocalnetwork) {
-            try {
-                scanLocalNetwork();
-            } catch (IOException | InterruptedException e) {
-                e.printStackTrace();
-            }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        scanLocalNetwork();
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
         else if(option == options.scanspecifictarget) {
             if(target == null) {
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(target == null) {
-                            final EditText editText = new EditText(context);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.MATCH_PARENT
-                            );
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            editText.setLayoutParams(layoutParams);
-                            editText.setHint("Enter your target here");
-                            builder.setView(editText);
-                            builder.setTitle("No target selected")
-                                    .setMessage("Please enter a target to scan")
-                                    .setPositiveButton(android.R.string.yes,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    target = editText.getText().toString();
-                                                }
-                                            })
-                                    .setNegativeButton(android.R.string.no,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    dialog.cancel();
-                                                }
-                                            })
-                                    .show();
-                        }
                         try {
                             normalScan(target);
                         } catch (IOException | InterruptedException e) {
@@ -316,35 +277,6 @@ public class midDroidScreenActivity extends AppCompatActivity
                 button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(target == null) {
-                            final EditText editText = new EditText(context);
-                            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                                    ViewGroup.LayoutParams.MATCH_PARENT,
-                                    ViewGroup.LayoutParams.MATCH_PARENT
-                            );
-                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                            editText.setLayoutParams(layoutParams);
-                            editText.setHint("Enter your target here");
-                            builder.setTitle("No target selected")
-                                    .setMessage("Please enter a target to scan")
-                                    .setPositiveButton(android.R.string.yes,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    target = editText.getText().toString();
-                                                }
-                                            })
-                                    .setNegativeButton(android.R.string.no,
-                                            new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog,
-                                                                    int which) {
-                                                    dialog.cancel();
-                                                }
-                                            })
-                                    .show();
-                        }
                         try {
                             detailScan(target);
                         } catch (IOException | InterruptedException e) {
@@ -398,7 +330,7 @@ public class midDroidScreenActivity extends AppCompatActivity
 
 
 
-    public void setSaveFile(final optionScan scanner) {
+    public void setSaveFile() {
         AlertDialog.Builder dialog;
         final EditText editText = new EditText(this);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(

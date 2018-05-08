@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
+import android.util.Log;
 
 import com.kenshi.fileHandler.workRecord;
 
@@ -24,7 +25,7 @@ public class optionScan {
 
     public String log;
     public String filename = null;
-    public ArrayList<String> targets;
+    public ArrayList<String> targets = new ArrayList<>();
 
     private String quickOption = " -sP -n ";
     private String allOption = " -A ";
@@ -36,6 +37,8 @@ public class optionScan {
         //initial scan
         getGatewayInfo(context);
     }
+
+    //public ~optionScan() { targets.trimToSize(); targets.clear(); }
 
     /**
      * General: Transforming gathered dhcp information into ip addresses
@@ -88,20 +91,9 @@ public class optionScan {
         log = commandExecution(context, scanOption);
     }
 
-    public void normalFormatScan(Context context, String targetIp) throws IOException,
-            InterruptedException {
-        log = commandExecution(context, targetIp + formatString);
-    }
-
     public void normalScan(Context context, String targetIp) throws IOException,
             InterruptedException {
         log = commandExecution(context, targetIp);
-    }
-
-    public void detailFormatScan(Context context, String targetIp) throws IOException,
-            InterruptedException {
-        String scanAll = targetIp + allOption + formatString;
-        log = commandExecution(context, scanAll);
     }
 
     public void detailScan(Context context, String targetIp) throws IOException,
@@ -117,20 +109,19 @@ public class optionScan {
                 context.getDir("bin", Context.MODE_MULTI_PROCESS));
     }
 
-    private String splitLine() {
+    private void splitLine() {
         String[]container = log.split("\\n");
-        ArrayList<String>targetcontainer = new ArrayList<>();
         int limiter = container.length - 2;
 
         for(int index = 2; index < limiter; index++)
-            targetcontainer.add(container[index]);
-
-        return Arrays.toString(targetcontainer.toArray());
+            targets.add(container[index]);
     }
 
-    private String splitTab() {
-        String container = splitLine();
-        ArrayList<String>targetscontainer = new ArrayList<>();
+    private void splitTab() {
+        splitLine();
+        String container = targets.toString();
+        targets.trimToSize();
+        targets.clear();
         String[]targets = container.split("\\t");
         boolean meetTab;
 
@@ -140,20 +131,24 @@ public class optionScan {
             else
                 meetTab = false;
             if(meetTab)
-                targetscontainer.add(targets[index - 1]);
+                this.targets.add(targets[index - 1]);
         }
-        return Arrays.toString(targetscontainer.toArray());
     }
 
     public ArrayList<String> splitHosts() {
-        String string = splitTab();
+        splitTab();
+        String string = targets.toString();
+        targets.trimToSize();
+        targets.clear();
         String[]targets = string.split("Host: ");
-        ArrayList<String>targetContainer = new ArrayList<>();
 
         for(int index = 0; index < targets.length; index++)
             if(!targets[index].equals("Host: "))
-                targetContainer.add(targets[index]);
-        return targetContainer;
+                this.targets.add(targets[index]);
+
+        for(int index = 0; index < this.targets.size(); index++)
+            Log.d("splitter host test", this.targets.get(index));
+        return this.targets;
     }
 
     private boolean checkStatus(String status) {
@@ -163,36 +158,76 @@ public class optionScan {
     }
 
     public ArrayList<String> splitIPV4() {
-        ArrayList<String>container = new ArrayList<>();
-        String[]string = log.split("for ");
+        String[]string = log.split("Nmap scan report for ");
+
+        for(int index = 1; index < string.length; index++)
+            targets.add(string[index]);
+
+        Log.d("NOTIFY", "END FIRST SPLIT");
+
+        string = targets.toString().split("\\n");
+        targets.trimToSize();
+        targets.clear();
+
+        for(int index = 0; index < string.length - 4; index++)
+            if(index % 3 == 0)
+                targets.add(string[index]);
+
+        String replacement;
+/*
+        replacement = replacement.replaceAll("\\[", "");
+        targets.set(0, replacement);
+*/
+        replacement = targets.toString()
+                .replaceAll("\\[", "")
+                .replaceAll("]", "");
+        Log.d("REPLACEMENT TEST", replacement);
+        string = replacement.split(", ");
         for(int index = 0; index < string.length; index++)
-            if(index % 2 == 0)
-                container.add(string[index]);
-        string = container.toString().split("\\n");
-        for(int index = 0; index < string.length; index++)
-            if(index % 2 != 0)
-                container.add(string[index]);
-        return container;
+            Log.d("STRING TEST " + String.valueOf(index), string[index]);
+        targets.trimToSize();
+        targets.clear();
+
+        targets.addAll(Arrays.asList(string));
+
+        for(int index = 0; index < targets.size(); index++)
+            Log.d("Splitter ipv4 test " + String.valueOf(index), targets.get(index));
+
+        Log.d("NOTIFY", "END SECOND SPLIT");
+        return targets;
     }
 
     public ArrayList<String> splitManufacturer() {
         ArrayList<String>container = new ArrayList<>();
         String[]string = log.split("MAC Address:");
+
         for(int index = 0; index < string.length; index++)
             if(index % 2 == 0)
                 container.add(string[index]);
+
         string = container.toString().split("\\n");
+        container.trimToSize();
+        container.clear();
         for(int index = 0; index < string.length; index++)
             if(index % 2 != 0)
                 container.add(string[index]);
+
         string = container.toString().split("\\p{P}");
+        container.trimToSize();
+        container.clear();
         for(int index = 0; index < string.length; index++)
             if(index % 2 == 0)
                 container.add(string[index]);
+
         string = container.toString().split("\\p{P}");
+        container.trimToSize();
+        container.clear();
         for(int index = 0; index < string.length; index++)
             if(index % 2 != 0)
                 container.add(string[index]);
+
+        for(int index = 0; index < container.size(); index++)
+            Log.d("Split manufacturer test", container.get(index));
         return container;
     }
 
