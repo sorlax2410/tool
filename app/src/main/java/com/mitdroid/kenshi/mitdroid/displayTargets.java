@@ -1,5 +1,6 @@
 package com.mitdroid.kenshi.mitdroid;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ public class displayTargets extends AppCompatActivity {
 
     public ArrayList<RadioButton>radioButtons = new ArrayList<>();
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,29 +30,25 @@ public class displayTargets extends AppCompatActivity {
         MACAddress = getIntent().getStringArrayListExtra("MAC list");
 
         for(int index = 0; index < targets.size(); index++) {
-            if(targets.get(index) != null
-                    || !targets.get(index).equals("\n")
-                    || !targets.get(index).equals("\t")
-                    || targets.get(index).equals("")) {
-                final RadioButton radioButton = new RadioButton(this);
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT
-                );
-                radioButton.setLayoutParams(layoutParams);
-                radioButton.setText(targets.get(index));
-                radioButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra("target ip", radioButton.getText().toString());
-                        setResult(RESULT_OK, intent);
-                        finish();
-                    }
-                });
-                radioButtons.add(radioButton);
-                radioGroup.addView(radioButtons.get(index));
-            }
+            final RadioButton radioButton = new RadioButton(this);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+            );
+            radioButton.setLayoutParams(layoutParams);
+            radioButton.setText(targets.get(index) + " " + MACAddress.get(index + 1));
+            final int finalIndex = index;
+            radioButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.putExtra("target ip", targets.get(finalIndex ));
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            });
+            radioButtons.add(radioButton);
+            radioGroup.addView(radioButtons.get(index));
         }
     }
 }

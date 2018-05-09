@@ -3,6 +3,7 @@ package com.kenshi.networkMapper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class stringSplitter {
 
@@ -79,26 +80,18 @@ public class stringSplitter {
     public static ArrayList<String> splitManufacturer(String log) {
         ArrayList<String>container = new ArrayList<>();
         String[]string = log.split("\\n");
-        for(int index = 0; index < string.length; index++)
-            if(index % 2 != 0)
+        CharSequence charSequence;
+        for(int index = 1; index < string.length; index++) {
+            charSequence = string[index];
+            if(charSequence.charAt(0) == 'M')
                 container.add(string[index]);
+        }
 
-        string = container.toString().split("\\p{P}");
-        container.trimToSize();
-        container.clear();
-        for(int index = 0; index < string.length; index++)
-            if(index % 2 == 0)
-                container.add(string[index]);
-
-        string = container.toString().split("\\p{P}");
-        container.trimToSize();
-        container.clear();
-        for(int index = 0; index < string.length; index++)
-            if(index % 2 != 0)
-                container.add(string[index]);
-
-        for(int index = 0; index < container.size(); index++)
-            Log.d("Split manufacturer test", container.get(index));
+        for(int index = 1; index < container.size(); index++) {
+            if(container.get(index).equals(""))
+                Log.d("Split MAC test" + String.valueOf(index), "EMPTY");
+            Log.d("Split MAC test " + String.valueOf(index), container.get(index));
+        }
         return container;
     }
 

@@ -81,7 +81,6 @@ public class midDroidScreenActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activateFormat();
                 try {
                     scanLocalNetwork();
                 } catch (InterruptedException | IOException e) {
@@ -235,7 +234,7 @@ public class midDroidScreenActivity extends AppCompatActivity
             scanResult.setText("The chosen target:\n" + target);
             FormattedIpAddresses.clear();
         }
-        else if(requestCode == 2 && requestCode == RESULT_OK) {
+        else if(requestCode == 2 && resultCode == RESULT_OK) {
             target = data.getStringExtra("target ip");
             scanResult.setText("The chosen target:\n" + target);
             ipAddresses.clear();
