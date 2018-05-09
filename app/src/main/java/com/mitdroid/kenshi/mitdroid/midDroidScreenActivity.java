@@ -44,7 +44,9 @@ public class midDroidScreenActivity extends AppCompatActivity
     public ActionBarDrawerToggle toggle;
     public NavigationView navigationView;
 
+    private ArrayList<String> FormattedIpAddresses = new ArrayList<>();
     private ArrayList<String> ipAddresses = new ArrayList<>();
+    private ArrayList<String> MACAddress = new ArrayList<>();
     private String log, logName, target;
     private String extension = ".txt";
     private optionScan scanner;
@@ -176,15 +178,17 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult.append("Your ip address: " + scanner.getIpAdress());
         scanResult.append("Subnet mask: " + scanner.getNetmask());
 
-        if(format)
-            ipAddresses = scanner.splitHosts();
-        else
-            ipAddresses = scanner.splitIPV4();
-
+        if(format) {
+            FormattedIpAddresses = scanner.getFormattedTarget();
+            changeFormattedScreen();
+        }
+        else {
+            ipAddresses = scanner.getTargets();
+            MACAddress = scanner.getMACAddresses();
+            changeScreen();
+        }
         for(int index = 0; index < ipAddresses.size(); index++)
             scanResult.append(ipAddresses.get(index));
-
-        changeScreen();
     }
 
     private void activateFormat() {
@@ -210,8 +214,15 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     private void changeScreen() {
-        Intent switcher = new Intent(this, displayTarget.class)
-                .putExtra("target list", ipAddresses);
+        Intent switcher = new Intent(this, displayTargets.class)
+                .putExtra("target list", ipAddresses)
+                .putExtra("MAC list", MACAddress);
+        startActivityForResult(switcher, 2);
+    }
+
+    private void changeFormattedScreen() {
+        Intent switcher = new Intent(this, displayFormattedTargets.class)
+                .putExtra("Formatted target list", FormattedIpAddresses);
         startActivityForResult(switcher, 1);
     }
 
@@ -222,8 +233,13 @@ public class midDroidScreenActivity extends AppCompatActivity
         if(requestCode == 1 && resultCode == RESULT_OK) {
             target = data.getStringExtra("target ip");
             scanResult.setText("The chosen target:\n" + target);
+            FormattedIpAddresses.clear();
         }
-        ipAddresses.clear();
+        else if(requestCode == 2 && requestCode == RESULT_OK) {
+            target = data.getStringExtra("target ip");
+            scanResult.setText("The chosen target:\n" + target);
+            ipAddresses.clear();
+        }
     }
 
     /**

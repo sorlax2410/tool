@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".midDroidScreenActivity" />
-        <activity android:name=".displayTarget"></activity>
+        <activity android:name=".displayFormattedTargets" />
+        <activity android:name=".displayTargets"></activity>
     </application>
 
 </manifest>
