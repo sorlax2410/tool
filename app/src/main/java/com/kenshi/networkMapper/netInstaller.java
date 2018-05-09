@@ -40,27 +40,27 @@ public class netInstaller {
             moveBinaryResourceToFile(inputStream, writeFile);
 
             inputStream = resources.openRawResource(R.raw.nmap_os_db);
-            writeFile = new File(binDirectory, "nmap_os_db");
+            writeFile = new File(binDirectory, "nmap-os-db");
             moveBinaryResourceToFile(inputStream, writeFile);
 
             inputStream = resources.openRawResource(R.raw.nmap_payloads);
-            writeFile = new File(binDirectory, "nmap_payloads");
+            writeFile = new File(binDirectory, "nmap-payloads");
             moveBinaryResourceToFile(inputStream, writeFile);
 
             inputStream = resources.openRawResource(R.raw.nmap_protocols);
-            writeFile = new File(binDirectory, "nmap_protocols");
+            writeFile = new File(binDirectory, "nmap-protocols");
             moveBinaryResourceToFile(inputStream, writeFile);
 
             inputStream = resources.openRawResource(R.raw.nmap_rpc);
-            writeFile = new File(binDirectory, "nmap_rpc");
+            writeFile = new File(binDirectory, "nmap-rpc");
             moveBinaryResourceToFile(inputStream, writeFile);
 
             inputStream = resources.openRawResource(R.raw.nmap_service_probes);
-            writeFile = new File(binDirectory, "nmap_service_probes");
+            writeFile = new File(binDirectory, "nmap-service-probes");
             moveBinaryResourceToFile(inputStream, writeFile);
 
             inputStream = resources.openRawResource(R.raw.nmap_services);
-            writeFile = new File(binDirectory, "nmap_services");
+            writeFile = new File(binDirectory, "nmap-services");
             moveBinaryResourceToFile(inputStream, writeFile);
 
             String[]binaries = {

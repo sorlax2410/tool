@@ -91,22 +91,7 @@ public class optionScan {
 
     public void normalScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        checkFiles(context);
         log = commandExecution(context, targetIp);
-    }
-
-    @SuppressLint("WrongConstant")
-    public void checkFiles(Context context) {
-        Log.d("File's location",
-                context.getDir("bin", Context.MODE_MULTI_PROCESS).toString());
-        String[]files = context.getDir("bin", Context.MODE_PRIVATE).list();
-        for(int index = 0; index < files.length; index++) {
-            Log.d("Files " + String.valueOf(index), files[index]);
-            if(files[index].equals("nmap_services"))
-                Log.d("nmap_services", "FOUND!!!");
-            else if(index == files.length - 1 && !files[index].equals("nmap-services"))
-                Log.d("nmap_services", "NOT FOUND :(");
-        }
     }
 
     public void detailScan(Context context, String targetIp) throws IOException,

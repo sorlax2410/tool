@@ -1,5 +1,6 @@
 package com.mitdroid.kenshi.mitdroid;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -73,6 +74,16 @@ public class midDroidScreenActivity extends AppCompatActivity
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    scanLocalNetwork();
+                } catch (InterruptedException | IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -149,6 +160,7 @@ public class midDroidScreenActivity extends AppCompatActivity
      * @throws InterruptedException
      * @throws IOException
      */
+    @SuppressLint("SetTextI18n")
     public void scanLocalNetwork() throws InterruptedException, IOException {
         if(format)
             scanner.initialFormatScan(this);
@@ -200,6 +212,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         startActivityForResult(switcher, 1);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -273,7 +286,7 @@ public class midDroidScreenActivity extends AppCompatActivity
                 .show();
     }
 
-    private void click(View button, final Context context, options option) {
+    private void click(View button, options option) {
         if(option == options.scanlocalnetwork) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -290,8 +303,6 @@ public class midDroidScreenActivity extends AppCompatActivity
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    while(target == null)
-                        inputTarget(view);
                     try {
                         normalScan(target);
                     } catch (IOException | InterruptedException e) {
@@ -319,17 +330,17 @@ public class midDroidScreenActivity extends AppCompatActivity
         switch (option) {
             case scanlocalnetwork:
                 button.setText(R.string.scanLocalNetwork);
-                click(button, context, options.scanlocalnetwork);
+                click(button, options.scanlocalnetwork);
                 break;
 
             case scanspecifictarget:
                 button.setText(R.string.scanTarget);
-                click(button, context, options.scanspecifictarget);
+                click(button, options.scanspecifictarget);
                 break;
 
             case scandetail:
                 button.setText(R.string.scanDetail);
-                click(button, context, options.scandetail);
+                click(button, options.scandetail);
                 break;
         }
     }
@@ -389,7 +400,8 @@ public class midDroidScreenActivity extends AppCompatActivity
         //saved the captured log
         try {
             OutputStreamWriter writer = new OutputStreamWriter(
-                    this.openFileOutput(logName + extension, Context.MODE_APPEND)
+                    this.openFileOutput(this.getDir("files", Context.MODE_PRIVATE).toString(),
+                            Context.MODE_APPEND)
             );
             writer.write(log);
             writer.close();
