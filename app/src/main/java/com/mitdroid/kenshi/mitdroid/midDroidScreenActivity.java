@@ -45,7 +45,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private String log, logName, target;
     private String extension = ".txt";
-    private optionScan holder;
+    private optionScan scanner;
     private boolean format;
     private enum options{scanlocalnetwork, scanspecifictarget, scandetail};
 
@@ -57,6 +57,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     private void initInstance() {
+        scanner = new optionScan(this);
         scanResult = findViewById(R.id.scanResult);
         button = findViewById(R.id.mapNetwork);
         drawerLayout = findViewById(R.id.drawerLayout);
@@ -117,12 +118,14 @@ public class midDroidScreenActivity extends AppCompatActivity
                 break;
 
             case R.id.scanTargetItem:
-                activateFormat();
+                if(target == null)
+                    inputTarget();
                 changeString(options.scanspecifictarget, this);
                 break;
 
             case R.id.scanDetailItem:
-                activateFormat();
+                if(target == null)
+                    inputTarget();
                 changeString(options.scandetail, this);
                 break;
         }
@@ -147,7 +150,6 @@ public class midDroidScreenActivity extends AppCompatActivity
      * @throws IOException
      */
     public void scanLocalNetwork() throws InterruptedException, IOException {
-        optionScan scanner = new optionScan(this);
         if(format)
             scanner.initialFormatScan(this);
         else
@@ -168,7 +170,6 @@ public class midDroidScreenActivity extends AppCompatActivity
             scanResult.append(ipAddresses.get(index));
 
         changeScreen();
-        holder = scanner;
     }
 
     private void activateFormat() {
@@ -218,6 +219,7 @@ public class midDroidScreenActivity extends AppCompatActivity
 
     public void inputTarget(View view) {
         final EditText editText = new EditText(this);
+        final String message = "The chosen target: ";
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
@@ -233,7 +235,8 @@ public class midDroidScreenActivity extends AppCompatActivity
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         target = editText.getText().toString();
-                        scanResult.setText(target);
+                        scanResult.setText(message);
+                        scanResult.append(target);
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -245,11 +248,36 @@ public class midDroidScreenActivity extends AppCompatActivity
         alertDialog.show();
     }
 
+    private void inputTarget() {
+        final EditText editText = new EditText(this);
+        final String message = "Victim's IP Address: ";
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        editText.setLayoutParams(layoutParams);
+        editText.setHint("Enter your target here");
+        builder.setView(editText);
+        builder.setTitle("Take target")
+                .setMessage("Please enter the victim's ip address")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        target = editText.getText().toString();
+                        scanResult.setText(message);
+                        scanResult.append(target);
+                    }
+                })
+                .show();
+    }
+
     private void click(View button, final Context context, options option) {
         if(option == options.scanlocalnetwork) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
+                public void onClick(View view) {
                     try {
                         scanLocalNetwork();
                     } catch (IOException | InterruptedException e) {
@@ -259,32 +287,30 @@ public class midDroidScreenActivity extends AppCompatActivity
             });
         }
         else if(option == options.scanspecifictarget) {
-            if(target == null) {
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            normalScan(target);
-                        } catch (IOException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    while(target == null)
+                        inputTarget(view);
+                    try {
+                        normalScan(target);
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
-            }
+                }
+            });
         }
         else {
-            if(target == null) {
-                button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            detailScan(target);
-                        } catch (IOException | InterruptedException e) {
-                            e.printStackTrace();
-                        }
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        detailScan(target);
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
                     }
-                });
-            }
+                }
+            });
         }
     }
 
@@ -313,14 +339,12 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     public void detailScan(String target) throws IOException, InterruptedException {
-        optionScan scanner = new optionScan(this);
         scanner.detailScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
     }
 
     public void normalScan(String target) throws IOException, InterruptedException {
-        optionScan scanner = new optionScan(this);
         scanner.normalScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);

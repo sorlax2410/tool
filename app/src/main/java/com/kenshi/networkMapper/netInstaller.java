@@ -33,7 +33,7 @@ public class netInstaller {
         Resources resources = this.context.getResources();
 
         try {
-            commandProcessor.runCommand("rm -rf ", binDirectory);
+            commandProcessor.runCommand("rm _rf ", binDirectory);
 
             InputStream inputStream = resources.openRawResource(R.raw.nmap);
             File writeFile = new File(binDirectory, "nmap");
