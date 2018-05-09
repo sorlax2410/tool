@@ -52,6 +52,10 @@ public class stringSplitter {
         ArrayList<String> targets = new ArrayList<>();
         String[]string = log.split("Nmap scan report for ");
 
+        /**
+         * Description: splitting the junk of string into arrays of string excluding the above
+         * string
+         */
         for(int index = 1; index < string.length; index++)
             targets.add(string[index]);
 
@@ -59,7 +63,16 @@ public class stringSplitter {
         targets.trimToSize();
         targets.clear();
 
-        for(int index = 0; index < string.length - 4; index++)
+        /**
+         * Description: fetching the victim's ip address i a network and excluding the default
+         * gateway and the attacker's ip address
+         *
+         * Note:
+         * 0 is the default gateway
+         * length - 5 is the attacker's ip address
+         */
+
+        for(int index = 1; index < string.length - 5; index++)
             if(index % 3 == 0)
                 targets.add(string[index]);
 
@@ -81,16 +94,15 @@ public class stringSplitter {
         ArrayList<String>container = new ArrayList<>();
         String[]string = log.split("\\n");
         CharSequence charSequence;
+        /**
+         * Description: find the MAC address and split it out.
+         * Note:
+         * 0 contains nothing
+         */
         for(int index = 1; index < string.length; index++) {
             charSequence = string[index];
             if(charSequence.charAt(0) == 'M')
                 container.add(string[index]);
-        }
-
-        for(int index = 1; index < container.size(); index++) {
-            if(container.get(index).equals(""))
-                Log.d("Split MAC test" + String.valueOf(index), "EMPTY");
-            Log.d("Split MAC test " + String.valueOf(index), container.get(index));
         }
         return container;
     }

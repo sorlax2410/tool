@@ -36,7 +36,7 @@ public class displayTargets extends AppCompatActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT
             );
             radioButton.setLayoutParams(layoutParams);
-            radioButton.setText(targets.get(index) + " " + MACAddress.get(index + 1));
+            radioButton.setText(targets.get(index) + " " + MACAddress.get(index));
             final int finalIndex = index;
             radioButton.setOnClickListener(new View.OnClickListener() {
                 @Override
