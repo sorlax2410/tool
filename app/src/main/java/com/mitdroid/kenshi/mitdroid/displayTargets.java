@@ -26,8 +26,17 @@ public class displayTargets extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_targets);
         radioGroup = findViewById(R.id.radioGroup);
+
+        /**
+         * Description:
+         */
+
         targets = getIntent().getStringArrayListExtra("target list");
         MACAddress = getIntent().getStringArrayListExtra("MAC list");
+
+        /**
+         * Description:
+         */
 
         for(int index = 0; index < targets.size(); index++) {
             final RadioButton radioButton = new RadioButton(this);
@@ -42,7 +51,7 @@ public class displayTargets extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
-                    intent.putExtra("target ip", targets.get(finalIndex ));
+                    intent.putExtra("target ip", targets.get(finalIndex));
                     setResult(RESULT_OK, intent);
                     finish();
                 }

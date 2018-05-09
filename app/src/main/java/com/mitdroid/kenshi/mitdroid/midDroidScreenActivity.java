@@ -60,6 +60,9 @@ public class midDroidScreenActivity extends AppCompatActivity
         initInstance();
     }
 
+    /**
+     *
+     */
     private void initInstance() {
         scanner = new optionScan(this);
         scanResult = findViewById(R.id.scanResult);
@@ -108,6 +111,11 @@ public class midDroidScreenActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Description: displaying navigation menu when the hamburger icon is selected
+     * @param item: The hamburger item on the top right
+     * @return: return true if selected
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -129,19 +137,19 @@ public class midDroidScreenActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.scanLocalNetworkItem:
                 activateFormat();
-                changeString(options.scanlocalnetwork, this);
+                changeString(options.scanlocalnetwork);
                 break;
 
             case R.id.scanTargetItem:
                 if(target == null)
                     inputTarget();
-                changeString(options.scanspecifictarget, this);
+                changeString(options.scanspecifictarget);
                 break;
 
             case R.id.scanDetailItem:
                 if(target == null)
                     inputTarget();
-                changeString(options.scandetail, this);
+                changeString(options.scandetail);
                 break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -161,8 +169,8 @@ public class midDroidScreenActivity extends AppCompatActivity
      *
      * Note: the last ip address is the attacker's ip address
      *
-     * @throws InterruptedException
-     * @throws IOException
+     * @throws InterruptedException: exit when an interruption is thrown
+     * @throws IOException: exit when an input/output exception is thrown
      */
     @SuppressLint("SetTextI18n")
     public void scanLocalNetwork() throws InterruptedException, IOException {
@@ -190,6 +198,10 @@ public class midDroidScreenActivity extends AppCompatActivity
             scanResult.append(ipAddresses.get(index));
     }
 
+    /**
+     * Decsription: activate the format when scanLocalNetwork item is chosen within the navigation
+     * bar
+     */
     private void activateFormat() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("Activate format")
@@ -212,6 +224,9 @@ public class midDroidScreenActivity extends AppCompatActivity
                 .show();
     }
 
+    /**
+     * Description: change to another activity to choose a target
+     */
     private void changeScreen() {
         Intent switcher = new Intent(this, displayTargets.class)
                 .putExtra("target list", ipAddresses)
@@ -219,12 +234,21 @@ public class midDroidScreenActivity extends AppCompatActivity
         startActivityForResult(switcher, 2);
     }
 
+    /**
+     * Description: change to the formatted activity to choose a target
+     */
     private void changeFormattedScreen() {
         Intent switcher = new Intent(this, displayFormattedTargets.class)
                 .putExtra("Formatted target list", FormattedIpAddresses);
         startActivityForResult(switcher, 1);
     }
 
+    /**
+     * Description: get the victim's ip address when the other activity is destroyed
+     * @param requestCode: the requested code from the other activity
+     * @param resultCode: the result code the other activity returns
+     * @param data: the data returned by the other activity
+     */
     @SuppressLint("SetTextI18n")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -242,10 +266,8 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     /**
-     * Description
-     * @param view
-     * @throws IOException
-     * @throws InterruptedException
+     * Description: display the target input box for user
+     * @param view: the pressed button
      */
 
     public void inputTarget(View view) {
@@ -279,6 +301,9 @@ public class midDroidScreenActivity extends AppCompatActivity
         alertDialog.show();
     }
 
+    /**
+     * Description: just like the above method but other function
+     */
     private void inputTarget() {
         final EditText editText = new EditText(this);
         final String message = "Victim's IP Address: ";
@@ -304,6 +329,11 @@ public class midDroidScreenActivity extends AppCompatActivity
                 .show();
     }
 
+    /**
+     * Description: the click function display various methods when a specific option is chosen
+     * @param button: a pressed button
+     * @param option: the chosen option
+     */
     private void click(View button, options option) {
         if(option == options.scanlocalnetwork) {
             button.setOnClickListener(new View.OnClickListener() {
@@ -343,8 +373,11 @@ public class midDroidScreenActivity extends AppCompatActivity
         }
     }
 
-    public void changeString(options option, final Context context) {
-        //change the string on the scan button and set the flags
+    /**
+     * Description: change the string on the scan button and set the flags
+     * @param option: the chosen option
+     */
+    public void changeString(options option) {
         switch (option) {
             case scanlocalnetwork:
                 button.setText(R.string.scanLocalNetwork);
@@ -367,12 +400,26 @@ public class midDroidScreenActivity extends AppCompatActivity
         //display attack methods
     }
 
-    public void detailScan(String target) throws IOException, InterruptedException {
+    /**
+     * Description: scan a specific target carefully(including displaying it's OS)
+     * @param target: the chosen target(must not be null)
+     * @throws IOException: an input/output exception
+     * @throws InterruptedException: an interrupted exception(another button is pressed while
+     * processing)
+     */
+    public void detailScan(@NonNull String target) throws IOException, InterruptedException {
         scanner.detailScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
     }
 
+    /**
+     * Description: scan a target
+     * @param target: the chosen target
+     * @throws IOException: an input/output exception
+     * @throws InterruptedException: an interrupted exception(another button is pressed while
+     * processing)
+     */
     public void normalScan(String target) throws IOException, InterruptedException {
         scanner.normalScan(this, target);
         log = scanner.getLog();
@@ -380,8 +427,9 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
 
-
-
+    /**
+     * Description: designing the file saving box and adding the save function
+     */
 
     public void setSaveFile() {
         AlertDialog.Builder dialog;
@@ -414,8 +462,11 @@ public class midDroidScreenActivity extends AppCompatActivity
         dialog.show();
     }
 
+    /**
+     * Description: save the captured log to the root data directory
+     */
+
     public void saveLogs() {
-        //saved the captured log
         try {
             OutputStreamWriter writer = new OutputStreamWriter(
                     this.openFileOutput(logName + extension, Context.MODE_APPEND)

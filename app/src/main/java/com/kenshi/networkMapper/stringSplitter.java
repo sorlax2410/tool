@@ -3,9 +3,15 @@ package com.kenshi.networkMapper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class stringSplitter {
+
+    /**
+     * Description: split the scanned local network and excluding the nmap' origin information
+     * the function is used for displaying targets
+     * @param log: The scanned log written by scanner
+     * @return: return the original ip addresses and extra information without excluding anything
+     */
 
     public static ArrayList<String> splitLine(String log) {
         ArrayList<String> targets = new ArrayList<>();
@@ -23,14 +29,22 @@ public class stringSplitter {
         return targets;
     }
 
+    /**
+     * Description: splitting the formatted hosts
+     * Note: This function is used for obtaining target's ip address
+     * @param host: The overall formatted hosts scanned by the scanner
+     * @return: return the array of hosts
+     */
+
     public static String splitHost(String host) {
-        String test = host.substring(
-                6,
-                countString(host)
-        );
-        Log.d("SPLIT HOST TEST", test);
-        return test;
+        return host.substring(6, countString(host));
     }
+
+    /**
+     * Description: counting the characters of ip address until a space is met
+     * @param string: a formatted ip address(including "Status:" )
+     * @return: return the number of ip address characters
+     */
 
     private static int countString(CharSequence string) {
         int countedValue;
@@ -40,13 +54,11 @@ public class stringSplitter {
         return countedValue;
     }
 
-    public static ArrayList<ArrayList<String>> joinArrays(ArrayList<String> MACAddress,
-                                                          ArrayList<String> targets) {
-        ArrayList<ArrayList<String>> joiner = new ArrayList<>();
-        joiner.add(targets);
-        joiner.add(MACAddress);
-        return joiner;
-    }
+    /**
+     * Description: This function is for scanning local network without formatting it
+     * @param log The overall log written by the scanner
+     * @return return the array of hosts
+     */
 
     public static ArrayList<String> splitIPV4(String log) {
         ArrayList<String> targets = new ArrayList<>();
@@ -54,7 +66,7 @@ public class stringSplitter {
 
         /**
          * Description: splitting the junk of string into arrays of string excluding the above
-         * string
+         * string, the first index describes nmap's origin
          */
         for(int index = 1; index < string.length; index++)
             targets.add(string[index]);
@@ -90,6 +102,11 @@ public class stringSplitter {
         return targets;
     }
 
+    /**
+     * Description: split the MAC address of the victims only
+     * @param log: The overall log written by scanner
+     * @return: return the array of MAC Addresses
+     */
     public static ArrayList<String> splitManufacturer(String log) {
         ArrayList<String>container = new ArrayList<>();
         String[]string = log.split("\\n");
