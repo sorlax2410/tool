@@ -39,6 +39,7 @@ public class midDroidScreenActivity extends AppCompatActivity
 
     public TextView scanResult;
     public Button button;
+    public Button attackButton;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle toggle;
     public NavigationView navigationView;
@@ -62,6 +63,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult = findViewById(R.id.scanResult);
         button = findViewById(R.id.mapNetwork);
         drawerLayout = findViewById(R.id.drawerLayout);
+        attackButton = findViewById(R.id.attackButton);
         toggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -77,6 +79,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                activateFormat();
                 try {
                     scanLocalNetwork();
                 } catch (InterruptedException | IOException e) {
@@ -400,12 +403,11 @@ public class midDroidScreenActivity extends AppCompatActivity
         //saved the captured log
         try {
             OutputStreamWriter writer = new OutputStreamWriter(
-                    this.openFileOutput(this.getDir("files", Context.MODE_PRIVATE).toString(),
-                            Context.MODE_APPEND)
+                    this.openFileOutput(logName + extension, Context.MODE_APPEND)
             );
             writer.write(log);
             writer.close();
-            File file = this.getDir("files", Context.MODE_PRIVATE);
+            File file = getFileStreamPath(logName + extension);
             Toast.makeText(this,
                     "File " + logName + " saved to " + file.getAbsolutePath(),
                     Toast.LENGTH_LONG)

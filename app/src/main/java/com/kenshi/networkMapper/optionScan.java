@@ -111,8 +111,14 @@ public class optionScan {
         String[]container = log.split("\\n");
         int limiter = container.length - 2;
 
+        for(int index = 0; index < container.length; index++)
+            Log.d("LINE FULL INFO " + String.valueOf(index), container[index]);
+
         for(int index = 2; index < limiter; index++)
             targets.add(container[index]);
+
+        for(int index = 0; index < targets.size(); index++)
+            Log.d("SPLIT LINE TEST " + String.valueOf(index), targets.get(index));
     }
 
     private void splitTab() {
@@ -123,6 +129,9 @@ public class optionScan {
         String[]targets = container.split("\\t");
         boolean meetTab;
 
+        for(int index = 0; index < targets.length; index++)
+            Log.d("TAB FULL INFO " + String.valueOf(index), targets[index]);
+
         for(int index = targets.length; index > -1; index++) {
             if(checkStatus(Arrays.toString(targets)))
                 meetTab = true;
@@ -131,6 +140,9 @@ public class optionScan {
             if(meetTab)
                 this.targets.add(targets[index - 1]);
         }
+
+        for(int index = 0; index < this.targets.size(); index++)
+            Log.d("SPLIT TAB TEST " + String.valueOf(index), this.targets.get(index));
     }
 
     public ArrayList<String> splitHosts() {
@@ -141,11 +153,14 @@ public class optionScan {
         String[]targets = string.split("Host: ");
 
         for(int index = 0; index < targets.length; index++)
+            Log.d("HOSTS FULL INFO " + String.valueOf(index), targets[index]);
+
+        for(int index = 0; index < targets.length; index++)
             if(!targets[index].equals("Host: "))
                 this.targets.add(targets[index]);
 
         for(int index = 0; index < this.targets.size(); index++)
-            Log.d("splitter host test", this.targets.get(index));
+            Log.d("split host test " + String.valueOf(index), this.targets.get(index));
         return this.targets;
     }
 
