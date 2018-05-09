@@ -86,10 +86,10 @@ public class netInstaller {
             }
         }catch(IOException e) {
             Toast.makeText(context, "IOException!", Toast.LENGTH_LONG).show();
-            Log.d("DEBUG TAG(IO EXCEPTION)", e.getMessage());
+            Log.e("DEBUG TAG(IO EXCEPTION)", e.getMessage());
         }catch(InterruptedException e) {
             Toast.makeText(context, "InterruptedException!", Toast.LENGTH_LONG).show();
-            Log.d("DEBUG TAG(INTERRUPTION)", e.getMessage());
+            Log.e("DEBUG TAG(INTERRUPTION)", e.getMessage());
         }
         return true;
     }
