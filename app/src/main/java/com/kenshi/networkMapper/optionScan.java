@@ -117,6 +117,65 @@ public class optionScan {
     }
 
     /**
+     * Description: this function is to get only the ip addresses
+     */
+    public void ipv4Seperation() {
+        //seperate target ip address
+        //TODO: seperate the strings to get only the ip addresses
+    }
+
+        /*
+
+                String[]binaries = {
+                        "nmap",
+                        "nmap_os_db",
+                        "nmap_payloads",
+                        "nmap_protocols",
+                        "nmap_rpc",
+                        "nmap_service_probes",
+                        "nmap_services"
+                };
+
+                private void display(String[] parameter) {
+                    try {
+                        String workingDirectory = commandProcessor.runCommand("pwd",
+                                binary.getAbsoluteFile());
+                        Log.d("Working directory", binary.getAbsolutePath());
+                        Log.d("Path", workingDirectory);
+                    }
+                    catch(IOException e) { Log.d(debugTag, e.getMessage()); }
+                    catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
+
+                    for(int i = 0; i < binaries.length; i++) {
+                        try {
+                            String listDetail = commandProcessor.runCommand("ls -la " + binaries[i],
+                                    binary.getAbsoluteFile());
+
+                            Log.d("Listing Tag", "ls -la output: " + listDetail);
+                        }
+                        catch(IOException e) { Log.d(debugTag, e.getMessage()); }
+                        catch(InterruptedException e) { Log.d(debugTag, e.getMessage()); }
+                    }
+
+                    for(int i = 0; i < parameter.length; i++) { Log.d("Parameters", parameter[i]); }
+                }
+
+                private void checkFile(String path) {
+                    File checker = new File(path);
+                    Log.d("Path", checker.getAbsolutePath());
+                    if (checker.exists())
+                        Log.d("Path", "Path available !!");
+
+                    for(int i = 0; i < binaries.length; i++) {
+                        checker = new File(path, binaries[i]);
+                        Log.d("Path", checker.getAbsolutePath());
+                        if (checker.exists())
+                            Log.d("Path", "Path available !!");
+                    }
+                }
+        */
+
+    /**
      * Note: Asyntask class is used only for publishing results to the screen and cannot manipulate
      * threads and/or handlers
      *
