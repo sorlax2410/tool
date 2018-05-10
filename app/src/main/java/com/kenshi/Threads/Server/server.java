@@ -1,6 +1,6 @@
-package com.kenshi.Threads;
+package com.kenshi.Threads.Server;
 
-public class streamThread implements Runnable {
+public class server implements Runnable {
     /**
      * When an object implementing interface <code>Runnable</code> is used
      * to create a thread, starting the thread causes the object's

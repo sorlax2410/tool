@@ -1,4 +1,4 @@
-package com.kenshi.GUI;
+package com.kenshi.GUI.scanningActivities;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -26,8 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kenshi.GUI.displayFormattedTargets;
-import com.kenshi.GUI.displayTargets;
 import com.kenshi.networkMapper.optionScan;
 import com.mitdroid.kenshi.mitdroid.R;
 

@@ -1,4 +1,4 @@
-package com.kenshi.Threads;
+package com.kenshi.Threads.Proxy;
 
 public class HTTPSRedirector implements Runnable {
     /**

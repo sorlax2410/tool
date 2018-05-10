@@ -1,4 +1,4 @@
-package com.kenshi.GUI;
+package com.kenshi.GUI.attackingActivities;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

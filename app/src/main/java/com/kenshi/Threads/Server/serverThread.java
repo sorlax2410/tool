@@ -1,4 +1,4 @@
-package com.kenshi.Threads;
+package com.kenshi.Threads.Server;
 
 public class serverThread extends Thread {
 }
