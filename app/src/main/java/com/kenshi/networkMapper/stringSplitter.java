@@ -1,5 +1,7 @@
 package com.kenshi.networkMapper;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class stringSplitter {
@@ -16,9 +18,14 @@ public class stringSplitter {
         String[]container = log.split("\\n");
         int limiter = container.length - 2;
 
+        for(int index = 0; index < container.length; index++)
+            Log.d("LINE FULL INFO " + String.valueOf(index), container[index]);
+
         for(int index = 2; index < limiter; index++)
             targets.add(container[index]);
 
+        for(int index = 0; index < targets.size(); index++)
+            Log.d("SPLIT LINE TEST " + String.valueOf(index), targets.get(index));
         return targets;
     }
 

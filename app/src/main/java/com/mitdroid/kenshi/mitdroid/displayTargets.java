@@ -28,14 +28,14 @@ public class displayTargets extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
 
         /**
-         * Description: get the passed lists
+         * Description:
          */
 
         targets = getIntent().getStringArrayListExtra("target list");
         MACAddress = getIntent().getStringArrayListExtra("MAC list");
 
         /**
-         * Description: attaching lists to buttons
+         * Description:
          */
 
         for(int index = 0; index < targets.size(); index++) {

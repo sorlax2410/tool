@@ -33,6 +33,8 @@ public class optionScan {
         getGatewayInfo(context);
     }
 
+    //public ~optionScan() { targets.trimToSize(); targets.clear(); }
+
     /**
      * General: Transforming gathered dhcp information into ip addresses
      * Detail description: This function is used because dhcp return the integer value converted

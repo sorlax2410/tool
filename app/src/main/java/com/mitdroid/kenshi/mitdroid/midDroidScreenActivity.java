@@ -343,7 +343,6 @@ public class midDroidScreenActivity extends AppCompatActivity
                         scanLocalNetwork();
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
-                        Log.e("ERROR", e.getMessage());
                     }
                 }
             });
@@ -356,7 +355,6 @@ public class midDroidScreenActivity extends AppCompatActivity
                         normalScan(target);
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
-                        Log.e("ERROR", e.getMessage());
                     }
                 }
             });
@@ -369,7 +367,6 @@ public class midDroidScreenActivity extends AppCompatActivity
                         detailScan(target);
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
-                        Log.e("ERROR", e.getMessage());
                     }
                 }
             });
