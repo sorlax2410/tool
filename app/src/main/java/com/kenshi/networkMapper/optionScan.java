@@ -4,9 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
-import android.widget.EditText;
 
-import com.kenshi.fileHandler.workRecord;
+import com.kenshi.ThreadsHandler.workRecord;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,24 +17,23 @@ import java.util.ArrayList;
 public class optionScan {
 
     private String defaultGateway;
-    private String dns1, dns2, serverAdress, ipAdress, netmask;
-    private String command = "./nmap ";
+    private String dns1, dns2, serverAdress, ipAddress, netmask;
+    private String command = "su -c ./nmap ";
     private workRecord executor;
 
     public String log;
     public String filename = null;
-    public ArrayList<String> targets;
 
-    private String quickOption = " -sP ";
+    private String quickOption = " -sP -n ";
     private String allOption = " -A ";
     private String formatString = " -oG - ";
-
-    private boolean saveLog = false;
 
     public optionScan(Context context) {
         //initial scan
         getGatewayInfo(context);
     }
+
+    //public ~optionScan() { targets.trimToSize(); targets.clear(); }
 
     /**
      * General: Transforming gathered dhcp information into ip addresses
@@ -64,7 +62,7 @@ public class optionScan {
             dns1 = ipTransformation(dhcpInfo.dns1) + '\n';
             dns2 = ipTransformation(dhcpInfo.dns2) + '\n';
             serverAdress = ipTransformation(dhcpInfo.serverAddress) + '\n';
-            ipAdress = ipTransformation(dhcpInfo.ipAddress) + '\n';
+            ipAddress = ipTransformation(dhcpInfo.ipAddress) + '\n';
             netmask = ipTransformation(dhcpInfo.netmask) + '\n';
         }
     }
@@ -73,23 +71,29 @@ public class optionScan {
     public String getDns1() { return dns1; }
     public String getDns2() { return dns2; }
     public String getServerAdress() { return serverAdress; }
-    public String getIpAdress() { return ipAdress; }
+    public String getIpAdress() { return ipAddress; }
     public String getNetmask() { return netmask; }
     public String getLog() { return log; }
 
-    public void initialScan(Context context) throws IOException, InterruptedException {
+    public void initialFormatScan(Context context) throws IOException, InterruptedException {
         String scanOption = quickOption + defaultGateway + "/24" + formatString;
+        log = commandExecution(context, scanOption);
+    }
+
+    public void initialScan(Context context) throws IOException,
+            InterruptedException {
+        String scanOption = quickOption + defaultGateway + "/24";
         log = commandExecution(context, scanOption);
     }
 
     public void normalScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        log = commandExecution(context, targetIp + formatString);
+        log = commandExecution(context, targetIp);
     }
 
     public void detailScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        String scanAll = targetIp + allOption + formatString;
+        String scanAll = targetIp + allOption;
         log = commandExecution(context, scanAll);
     }
 
@@ -98,6 +102,18 @@ public class optionScan {
             InterruptedException {
         return commandProcessor.runCommand(command + option,
                 context.getDir("bin", Context.MODE_MULTI_PROCESS));
+    }
+
+    public ArrayList<String>getFormattedTarget() {
+        return stringSplitter.splitLine(log);
+    }
+
+    public ArrayList<String>getTargets() {
+        return stringSplitter.splitIPV4(log);
+    }
+
+    public ArrayList<String>getMACAddresses() {
+        return stringSplitter.splitManufacturer(log);
     }
 
     /**

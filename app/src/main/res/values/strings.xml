@@ -24,4 +24,10 @@
     <string name="scanLocalNetwork">Scan Local Network</string>
     <string name="scanTarget">Scan a specific target</string>
     <string name="scanDetail">Thoroughly scan a target</string>
+    <string name="navigation_title">MitDroid</string>
+    <string name="navigation_subtitle">sorlax2410@gmail.com</string>
+    <string name="scanOption">Scan option</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
 </resources>

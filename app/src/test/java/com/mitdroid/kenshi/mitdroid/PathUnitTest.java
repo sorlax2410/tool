@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -29,6 +30,15 @@ public class PathUnitTest {
         for(int index = 0; index < a.length; index++)
             b[index] = a[index];
         assertArrayEquals(a, b);
+    }
+
+    @Test
+    public void arrayString() throws Exception {
+        String[]a = new String[]{"sample A", "sample B", "sample C"};
+        ArrayList<String>b = new ArrayList<>();
+        for(int index = 0; index < a.length; index++)
+            b.add(a[index]);
+        assertArrayEquals(a, b.toArray());
     }
 
 }
