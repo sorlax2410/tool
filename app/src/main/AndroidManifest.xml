@@ -24,9 +24,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".midDroidScreenActivity" />
-        <activity android:name=".displayFormattedTargets" />
-        <activity android:name=".displayTargets"></activity>
+        <activity android:name="com.kenshi.GUI.midDroidScreenActivity" />
+        <activity android:name="com.kenshi.GUI.displayFormattedTargets" />
+        <activity android:name="com.kenshi.GUI.displayTargets" />
+        <activity
+            android:name="com.kenshi.GUI.attackScreen"
+            android:label="@string/title_activity_attack_screen"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

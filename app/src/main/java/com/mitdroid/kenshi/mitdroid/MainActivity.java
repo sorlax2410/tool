@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.kenshi.GUI.midDroidScreenActivity;
 import com.kenshi.networkMapper.netInstaller;
 
 import java.io.DataOutputStream;
