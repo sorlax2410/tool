@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void firstInstall(Context context) {
-        boolean firstInstall = true;
+        boolean firstInstall;
         String sharedObject = "sharedObject";
         final SharedPreferences sharedPreferences = context.getSharedPreferences(sharedObject,
                 Context.MODE_MULTI_PROCESS);
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
             final netInstaller installer = new netInstaller(context.getApplicationContext());
             installer.installResources();
             Log.d(debugTag, "installing binaries");
-            sharedPreferences.edit().putBoolean(firstStartPreference, false).commit();
+            sharedPreferences.edit().putBoolean(firstStartPreference, false).apply();
         }
         else
             binInstalledMessage(context);

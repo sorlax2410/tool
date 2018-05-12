@@ -13,7 +13,8 @@ import java.io.InputStreamReader;
 
 public class commandProcessor {
 
-    public static String runCommand(String command, File currentDir) throws IOException, InterruptedException {
+    public static String runCommand(String command, File currentDir) throws IOException,
+            InterruptedException {
         Process process = Runtime.getRuntime().exec(command, null, currentDir);
         process.waitFor();
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -32,6 +33,34 @@ public class commandProcessor {
         errorReader.close();
         Log.d("errorTag", error.toString());
 
+        return(writer.toString() + error.toString());
+    }
+
+    public static String runCommand(StringBuilder command) throws IOException, InterruptedException {
+        Process process = Runtime.getRuntime().exec(command.toString(), null);
+        process.waitFor();
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader((process
+                        .getInputStream())
+                )
+        );
+        BufferedReader errorReader = new BufferedReader(
+                new InputStreamReader(process
+                        .getErrorStream()
+                )
+        );
+        int read;
+        char[]buffer = new char[4096];
+        StringBuffer writer = new StringBuffer();
+        StringBuffer error = new StringBuffer();
+
+        while((read = reader.read(buffer)) > 0)
+            writer.append(buffer, 0, read);
+        while((read = errorReader.read(buffer)) > 0)
+            error.append(buffer, 0, read);
+        reader.close();
+        errorReader.close();
+        Log.e("errorTag", error.toString());
         return(writer.toString() + error.toString());
     }
 }
