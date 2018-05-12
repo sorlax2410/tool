@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 
+import com.kenshi.Core.commandProcessor;
 import com.kenshi.ThreadsHandler.workRecord;
 
 import java.io.IOException;

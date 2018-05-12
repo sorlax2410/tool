@@ -1,4 +1,4 @@
-package com.kenshi.networkMapper;
+package com.kenshi.Core;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
