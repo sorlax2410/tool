@@ -14,7 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.kenshi.networkMapper.netInstaller;
+import com.kenshi.Core.netInstaller;
 
 import java.io.DataOutputStream;
 import java.io.IOException;

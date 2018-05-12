@@ -1,13 +1,7 @@
 package com.mitdroid.kenshi.mitdroid;
 
-import android.util.Log;
-
-import com.kenshi.networkMapper.commandProcessor;
-
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import static org.junit.Assert.*;
