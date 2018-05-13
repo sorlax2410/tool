@@ -1,11 +1,23 @@
 package com.kenshi.Core;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Network;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.os.PowerManager;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.util.SparseIntArray;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.lang.annotation.Target;
 import java.util.Map;
 import java.util.Vector;
@@ -38,5 +50,58 @@ public class System {
     private static Map<String, String> vendors = null;
     private static SparseIntArray openPorts = null;
 
-    private Context context = null;
+    private static Context context = null;
+
+    public static String getLibraryPath() {
+        return context
+                .getFilesDir()
+                .getAbsolutePath()
+                + "/tools/libs";
+    }
+
+    public static SharedPreferences getSettings() {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    public static void setLastError(String error) { lastError = error; }
+
+    public static synchronized void errorLogging(String tag, Exception e) {
+        String message = "Unknown error",
+                trace = "Unknown trace",
+                filename = (
+                        new File(Environment.getExternalStorageDirectory().toString(),
+                                errorLogFilename)
+                ).getAbsolutePath();
+        if(e != null) {
+            if(!e.getMessage().isEmpty())
+                message = e.getMessage();
+            else if(!e.toString().isEmpty())
+                message = e.toString();
+
+            Writer writer = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(writer);
+
+            e.printStackTrace(printWriter);
+            trace = writer.toString();
+            if(context != null &&
+                    getSettings().getBoolean("PREF_DEBUG_ERROR_LOGGING", false)
+                    )
+            {
+                try {
+                    FileWriter fileWriter = new FileWriter(filename, true);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                    bufferedWriter.write(trace);
+                    bufferedWriter.close();
+                } catch (IOException ioe) {
+                    Log.e(tag, ioe.toString());
+                }
+            }
+        }
+        setLastError(message);
+        Log.e(tag, message);
+        Log.e(tag, trace);
+    }
+
+
 }
