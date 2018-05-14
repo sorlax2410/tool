@@ -26,10 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kenshi.GUI.ScanningActivities.displayFormattedTargets;
-import com.kenshi.GUI.ScanningActivities.displayTargets;
-import com.kenshi.networkMapper.optionScan;
-import com.mitdroid.kenshi.mitdroid.R;
+import com.kenshi.NetworkMapper.optionScan;
+import com.mitdroid.kenshi.Main.R;
 
 import java.io.File;
 import java.io.IOException;

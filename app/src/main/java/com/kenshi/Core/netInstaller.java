@@ -6,7 +6,7 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.mitdroid.kenshi.mitdroid.R;
+import com.mitdroid.kenshi.Main.R;
 
 import java.io.File;
 import java.io.FileOutputStream;

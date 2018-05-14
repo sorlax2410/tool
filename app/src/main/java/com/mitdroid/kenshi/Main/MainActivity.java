@@ -1,4 +1,4 @@
-package com.mitdroid.kenshi.mitdroid;
+package com.mitdroid.kenshi.Main;
 
 import android.annotation.TargetApi;
 import android.content.Context;

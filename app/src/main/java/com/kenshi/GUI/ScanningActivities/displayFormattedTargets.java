@@ -10,8 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.kenshi.networkMapper.optionScan;
-import com.mitdroid.kenshi.mitdroid.R;
+import com.mitdroid.kenshi.Main.R;
 
 import java.util.ArrayList;
 
@@ -43,7 +42,7 @@ public class displayFormattedTargets extends Activity {
                     intent.putExtra("target ip",
                             com
                                     .kenshi
-                                    .networkMapper
+                                    .NetworkMapper
                                     .stringSplitter
                                     .splitHost(radioButton.getText().toString())
                     );
@@ -51,7 +50,7 @@ public class displayFormattedTargets extends Activity {
                     Log.d("SPLIT HOST TEST",
                             com
                             .kenshi
-                            .networkMapper
+                            .NetworkMapper
                             .stringSplitter
                             .splitHost(radioButton.getText().toString())
                     );

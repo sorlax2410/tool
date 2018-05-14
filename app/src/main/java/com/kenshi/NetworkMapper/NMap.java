@@ -1,11 +1,11 @@
-package com.kenshi.tools;
+package com.kenshi.NetworkMapper;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.kenshi.Core.Shell;
+import com.kenshi.tools.Extender;
 
-import java.lang.annotation.Target;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,7 +37,7 @@ public class NMap extends Extender {
         }
     }
 
-    public Thread Trace(Target target, TraceOutputReceiver receiver) {
+    public Thread Trace(com.kenshi.NetworkManager.Target target, TraceOutputReceiver receiver) {
         return super.async(
                 "-sn --traceroute --priviledge --send-ip --system-dns" +
                         target.getCommandLineRepresentation(),

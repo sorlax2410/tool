@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.mitdroid.kenshi.mitdroid.R;
+import com.mitdroid.kenshi.Main.R;
 
 import java.util.ArrayList;
 

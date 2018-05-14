@@ -1,4 +1,4 @@
-package com.mitdroid.kenshi.mitdroid;
+package com.mitdroid.kenshi.Main;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
