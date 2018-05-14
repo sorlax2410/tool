@@ -309,6 +309,6 @@ public class Shell {
     }
 
     public static Thread async(String command) { return async(command, null, true); }
-    public static Thread asnyc(final String command, final OutputReceiver receiver) { return async(command, receiver, true); }
+    public static Thread async(final String command, final OutputReceiver receiver) { return async(command, receiver, true); }
 
 }
