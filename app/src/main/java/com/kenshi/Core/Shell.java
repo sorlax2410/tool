@@ -224,6 +224,7 @@ public class Shell {
             writer.flush();
         }
 
+        // split cd working-directory && ./command
         if(comand.startsWith("cd /") && comand.contains("&&")) {
             String[]split = comand.split("&&", 2);
 
@@ -246,6 +247,10 @@ public class Shell {
             writer.writeBytes("exit\n");
             writer.flush();
 
+            /*
+             * The following catastrophe of code seems to be the best way to ensure
+             * this thread can be interrupted.
+             */
             while(!Thread.currentThread().isInterrupted()) {
                 try {
                     exit = process.exitValue();
@@ -262,11 +267,11 @@ public class Shell {
             }
         } catch (IOException e) { System.errorLogging(tag, e); }
         catch (InterruptedException e) {
-            try {
+            try { // key to kill executable and process
                 writer.close();
                 reader.close();
                 error.close();
-            } catch (IOException ignore) {}
+            } catch (IOException ignore) {/*swallow error*/}
         }
 
         if(receiver != null)
