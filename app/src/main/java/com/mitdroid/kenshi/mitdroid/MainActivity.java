@@ -1,5 +1,6 @@
 package com.mitdroid.kenshi.mitdroid;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,14 +22,6 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-
-    private String successMsg = "The program will now run. Please wait";
-    private String failedMsg = "If your phone is not rooted please do it now. If it is, please provide root permission for this app";
-
-    private String firstStartPreference = "startPreference";
-    private String debugTag = "debugTag";
-
-    private ConnectivityManager connectivityManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +58,23 @@ public class MainActivity extends AppCompatActivity {
         String sharedObject = "sharedObject";
         final SharedPreferences sharedPreferences = context.getSharedPreferences(sharedObject,
                 Context.MODE_MULTI_PROCESS);
+        String firstStartPreference = "startPreference";
         firstInstall = sharedPreferences.getBoolean(firstStartPreference, true);
 
         if(firstInstall) {
             final netInstaller installer = new netInstaller(context.getApplicationContext());
             installer.installResources();
+            String debugTag = "debugTag";
             Log.d(debugTag, "installing binaries");
-            sharedPreferences.edit().putBoolean(firstStartPreference, false).commit();
+            sharedPreferences.edit().putBoolean(firstStartPreference, false).apply();
         }
-        else
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             binInstalledMessage(context);
+        }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void binInstalledMessage(Context context) {
         AlertDialog.Builder builder;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
@@ -91,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void testRoot(Context context) {
         try {
             Process process = Runtime.getRuntime().exec("su -c");
@@ -112,12 +112,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void successMessage(Context context) {
         AlertDialog.Builder dialog;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             dialog = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
         else
             dialog = new AlertDialog.Builder(context);
+        String successMsg = "The program will now run. Please wait";
         dialog.setTitle("Notifier")
                 .setMessage(successMsg)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -127,12 +130,15 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     private void failedMessage(Context context) {
         AlertDialog.Builder dialog;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
             dialog = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
         else
             dialog = new AlertDialog.Builder(context);
+        String failedMsg = "If your phone is not rooted please do it now. If it is, please provide root permission for this app";
         dialog.setTitle("Notifier")
                 .setMessage(failedMsg)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -143,10 +149,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkConnection(Context context) {
-        connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
         NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
-        for (int i = 0; i < networkInfo.length; i++)
-            if(networkInfo[i].getState() == NetworkInfo.State.CONNECTED)
+        for (NetworkInfo aNetworkInfo : networkInfo)
+            if (aNetworkInfo.getState() == NetworkInfo.State.CONNECTED)
                 Toast.makeText(context, "you are connected", Toast.LENGTH_SHORT)
                         .show();
     }
