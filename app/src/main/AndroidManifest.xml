@@ -24,9 +24,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".midDroidScreenActivity" />
-        <activity android:name=".displayFormattedTargets" />
-        <activity android:name=".displayTargets"></activity>
+        <activity android:name="com.kenshi.GUI.ScanningActivities.midDroidScreenActivity" />
+        <activity android:name="com.kenshi.GUI.ScanningActivities.displayFormattedTargets" />
+        <activity android:name="com.kenshi.GUI.ScanningActivities.displayTargets"></activity>
     </application>
 
 </manifest>

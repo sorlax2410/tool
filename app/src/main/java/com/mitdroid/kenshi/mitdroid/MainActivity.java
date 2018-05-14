@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.kenshi.Core.netInstaller;
+import com.kenshi.GUI.ScanningActivities.midDroidScreenActivity;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
