@@ -274,4 +274,36 @@ public class Shell {
 
         return exit;
     }
+
+    public static int exec(String command, OutputReceiver receiver)
+        throws IOException, InterruptedException
+    {
+        return exec(command, receiver, true);
+    }
+
+    public static int exec(String command) throws IOException, InterruptedException {
+        return exec(command, null, true);
+    }
+
+    public static Thread async(final String command,
+                               final OutputReceiver receiver,
+                               final boolean overrideLibraryPath)
+    {
+        Thread launcher = new Thread(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        try { exec(command, receiver, overrideLibraryPath); }
+                        catch (Exception e) { System.errorLogging(tag, e); }
+                    }
+                }
+        );
+
+        launcher.setDaemon(true);
+        return launcher;
+    }
+
+    public static Thread async(String command) { return async(command, null, true); }
+    public static Thread asnyc(final String command, final OutputReceiver receiver) { return async(command, receiver, true); }
+
 }
