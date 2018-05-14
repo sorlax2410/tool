@@ -203,4 +203,75 @@ public class Shell {
         } catch (Exception e) { System.errorLogging(tag, e); return !linkerError; }
         return !linkerError;
     }
+
+    public static int exec(String comand, OutputReceiver receiver, boolean overrideLibraryPath)
+        throws IOException, InterruptedException
+    {
+        Process process = spawnShell("su", overrideLibraryPath, false);
+
+        if(receiver != null)
+            receiver.onStart(comand);
+
+        DataOutputStream writer = new DataOutputStream(process.getOutputStream());
+        BufferedReader
+                reader = new BufferedReader(new InputStreamReader(process.getInputStream())),
+                error = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        String libPath = System.getLibraryPath();
+        int exit = -1;
+
+        if(overrideLibraryPath) {
+            writer.writeBytes("export LD_LIBRARY_PATH=" + libPath + ":$LD_LIBRARY_PATH\n");
+            writer.flush();
+        }
+
+        if(comand.startsWith("cd /") && comand.contains("&&")) {
+            String[]split = comand.split("&&", 2);
+
+            if(split.length == 2) {
+                writer.writeBytes(split[0] + "\n");
+                writer.flush();
+                comand = split[1].trim();
+            }
+        }
+
+        try {
+            writer.writeBytes(comand + "\n");
+            writer.flush();
+
+            StreamGobbler outGobbler = new StreamGobbler(reader, receiver),
+                    errGobbler = new StreamGobbler(error, receiver);
+
+            outGobbler.start();
+            errGobbler.start();
+            writer.writeBytes("exit\n");
+            writer.flush();
+
+            while(!Thread.currentThread().isInterrupted()) {
+                try {
+                    exit = process.exitValue();
+                    Thread.currentThread().interrupt();
+                } catch(IllegalThreadStateException e) {
+                    /*
+                     * Just sleep, the process hasn't terminated yet but sleep should (but doesn't) cause
+                     * InterruptedException to be thrown if interrupt() has been called.
+                     *
+                     * .25 seconds seems reasonable
+                     */
+                    Thread.sleep(250);
+                }
+            }
+        } catch (IOException e) { System.errorLogging(tag, e); }
+        catch (InterruptedException e) {
+            try {
+                writer.close();
+                reader.close();
+                error.close();
+            } catch (IOException ignore) {}
+        }
+
+        if(receiver != null)
+            receiver.onEnd(exit);
+
+        return exit;
+    }
 }
