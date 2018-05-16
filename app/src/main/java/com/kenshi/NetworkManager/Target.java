@@ -14,6 +14,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Target {
+
+    public enum Type {
+        NETWORK,
+        ENDPOINT,
+        REMOTE;
+
+        public static Type fromString(String type) throws Exception {
+            if(!type.isEmpty()) {
+                type = type.trim().toLowerCase();
+                if(type.equals("network"))
+                    return NETWORK;
+                else if(type.equals("endpoint"))
+                    return ENDPOINT;
+                else
+                    return REMOTE;
+            }
+            throw new Exception("Cannot deserialize target from string.");
+        }
+    }
+
     private static final String tag = "TARGET";
     private NetworkChecker networkChecker = null;
     private Endpoint endpoint = null;
@@ -87,24 +107,75 @@ public class Target {
     }
 
 
-    public enum Type {
-        NETWORK,
-        ENDPOINT,
-        REMOTE;
+    public static Target getFromString(String string) {
+        final Pattern
+                PARSE_PATTERN = Pattern
+                .compile("^(([a-z]+)://)?([0-9a-z\\-\\.]+)" +
+                        "(:([\\d]+))?[0-9a-z\\-\\./]*$", Pattern.CASE_INSENSITIVE),
 
-        public static Type fromString(String type) throws Exception {
-            if(!type.isEmpty()) {
-                type = type.trim().toLowerCase();
-                if(type.equals("network"))
-                    return NETWORK;
-                else if(type.equals("endpoint"))
-                    return ENDPOINT;
-                else
-                    return REMOTE;
+                IP_PATTERN = Pattern
+                        .compile("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$");
+
+        Matcher matcher = null;
+        Target target = null;
+
+        try {
+            string = string.trim();
+
+            if((matcher = PARSE_PATTERN.matcher(string)) != null && matcher.find()) {
+                String protocol = matcher.group(2),
+                        address = matcher.group(3),
+                        ports = matcher.group(4);
+
+                protocol = !protocol.isEmpty() ? protocol.toLowerCase() : null;
+                ports = !ports.isEmpty() ? ports.toLowerCase() : null;
+
+                if(!address.isEmpty()) {
+                    //attemp to get the port from the protocol or the specified one
+                    int port = 0;
+
+                    if(ports != null)
+                        port = Integer.parseInt(ports);
+                    else if(protocol != null)
+                        port = System.getPortByProtocol(protocol);
+
+                    //determine if the "address" part is an ip address or a host name
+                    if(IP_PATTERN.matcher(address).find()) {
+                        //internal ip address
+                        if(System.getNetwork().isInternal(address)) {
+                            target = new Target(new Endpoint(address));
+                            target.setPort(port);
+                        }
+                        //external ip address, return as host name
+                        else
+                            target = new Target(address, port);
+                    }
+
+                    //found a hostname
+                    else
+                        target = new Target(address, port);
+                }
             }
-            throw new Exception("Cannot deserialize target from string.");
+        } catch (Exception e) { System.errorLogging(tag, e); }
+
+        //determine if target is reachable
+        if(target != null) {
+            try {
+                //This is needed to avoid NetworkOnMainThreadException
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                        .permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                Log.d(tag + " getFromString", InetAddress
+                        .getByName(target.getCommandLineRepresentation())
+                        .toString()
+                );
+            } catch (Exception e) { target = null; }
         }
+
+        return target;
     }
+
+    public String getCommandLineRepresentation() { return "???"; }
 
     public static class Port {
         public NetworkChecker.Protocol protocol;
@@ -202,73 +273,4 @@ public class Target {
         }
     }
 
-    public static Target getFromString(String string) {
-        final Pattern
-                PARSE_PATTERN = Pattern
-                        .compile("^(([a-z]+)://)?([0-9a-z\\-\\.]+)" +
-                            "(:([\\d]+))?[0-9a-z\\-\\./]*$", Pattern.CASE_INSENSITIVE),
-
-                IP_PATTERN = Pattern
-                        .compile("^[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}$");
-
-        Matcher matcher = null;
-        Target target = null;
-
-        try {
-            string = string.trim();
-
-            if((matcher = PARSE_PATTERN.matcher(string)) != null && matcher.find()) {
-                String protocol = matcher.group(2),
-                        address = matcher.group(3),
-                        ports = matcher.group(4);
-
-                protocol = !protocol.isEmpty() ? protocol.toLowerCase() : null;
-                ports = !ports.isEmpty() ? ports.toLowerCase() : null;
-
-                if(!address.isEmpty()) {
-                    //attemp to get the port from the protocol or the specified one
-                    int port = 0;
-
-                    if(ports != null)
-                        port = Integer.parseInt(ports);
-                    else if(protocol != null)
-                        port = System.getPortByProtocol(protocol);
-
-                    //determine if the "address" part is an ip address or a host name
-                    if(IP_PATTERN.matcher(address).find()) {
-                        //internal ip address
-                        if(System.getNetwork().isInternal(address)) {
-                            target = new Target(new Endpoint(address));
-                            target.setPort(port);
-                        }
-                        //external ip address, return as host name
-                        else
-                            target = new Target(address, port);
-                    }
-
-                    //found a hostname
-                    else
-                        target = new Target(address, port);
-                }
-            }
-        } catch (Exception e) { System.errorLogging(tag, e); }
-
-        //determine if target is reachable
-        if(target != null) {
-            try {
-                //This is needed to avoid NetworkOnMainThreadException
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                        .permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                Log.d(tag + " getFromString", InetAddress
-                        .getByName(target.getCommandLineRepresentation())
-                        .toString()
-                );
-            } catch (Exception e) { target = null; }
-        }
-
-        return target;
-    }
-
-    public String getCommandLineRepresentation() { return "???"; }
 }
