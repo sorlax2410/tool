@@ -1,9 +1,7 @@
 package com.kenshi.Core;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Network;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.PowerManager;
@@ -11,23 +9,33 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.SparseIntArray;
 
+import com.kenshi.NetworkManager.NetworkChecker;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.lang.annotation.Target;
+import java.net.NoRouteToHostException;
+import java.net.SocketException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class System {
     private static final String tag = "SYSTEM";
     private static final String errorLogFilename = "mitdroid-debug-error.log";
     private static final String sessionMagic = "MDS";
-    private static final Pattern serviceParser = Pattern.compile(
+    private static final Pattern SERVICE_PARSER = Pattern.compile(
             "^([^\\\\s]+)\\\\s+(\\\\d+).*$",
             Pattern.CASE_INSENSITIVE
     );
@@ -42,7 +50,7 @@ public class System {
     private static String suPath = null;
     private static WifiManager.WifiLock wifiLock = null;
     private static PowerManager.WakeLock wakeLock = null;
-    private static Network network = null;
+    private static NetworkChecker network = null;
     private static Vector<Target> targets = null;
     private static int currentTarget = 0;
     private static Map<String, String> services = null;
@@ -63,6 +71,9 @@ public class System {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
+    public static NetworkChecker getNetwork()
+            throws NoRouteToHostException, SocketException { return network; }
+
     public static void setLastError(String error) { lastError = error; }
 
     public static synchronized void errorLogging(String tag, Exception e) {
@@ -73,9 +84,9 @@ public class System {
                                 errorLogFilename)
                 ).getAbsolutePath();
         if(e != null) {
-            if(!e.getMessage().isEmpty())
+            if(e.getMessage() != null && !e.getMessage().isEmpty())
                 message = e.getMessage();
-            else if(!e.toString().isEmpty())
+            else if(e.toString() != null)
                 message = e.toString();
 
             Writer writer = new StringWriter();
@@ -103,5 +114,70 @@ public class System {
         Log.e(tag, trace);
     }
 
+    public static void preloadServices() {
+        if(services != null | ports != null) {
+            try {
+                //preload network service map and mac vendors
+                services = new HashMap<>();
+                ports = new HashMap<>();
 
+                FileInputStream fileInputStream = new FileInputStream(
+                        context.getFilesDir().getAbsolutePath() +
+                                "tools/nmap/nmap"
+                );
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
+                String line;
+                Matcher matcher;
+
+                while((line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if((matcher = SERVICE_PARSER.matcher(line)) != null && matcher.find()) {
+                        String protocol = matcher.group(1),
+                                port = matcher.group(2);
+                        services.put(protocol, port);
+                        ports.put(protocol, port);
+                    }
+                }
+                dataInputStream.close();
+            } catch (Exception e) { errorLogging(tag, e); }
+        }
+    }
+
+    public static void preloadVendors() {
+        if(vendors.isEmpty() && vendors == null) {
+            try {
+                vendors = new HashMap<>();
+                FileInputStream fileInputStream = new FileInputStream(
+                        context.getFilesDir().getAbsolutePath() +
+                                "/tools/nmap/nmap-mac-prefixes"
+                );
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                BufferedReader reader = new BufferedReader(new InputStreamReader(dataInputStream));
+                String line;
+
+                while(!(line = reader.readLine()).isEmpty() &&
+                        (line = reader.readLine()) != null) {
+                    line = line.trim();
+                    if(!line.startsWith("#") && !line.isEmpty()) {
+                        String[]tokens = line.split(" ", 2);
+                        if(tokens.length == 2)
+                            vendors.put(tokens[0], tokens[1]);
+                    }
+                }
+                dataInputStream.close();
+
+            } catch (Exception e) { errorLogging(tag, e); }
+        }
+    }
+
+    public static String getProtocolByPort(String port) {
+        preloadServices();
+        return ports.containsKey(port) ? ports.get(port) : null;
+    }
+
+    public static int getPortByProtocol(String protocol) {
+        preloadServices();
+        return services.containsKey(protocol) ? Integer.parseInt(services.get(protocol)) : 0;
+    }
 }
