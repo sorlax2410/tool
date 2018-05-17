@@ -4,9 +4,12 @@ import android.os.StrictMode;
 import android.util.Log;
 
 import com.kenshi.Core.System;
+import com.mitdroid.kenshi.Main.R;
 
 import java.io.BufferedReader;
 import java.net.InetAddress;
+import java.net.NoRouteToHostException;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -335,6 +338,59 @@ public class Target {
             return alias;
         else
             return getDisplayAddress();
+    }
+
+    public String getDescription() {
+        if(type == Type.NETWORK)
+            return "This is your network subnet mask";
+        else if(type == Type.ENDPOINT) {
+            String vendor = System.getMacVendor(endpoint.getHardware()),
+                    description = endpoint.getHardwareAsString();
+            if(vendor != null && !vendor.isEmpty())
+                description += " - " + vendor;
+            try {
+                if(endpoint.getInetAddress().equals(System.getNetwork().getGatewayAddress()))
+                    description += "(Your network gateway / router)";
+                else if(endpoint.getInetAddress().equals(System.getNetwork().getLocalAddress()))
+                    description += "(This device)";
+            } catch (SocketException e) { System.errorLogging(tag, e); }
+
+            return description.trim();
+        }
+
+        else if(type == Type.REMOTE)
+            return inetAddress.getHostAddress();
+
+        return "";
+    }
+
+    public boolean isRouter() {
+        try {
+            return (
+                    type == Type.ENDPOINT &&
+                            endpoint.getInetAddress().equals(System.getNetwork().getGatewayAddress())
+                    );
+        } catch (Exception e) { System.errorLogging(tag, e); }
+        return false;
+    }
+
+    public int getDrawableResourceId() {
+        try {
+            if(type == Type.NETWORK)
+                return R.drawable.target_network;
+            else if(type == Type.ENDPOINT) {
+                if (isRouter())
+                    return R.drawable.target_router;
+
+                else if (endpoint.getInetAddress().equals(System.getNetwork().getLocalAddress()))
+                    return R.drawable.target_self;
+                else
+                    return R.drawable.target_endpoint;
+            }
+            else if(type == Type.REMOTE)
+                return R.drawable.target_remote;
+        } catch (Exception e) { System.errorLogging(tag, e); }
+        return R.drawable.target_network;
     }
 
     /**

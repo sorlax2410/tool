@@ -171,6 +171,14 @@ public class System {
         }
     }
 
+    public static String getMacVendor(byte[]MAC) {
+        preloadVendors();
+        if(MAC != null && MAC.length >= 3)
+            return vendors.get(String.format("%02X%02X%02X", MAC[0], MAC[1], MAC[2]));
+        else
+            return null;
+    }
+
     public static String getProtocolByPort(String port) {
         preloadServices();
         return ports.containsKey(port) ? ports.get(port) : null;
