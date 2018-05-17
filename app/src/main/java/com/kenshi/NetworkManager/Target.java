@@ -340,6 +340,10 @@ public class Target {
             return getDisplayAddress();
     }
 
+    /**
+     * @Description:
+     * @return:
+     */
     public String getDescription() {
         if(type == Type.NETWORK)
             return "This is your network subnet mask";
@@ -364,6 +368,10 @@ public class Target {
         return "";
     }
 
+    /**
+     * @Description:
+     * @return:
+     */
     public boolean isRouter() {
         try {
             return (
@@ -374,6 +382,10 @@ public class Target {
         return false;
     }
 
+    /**
+     * @Description:
+     * @return:
+     */
     public int getDrawableResourceId() {
         try {
             if(type == Type.NETWORK)
@@ -395,14 +407,105 @@ public class Target {
 
     /**
      * @Description:
+     * @param port:
+     */
+    public void addOpenPort(Port port) {
+        for(int index = 0; index < ports.size(); index++) {
+            if(ports.get(index).portNumber == port.portNumber) {
+                if(port.service != null)
+                    ports.get(index).service = port.service;
+                return;
+            }
+        }
+        ports.add(port);
+    }
+
+    /**
+     * @Description:
+     * @param port:
+     * @param protocol:
+     */
+    public void addOpenPort(int port, NetworkChecker.Protocol protocol) {
+        addOpenPort(new Port(port, protocol));
+    }
+
+    /**
+     * @Description:
+     * @param port:
+     * @param protocol:
+     * @param service:
+     */
+    public void addOpenPort(int port, NetworkChecker.Protocol protocol, String service) {
+        addOpenPort(new Port(port, protocol, service));
+    }
+
+    /**
+     * @Description:
+     * @return:
+     */
+    public List<Port>getOpenPorts() { return ports; }
+
+    /**
+     * @Description:
+     * @return:
+     */
+    public boolean hasPort() { return !ports.isEmpty(); }
+
+    /**
+     * @Description:
+     * @return:
+     */
+    public boolean hasOpenPortWithService() {
+        if(!ports.isEmpty())
+            for(Port port : ports)
+                if(port.service != null && !port.service.isEmpty())
+                    return true;
+        return false;
+    }
+
+    /**
+     * @Description:
+     * @param port:
+     * @return:
+     */
+    public boolean hasOpenPort(int port) {
+        for(Port portIndex : ports)
+            if(portIndex.portNumber == port)
+                return true;
+        return false;
+    }
+
+    /**
+     * @Description:
+     * @param port:
+     * @param vulnerability:
+     */
+    public void addVulnerbility(Port port, Vulnerability vulnerability) {
+        if(!this.vulnerabilities.containsKey(port.toString()))
+            vulnerabilities.put(port.toString(), new ArrayList<Vulnerability>());
+        else
+            for(Vulnerability vulnerability1 : vulnerabilities.get(port.toString()))
+                if(vulnerability1.getIdentifier().equals(vulnerability.getIdentifier()))
+                    return ;
+        this.vulnerabilities.get(port.toString()).add(vulnerability);
+    }
+
+    /**
+     * @Description:
+     * @return:
+     */
+    public HashMap<String, ArrayList<Vulnerability>> getVulnerabilities() { return vulnerabilities; }
+
+    /**
+     * @Description:
      */
     public static class Port {
         public NetworkChecker.Protocol protocol;
-        public int port;
+        public int portNumber;
         public String service;
 
-        public Port(int port, NetworkChecker.Protocol protocol, String service) {
-            this.port = port;
+        public Port(int portNumber, NetworkChecker.Protocol protocol, String service) {
+            this.portNumber = portNumber;
             this.protocol = protocol;
             this.service = !service.isEmpty() ? (service.equals("null") ? null : service) : null;
         }
@@ -436,7 +539,7 @@ public class Target {
 
         @Override
         public String toString() {
-            return protocol.toString() + "|" + port + "|" + service;
+            return protocol.toString() + "|" + portNumber + "|" + service;
         }
     }
 
