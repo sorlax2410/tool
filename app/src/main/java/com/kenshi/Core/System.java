@@ -23,7 +23,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.annotation.Target;
 import java.net.NoRouteToHostException;
 import java.net.SocketException;
 import java.util.HashMap;
@@ -52,7 +51,7 @@ public class System {
     private static WifiManager.WifiLock wifiLock = null;
     private static PowerManager.WakeLock wakeLock = null;
     private static NetworkChecker network = null;
-    private static Vector<Target> targets = null;
+    private static Vector<com.kenshi.NetworkManager.Target> targets = null;
     private static int currentTarget = 0;
     private static Map<String, String> services = null;
     private static Map<String, String> ports = null;
@@ -190,4 +189,10 @@ public class System {
         preloadServices();
         return services.containsKey(protocol) ? Integer.parseInt(services.get(protocol)) : 0;
     }
+
+    public static Vector<com.kenshi.NetworkManager.Target> getTargets() { return targets; }
+
+    public static com.kenshi.NetworkManager.Target getTarget(int index) { return targets.get(index); }
+
+    public static com.kenshi.NetworkManager.Target getCurrentTarget() { return getTarget(currentTarget); }
 }
