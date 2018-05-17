@@ -1,5 +1,6 @@
 package com.kenshi.Core;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
@@ -58,6 +59,7 @@ public class System {
     private static Map<String, String> vendors = null;
     private static SparseIntArray openPorts = null;
 
+    @SuppressLint("StaticFieldLeak")
     private static Context context = null;
 
     public static String getLibraryPath() {

@@ -5,9 +5,14 @@ import android.app.job.JobService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Handler;
 
-public class ManagedReceiver extends BroadcastReceiver {
+public abstract class ManagedReceiver extends BroadcastReceiver {
+
+    private boolean registered = false;
+    private Context context = null;
+
     /**
      * This method is called when the BroadcastReceiver is receiving an Intent
      * broadcast.  During this time you can use the other methods on
@@ -44,7 +49,25 @@ public class ManagedReceiver extends BroadcastReceiver {
      * @param intent  The Intent being received.
      */
     @Override
-    public void onReceive(Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent) {}
 
+    public abstract IntentFilter getFilter();
+
+    public void unRegister() {
+        if(registered && context != null) {
+            context.unregisterReceiver(this);
+            registered = false;
+            context = null;
+        }
     }
+
+    public void register(Context context) {
+        if(registered)
+            unRegister();
+        context.registerReceiver(this, getFilter());
+        registered = true;
+        this.context = context;
+    }
+
+    protected void finalize() { unRegister(); }
 }
