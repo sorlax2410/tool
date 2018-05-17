@@ -57,7 +57,49 @@ public class Target {
     public Target(InetAddress inetAddress, byte[]hardware) { setEndpoint(inetAddress, hardware); }
 
     public Target(BufferedReader reader) throws Exception {
+        type = Type.fromString(reader.readLine());
+        deviceType = reader.readLine();
+        deviceType = deviceType.equals("null") ? null : deviceType;
+        deviceOS = reader.readLine();
+        deviceOS = deviceOS.equals("null") ? null : deviceOS;
+        alias = reader.readLine();
+        alias = alias.equals("null") ? null : alias;
 
+        if(type == Type.NETWORK)
+            return;
+        else if(type == Type.ENDPOINT)
+            endpoint = new Endpoint(reader);
+        else if(type == Type.REMOTE) {
+            hostname = reader.readLine();
+            hostname = hostname.equals("null") ? null : hostname;
+            if(hostname != null) {
+                //This is needed to avoid NetworkOnMainThreadException
+                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                        .permitAll().build();
+                StrictMode.setThreadPolicy(policy);
+                inetAddress = InetAddress.getByName(hostname);
+            }
+        }
+
+        int ports = Integer.parseInt(reader.readLine());
+        for(int index = 0; index < ports; index++) {
+            String key = reader.readLine();
+            String[]parts = key.split("\\|", 3);
+            Port port = new Port(
+                    Integer.parseInt(parts[1]),
+                    NetworkChecker.Protocol.fromString(parts[0]),
+                    parts[2]
+            );
+
+            this.ports.add(port);
+            this.vulnerabilities.put(key, new ArrayList<Vulnerability>());
+
+            int vulns = Integer.parseInt(reader.readLine());
+            for(int inner = 0; inner < vulns; inner++) {
+                Vulnerability vulnerability = new Vulnerability(reader);
+                this.vulnerabilities.get(key).add(vulnerability);
+            }
+        }
     }
 
     /**
@@ -106,7 +148,69 @@ public class Target {
         type = Type.ENDPOINT;
     }
 
+    /**
+     * @Description: getters and setters for alias
+     */
+    public void setAlias(String alias) { this.alias = alias; }
+    public boolean hasAlias() { return (!alias.isEmpty() && alias != null); }
+    public String getAlias() { return alias; }
 
+    /**
+     * @return: return network type
+     */
+    public Type getType() { return type; }
+
+    /**
+     * @Description:
+     * @param stringBuilder:
+     */
+    public void serialize(StringBuilder stringBuilder) {
+        stringBuilder.append(type + "\n");
+        stringBuilder.append(deviceType + "\n");
+        stringBuilder.append(deviceOS + "\n");
+        stringBuilder.append(alias + "\n");
+
+        //a network cannot be saved in a session file
+        if(type == Type.NETWORK)    return;
+        else if(type == Type.ENDPOINT)  endpoint.serialize(stringBuilder);
+        else if(type == Type.REMOTE)    stringBuilder.append(hostname + "\n");
+        stringBuilder.append(ports.size() + "\n");
+
+        for(Port port: ports) {
+            String key = port.toString();
+            stringBuilder.append(key + "\n");
+            if(vulnerabilities.containsKey(key)) {
+                stringBuilder.append(vulnerabilities.get(key).size() + "\n");
+                for(Vulnerability vulnerability : vulnerabilities.get(key))
+                    stringBuilder.append(vulnerability.toString() + "\n");
+            }
+            else
+                stringBuilder.append("0\n");
+        }
+    }
+
+    /**
+     * @Description:
+     * @param target:
+     * @return:
+     */
+    public boolean comesAfter(Target target) {
+        if(type == Type.NETWORK)    return false;
+        else if(type == Type.ENDPOINT) {
+            if(target.getType() == Type.ENDPOINT)
+                return endpoint.getAddressAsLong() > target.getEndpoint().getAddressAsLong();
+            else
+                return false;
+        }
+        else
+            return true;
+    }
+
+    /**
+     * @Description:
+     * @param string:
+     * @return:
+     */
     public static Target getFromString(String string) {
         final Pattern
                 PARSE_PATTERN = Pattern
@@ -175,8 +279,67 @@ public class Target {
         return target;
     }
 
+    /**
+     * @Description:
+     * @return:
+     */
     public String getCommandLineRepresentation() { return "???"; }
 
+    /**
+     * @Description:
+     * @param target:
+     * @return:
+     */
+    public boolean equals(Target target) {
+        if(type == target.getType()) {
+            if(type == Type.NETWORK)
+                return networkChecker.equals(target.getNetworkChecker());
+            else if(type == Type.ENDPOINT)
+                return endpoint.equals(target.getEndpoint());
+            else if(type == Type.REMOTE)
+                return hostname.equals(target.getHostname());
+        }
+        return false;
+    }
+
+    /**
+     * @Description:
+     * @param object:
+     * @return:
+     */
+    public boolean equals(Object object) {
+        if(object instanceof Target)
+            return equals(object);
+        else
+            return false;
+    }
+
+    /**
+     * @Description:
+     * @return:
+     */
+    public String getDisplayAddress() {
+        if(type == Type.NETWORK)
+            return networkChecker.networkRepresentation();
+        else if(type == Type.ENDPOINT)
+            return endpoint.getInetAddress().getHostAddress() + (port == 0 ? "" : ":" + port);
+        else if(type == Type.REMOTE)
+            return hostname + (port == 0 ? "" : ":" + port);
+        else
+            return "???";
+    }
+
+    @Override
+    public String toString() {
+        if(hasAlias())
+            return alias;
+        else
+            return getDisplayAddress();
+    }
+
+    /**
+     * @Description:
+     */
     public static class Port {
         public NetworkChecker.Protocol protocol;
         public int port;
@@ -189,6 +352,10 @@ public class Target {
         }
         public Port(int port, NetworkChecker.Protocol protocol) { this(port, protocol, null); }
 
+        /**
+         * @Description:
+         * @return:
+         */
         public String getServiceQuery() {
             String query = "";
 
@@ -233,36 +400,52 @@ public class Target {
             summary = parts[2];
         }
 
-
+        /**
+         * @Description:
+         * @return: return String of identifier
+         */
         public String getIdentifier() {
             return identifier;
         }
 
+        /**
+         * @Description:
+         * @param identifier:
+         */
         public void setIdentifier(String identifier) {
             this.identifier = identifier;
         }
 
+        /**
+         * @Description:
+         * @return:
+         */
         public double getSeverity() {
             return severity;
         }
 
-        public void setSeverity(double severity) {
-            this.severity = severity;
-        }
+        /**
+         * @Description:
+         * @param severity:
+         */
+        public void setSeverity(double severity) { this.severity = severity; }
 
-        public String getSummary() {
-            return summary;
-        }
-
-        public void setSummary(String summary) {
-            this.summary = summary;
-        }
+        /**
+         * @Description: getters and setters for summary
+         * @return: summary string
+         */
+        public String getSummary() { return summary; }
+        public void setSummary(String summary) { this.summary = summary; }
 
         @Override
         public String toString() {
             return identifier + "|" + severity + "|" + summary;
         }
 
+        /**
+         * @Description:
+         * @return: html color
+         */
         public String getHtmlColor() {
             if (severity < 0.5)
                 return "#59FF00";
