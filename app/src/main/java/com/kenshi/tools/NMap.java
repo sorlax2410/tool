@@ -1,4 +1,4 @@
-package com.kenshi.NetworkMapper;
+package com.kenshi.tools;
 
 import android.content.Context;
 import android.util.Log;

@@ -61,6 +61,11 @@ public class NetworkChecker {
     }
 
     public InetAddress getLocalAddress() { return localHost.getInetAddress(); }
+    public byte[] getLocalHardware() {
+        try { return networkInterface.getHardwareAddress(); }
+        catch (SocketException e) { System.errorLogging(tag, e); }
+        return null;
+    }
 
     /**
      * @Issue#26: Initialization error in ColdFusionX ROM

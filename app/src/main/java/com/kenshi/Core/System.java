@@ -14,6 +14,16 @@ import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.kenshi.NetworkManager.NetworkChecker;
+import com.kenshi.NetworkManager.Target;
+import com.kenshi.tools.NMap;
+import com.kenshi.Protocol.Proxy.HTTPSRedirector;
+import com.kenshi.Protocol.Proxy.Proxy;
+import com.kenshi.Protocol.Server.Server;
+import com.kenshi.tools.ArpSpoof;
+import com.kenshi.tools.Ettercap;
+import com.kenshi.tools.Hydra;
+import com.kenshi.tools.IPTables;
+import com.kenshi.tools.TcpDump;
 
 import org.jetbrains.annotations.Contract;
 
@@ -67,6 +77,17 @@ public class System {
 
     private static ArrayList<Plugin> plugins = null;
     private static Plugin currentPlugin = null;
+    // tools singleton
+    private static NMap nmap = null;
+    private static ArpSpoof arpSpoof = null;
+    private static Ettercap ettercap = null;
+    private static IPTables ipTables = null;
+    private static Hydra hydra = null;
+    private static TcpDump tcpDump = null;
+
+    private static HTTPSRedirector redirector = null;
+    private static Proxy proxy = null;
+    private static Server server = null;
 
     private static String storagePath = null;
     private static String sessionName = null;
@@ -88,7 +109,65 @@ public class System {
             );
             sessionName = "Mitdroid-session-" + java.lang.System.currentTimeMillis();
             updateManager = new UpdateManager(context);
+            plugins = new ArrayList<>();
+            targets = new Vector<>();
+            openPorts = new SparseIntArray(3);
 
+            //if we are here, network initialization did not throw any error, lock wifi
+            WifiManager wifiManager =
+                    (WifiManager)context.getApplicationContext()
+                    .getSystemService(Context.WIFI_SERVICE);
+            if(wifiLock == null)
+                wifiLock = wifiManager.createWifiLock(WifiManager.WIFI_MODE_FULL, "WIFI LOCK");
+            if(!wifiLock.isHeld())
+                wifiLock.acquire();
+
+            //wake lock if enabled
+            if(getSettings().getBoolean("PREF_WAKE_LOCK", true)) {
+                PowerManager powerManager = (PowerManager)context.getSystemService(Context.POWER_SERVICE);
+                if(wakeLock == null)
+                    wakeLock = powerManager.newWakeLock(PowerManager.FULL_WAKE_LOCK, "WAKE LOCK");
+                if(!wakeLock.isHeld())
+                    wakeLock.acquire();
+            }
+
+            //set ports
+            try {
+                HTTP_PROXY_PORT = Integer.parseInt(
+                        getSettings().getString("PREF_HTTP_PROXY_PORT", "8080")
+                );
+                HTTP_SERVER_PORT = Integer.parseInt(
+                        getSettings().getString("PREF_HTTP_SERVER_PORT", "8081")
+                );
+                HTTP_REDIR_PORT = Integer.parseInt(
+                        getSettings().getString("PREF_HTTP_REDIRECTOR_PORT", "8082")
+                );
+            } catch (NumberFormatException e) {
+                HTTP_PROXY_PORT = 8080;
+                HTTP_SERVER_PORT = 8081;
+                HTTP_REDIR_PORT = 8082;
+            }
+            nmap     = new NMap(context);
+            arpSpoof = new ArpSpoof(context);
+            ettercap = new Ettercap(context);
+            ipTables = new IPTables();
+            hydra    = new Hydra(context);
+            tcpDump  = new TcpDump(context);
+
+            //initialize network data at the end
+            network = new NetworkChecker(context);
+
+            Target target = new Target(network),
+                    gateway = new Target(network.getGatewayAddress(), network.getGatewayHardware()),
+                    device = new Target(network.getLocalAddress(), network.getLocalHardware());
+            gateway.setAlias(network.getSSID());
+            device.setAlias(android.os.Build.MODEL);
+
+            targets.add(target);
+            targets.add(gateway);
+            targets.add(device);
+
+            initialized = true;
         } catch(Exception e) { errorLogging(tag, e); throw e; }
     }
 

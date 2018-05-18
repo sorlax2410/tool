@@ -39,7 +39,7 @@ public class Extender {
         else
             command = name + " " + args;
 
-        Shell.exec(command);
+        Shell.exec(command, receiver);
     }
 
     public void run(String args) throws IOException, InterruptedException { run(args, null); }
