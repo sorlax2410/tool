@@ -21,6 +21,13 @@ public class HijackerActivity extends AppCompatActivity {
         public String domain = null;
         public String useragent = null;
         public HashMap<String, BasicClientCookie> cookies = null;
+
+        public Session() { cookies = new HashMap<>(); }
+
+        public String getFilename() {
+            String name = domain + "-" + (username != null ? username : address);
+            return name.replaceAll("[ .\\\\/:*?\"<>|\\\\/:*?\"<>|]", "-");
+        }
     }
 
     @Override
