@@ -3,14 +3,19 @@ package com.kenshi.Core;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.kenshi.NetworkManager.NetworkChecker;
+
+import org.jetbrains.annotations.Contract;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -25,6 +30,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.NoRouteToHostException;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -48,6 +54,7 @@ public class System {
     private static boolean initialized = false;
     private static String lastError = "";
     private static String suPath = null;
+    private static UpdateManager updateManager = null;
     private static WifiManager.WifiLock wifiLock = null;
     private static PowerManager.WakeLock wakeLock = null;
     private static NetworkChecker network = null;
@@ -58,8 +65,32 @@ public class System {
     private static Map<String, String> vendors = null;
     private static SparseIntArray openPorts = null;
 
+    private static ArrayList<Plugin> plugins = null;
+    private static Plugin currentPlugin = null;
+
+    private static String storagePath = null;
+    private static String sessionName = null;
+
+    private static Object customData = null;
+
     @SuppressLint("StaticFieldLeak")
     private static Context context = null;
+
+    public static String getStoragePath() { return storagePath; }
+
+    public static UpdateManager getUpdateManager() { return updateManager; }
+
+    public void init(Context context) throws Exception {
+        this.context = context;
+        try {
+            storagePath = getSettings().getString("PREF_SAVE_PATH",
+                    Environment.getExternalStorageDirectory().toString()
+            );
+            sessionName = "Mitdroid-session-" + java.lang.System.currentTimeMillis();
+            updateManager = new UpdateManager(context);
+
+        } catch(Exception e) { errorLogging(tag, e); throw e; }
+    }
 
     public static String getLibraryPath() {
         return context
@@ -172,6 +203,7 @@ public class System {
         }
     }
 
+    @Nullable
     public static String getMacVendor(byte[]MAC) {
         preloadVendors();
         if(MAC != null && MAC.length >= 3)
@@ -180,6 +212,16 @@ public class System {
             return null;
     }
 
+    public static String getAppVersionName() {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) { errorLogging(tag, e); }
+        return "?";
+    }
+
+    @Nullable
     public static String getProtocolByPort(String port) {
         preloadServices();
         return ports.containsKey(port) ? ports.get(port) : null;
@@ -190,9 +232,12 @@ public class System {
         return services.containsKey(protocol) ? Integer.parseInt(services.get(protocol)) : 0;
     }
 
+    @org.jetbrains.annotations.Contract(pure = true)
     public static Vector<com.kenshi.NetworkManager.Target> getTargets() { return targets; }
 
+    @Contract(pure = true)
     public static com.kenshi.NetworkManager.Target getTarget(int index) { return targets.get(index); }
 
+    @Contract(pure = true)
     public static com.kenshi.NetworkManager.Target getCurrentTarget() { return getTarget(currentTarget); }
 }
