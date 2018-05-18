@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.MenuItem;
 
-import com.kenshi.NetworkManager.Target;
+import com.kenshi.Network.NetworkManager.Target;
 import com.mitdroid.kenshi.Main.R;
 
 public class Plugin extends Activity {

@@ -1,4 +1,4 @@
-package com.kenshi.NetworkManager;
+package com.kenshi.Network.NetworkManager;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -185,4 +185,5 @@ public class NetworkChecker {
 
     public byte[] getGatewayHardware() { return Endpoint.parseMacAddress(wifiInfo.getBSSID()); }
 
+    public String getLocalNetworkAsString() { return localHost.toString(); }
 }

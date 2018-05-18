@@ -29,7 +29,8 @@
         <activity android:name="com.kenshi.GUI.ScanningActivities.displayTargets" />
         <activity android:name="com.kenshi.GUI.Wifi.WifiScannerActivity" />
         <activity android:name="com.kenshi.GUI.Wifi.SettingsActivity" />
-        <activity android:name="com.kenshi.GUI.Wifi.ActionActivity"></activity>
+        <activity android:name="com.kenshi.GUI.Wifi.ActionActivity" />
+        <activity android:name="com.kenshi.Plugins.MITM_GUI.HijackerActivity"></activity>
     </application>
 
 </manifest>

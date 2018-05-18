@@ -1,4 +1,4 @@
-package com.kenshi.NetworkManager;
+package com.kenshi.Network.NetworkManager;
 
 import com.kenshi.Core.System;
 

@@ -1,4 +1,4 @@
-package com.kenshi.NetworkMapper;
+package com.kenshi.Network.NetworkMapper;
 
 import java.util.ArrayList;
 

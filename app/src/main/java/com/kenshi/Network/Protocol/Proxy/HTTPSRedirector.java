@@ -1,4 +1,4 @@
-package com.kenshi.Protocol.Proxy;
+package com.kenshi.Network.Protocol.Proxy;
 
 public class HTTPSRedirector implements Runnable {
     /**

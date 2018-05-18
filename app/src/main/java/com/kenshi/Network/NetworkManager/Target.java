@@ -1,4 +1,4 @@
-package com.kenshi.NetworkManager;
+package com.kenshi.Network.NetworkManager;
 
 import android.os.StrictMode;
 import android.util.Log;
@@ -8,7 +8,6 @@ import com.mitdroid.kenshi.Main.R;
 
 import java.io.BufferedReader;
 import java.net.InetAddress;
-import java.net.NoRouteToHostException;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashMap;

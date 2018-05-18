@@ -40,17 +40,13 @@ public class displayFormattedTargets extends Activity {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("target ip",
-                            com
-                                    .kenshi
-                                    .NetworkMapper
+                            com.kenshi.Network.NetworkMapper
                                     .stringSplitter
                                     .splitHost(radioButton.getText().toString())
                     );
                     Log.d("BUTTON TEXT", radioButton.getText().toString());
                     Log.d("SPLIT HOST TEST",
-                            com
-                            .kenshi
-                            .NetworkMapper
+                            com.kenshi.Network.NetworkMapper
                             .stringSplitter
                             .splitHost(radioButton.getText().toString())
                     );

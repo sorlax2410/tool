@@ -2,6 +2,7 @@ package com.kenshi.Core;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,23 +16,26 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseIntArray;
 
 import com.kenshi.GUI.Wifi.WifiScannerActivity;
-import com.kenshi.NetworkManager.NetworkChecker;
-import com.kenshi.NetworkManager.Target;
+import com.kenshi.Network.NetworkManager.NetworkChecker;
+import com.kenshi.Network.NetworkManager.Target;
+import com.kenshi.Plugins.MITM_GUI.HijackerActivity;
 import com.kenshi.tools.NMap;
-import com.kenshi.Protocol.Proxy.HTTPSRedirector;
-import com.kenshi.Protocol.Proxy.Proxy;
-import com.kenshi.Protocol.Server.Server;
+import com.kenshi.Network.Protocol.Proxy.HTTPSRedirector;
+import com.kenshi.Network.Protocol.Proxy.Proxy;
+import com.kenshi.Network.Protocol.Server.Server;
 import com.kenshi.tools.ArpSpoof;
 import com.kenshi.tools.Ettercap;
 import com.kenshi.tools.Hydra;
 import com.kenshi.tools.IPTables;
 import com.kenshi.tools.TcpDump;
 
+import org.apache.http.impl.cookie.BasicClientCookie;
 import org.jetbrains.annotations.Contract;
 
 import java.io.BufferedReader;
@@ -39,26 +43,31 @@ import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
 import java.net.NoRouteToHostException;
+import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPOutputStream;
 
 public class System {
     private static final String tag = "SYSTEM";
-    private static final String errorLogFilename = "mitdroid-debug-error.log";
-    private static final String sessionMagic = "MDS";
+    private static final String ERROR_LOG_FILENAME = "mitdroid-debug-error.log";
+    private static final String SESSION_MAGIC = "MDS";
     private static final Pattern SERVICE_PARSER = Pattern.compile(
             "^([^\\\\s]+)\\\\s+(\\\\d+).*$",
             Pattern.CASE_INSENSITIVE
@@ -76,7 +85,7 @@ public class System {
     private static WifiManager.WifiLock wifiLock = null;
     private static PowerManager.WakeLock wakeLock = null;
     private static NetworkChecker networkChecker = null;
-    private static Vector<com.kenshi.NetworkManager.Target> targets = null;
+    private static Vector<com.kenshi.Network.NetworkManager.Target> targets = null;
     private static int currentTarget = 0;
     private static Map<String, String> services = null;
     private static Map<String, String> ports = null;
@@ -105,9 +114,101 @@ public class System {
     @SuppressLint("StaticFieldLeak")
     private static Context context = null;
 
+    public static String getSuPath() {
+        if(suPath != null && !suPath.isEmpty())
+            return suPath;
+        try {
+            Process process = Runtime.getRuntime().exec("which su");
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream())
+            );
+            String line = null;
+
+            while((line = bufferedReader.readLine()) != null) {
+                if(!line.isEmpty() && line.startsWith("/")) {
+                    suPath = line;
+                    break;
+                }
+            }
+
+            return suPath;
+        } catch (Exception e) { errorLogging(tag, e); }
+
+        return "su";
+    }
+
+    public static InputStream getRawResource(int id) {
+        return context.getResources().openRawResource(id);
+    }
+
+    @Contract(pure = true)
+    public static Object getCustomData() { return customData; }
+
+    @Contract(pure = true)
     public static String getStoragePath() { return storagePath; }
 
+    @Contract(pure = true)
     public static UpdateManager getUpdateManager() { return updateManager; }
+
+    @NonNull
+    public static String getLibraryPath() {
+        return context
+                .getFilesDir()
+                .getAbsolutePath()
+                + "/tools/libs";
+    }
+
+    public static SharedPreferences getSettings() {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+
+    @Contract(pure = true)
+    public static NetworkChecker getNetwork()
+            throws NoRouteToHostException, SocketException { return networkChecker; }
+
+    @Nullable
+    public static String getMacVendor(byte[]MAC) {
+        preloadVendors();
+        if(MAC != null && MAC.length >= 3)
+            return vendors.get(String.format("%02X%02X%02X", MAC[0], MAC[1], MAC[2]));
+        else
+            return null;
+    }
+
+    public static String getAppVersionName() {
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            return packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) { errorLogging(tag, e); }
+        return "?";
+    }
+
+    @Nullable
+    public static String getProtocolByPort(String port) {
+        preloadServices();
+        return ports.containsKey(port) ? ports.get(port) : null;
+    }
+
+    public static int getPortByProtocol(String protocol) {
+        preloadServices();
+        return services.containsKey(protocol) ? Integer.parseInt(services.get(protocol)) : 0;
+    }
+
+    @org.jetbrains.annotations.Contract(pure = true)
+    public static Vector<com.kenshi.Network.NetworkManager.Target> getTargets() { return targets; }
+
+    @Contract(pure = true)
+    public static com.kenshi.Network.NetworkManager.Target getTarget(int index) { return targets.get(index); }
+
+    @Contract(pure = true)
+    public static com.kenshi.Network.NetworkManager.Target getCurrentTarget() { return getTarget(currentTarget); }
+
+
+
+    public static void setLastError(String error) { lastError = error; }
+
+
 
     public void init(Context context) throws Exception {
         this.context = context;
@@ -232,28 +333,144 @@ public class System {
         return true;
     }
 
-    public static String getLibraryPath() {
-        return context
-                .getFilesDir()
-                .getAbsolutePath()
-                + "/tools/libs";
+    public static boolean isServiceRunning(String name) {
+        ActivityManager activityManager = (ActivityManager)
+                context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        for(ActivityManager.RunningServiceInfo serviceInfo :
+                activityManager.getRunningServices(Integer.MAX_VALUE))
+            if(name.equals(serviceInfo.service.getClassName()))
+                return true;
+
+        return false;
     }
 
-    public static SharedPreferences getSettings() {
-        return PreferenceManager.getDefaultSharedPreferences(context);
+    public static boolean isPortAvailable(int port) {
+        boolean available = false;
+        int availableCode = openPorts.get(port);
+
+        if (availableCode != 0)
+            return availableCode != 1;
+
+        try {
+            //attemp 3 times since proxy and server could be still releasing their ports
+            for(int index = 0; index < 3; index++) {
+                Socket channel = new Socket();
+                InetSocketAddress inetSocketAddress = new InetSocketAddress(
+                        InetAddress.getByName(networkChecker.getLocalNetworkAsString()),
+                        port
+                );
+
+                channel.connect(inetSocketAddress, 200);
+                available = !channel.isConnected();
+                channel.close();
+                Thread.sleep(200);
+            }
+        } catch (Exception e) { available = true; }
+
+        openPorts.put(port, available ? 2 : 1);
+        return available;
     }
 
-    public static NetworkChecker getNetwork()
-            throws NoRouteToHostException, SocketException { return networkChecker; }
+    public static ArrayList<String> getAvailableSessionFiles() {
+        ArrayList<String> files = new ArrayList<>();
+        File storage = new File(storagePath);
 
-    public static void setLastError(String error) { lastError = error; }
+        if(storage != null && storage.exists()) {
+            String[]children = storage.list();
+
+            if(children != null && children.length > 0)
+                for(String child : children)
+                    if(child.endsWith(".dss"))
+                        files.add(child);
+        }
+        return files;
+    }
+
+    public static String saveSession(String sessionname) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        String filename = storagePath + "/" + sessionname + ".dss",
+                session = null;
+
+        builder.append(SESSION_MAGIC + "\n");
+
+        //skip the network target
+        builder.append((targets.size() - 1) + "\n");
+
+        for(Target target : targets)
+            if(target.getType() != Target.Type.NETWORK)
+                target.serialize(builder);
+
+        builder.append(currentTarget);
+        session = builder.toString();
+
+        FileOutputStream fileOutputStream = new FileOutputStream(filename);
+        GZIPOutputStream gzipOutputStream = new GZIPOutputStream(fileOutputStream);
+
+        gzipOutputStream.write(session.getBytes());
+        gzipOutputStream.close();
+
+        sessionName = sessionname;
+        return filename;
+    }
+
+    public static ArrayList<String> getAvailableHijackerSessionFiles() {
+        ArrayList<String> files = new ArrayList<>();
+        File storage = new File(storagePath);
+
+        if(storage != null && storage.exists()) {
+            String[]children = storage.list();
+
+            if(children != null && children.length > 0)
+                for(String child : children)
+                    if(child.endsWith(".dhs"))
+                        files.add(child);
+        }
+
+        return files;
+    }
+
+    public static String saveHijackerSession(String sessionname, HijackerActivity.Session session)
+            throws IOException{
+        StringBuilder builder = new StringBuilder();
+        String filename = storagePath + "/" + sessionname + ".dhs",
+                buffer = null;
+
+        builder.append(SESSION_MAGIC + "\n");
+        builder.append(session.HTTPS).append("\n");
+        builder.append(session.address).append("\n");
+        builder.append(session.domain).append("\n");
+        builder.append(session.useragent).append("\n");
+        builder.append(session.cookies.size()).append("\n");
+        for(BasicClientCookie cookie : session.cookies.values())
+            builder.append(
+                    cookie.getName() + "=" + cookie.getValue() + "; domain=" +
+                            cookie.getDomain() + "; path=/" +
+                            (session.HTTPS ? ";secure" : "") + "\n"
+            );
+        buffer = builder.toString();
+
+        FileOutputStream fileOutputStream = new FileOutputStream(filename);
+        GZIPOutputStream gzipOutputStream = new GZIPOutputStream(fileOutputStream);
+
+        gzipOutputStream.write(buffer.getBytes());
+        gzipOutputStream.close();
+        sessionName = sessionname;
+
+        return filename;
+    }
+
+    public static void loadSession(String filename) throws Exception {
+        //
+    }
 
     public static synchronized void errorLogging(String tag, Exception e) {
         String message = "Unknown error",
                 trace = "Unknown trace",
                 filename = (
                         new File(Environment.getExternalStorageDirectory().toString(),
-                                errorLogFilename)
+                                ERROR_LOG_FILENAME
+                        )
                 ).getAbsolutePath();
         if(e != null) {
             if(e.getMessage() != null && !e.getMessage().isEmpty())
@@ -343,41 +560,34 @@ public class System {
         }
     }
 
-    @Nullable
-    public static String getMacVendor(byte[]MAC) {
-        preloadVendors();
-        if(MAC != null && MAC.length >= 3)
-            return vendors.get(String.format("%02X%02X%02X", MAC[0], MAC[1], MAC[2]));
-        else
-            return null;
+    public static boolean isARM() {
+        String abi = Build.CPU_ABI;
+        Log.d(tag, "Build.CPU_ABI = " + abi);
+        return Build.CPU_ABI.toLowerCase().startsWith("armeabi");
     }
 
-    public static String getAppVersionName() {
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            return packageInfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) { errorLogging(tag, e); }
-        return "?";
+    public static synchronized void errorLog(String tag, String data) {
+        String filename = (
+                new File(
+                        Environment.getExternalStorageDirectory().toString(), ERROR_LOG_FILENAME
+                ).getAbsolutePath()
+        );
+        data = data.trim();
+
+        if(context != null &&
+            getSettings().getBoolean("PREF_DEBUG_ERROR_LOGGING", false))
+        {
+            try {
+                FileWriter fileWriter = new FileWriter(filename, true);
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                bufferedWriter.write(data);
+                bufferedWriter.close();
+            } catch (IOException e) { Log.e(System.tag, e.toString()); }
+        }
+
+        Log.e(tag, data);
     }
 
-    @Nullable
-    public static String getProtocolByPort(String port) {
-        preloadServices();
-        return ports.containsKey(port) ? ports.get(port) : null;
-    }
-
-    public static int getPortByProtocol(String protocol) {
-        preloadServices();
-        return services.containsKey(protocol) ? Integer.parseInt(services.get(protocol)) : 0;
-    }
-
-    @org.jetbrains.annotations.Contract(pure = true)
-    public static Vector<com.kenshi.NetworkManager.Target> getTargets() { return targets; }
-
-    @Contract(pure = true)
-    public static com.kenshi.NetworkManager.Target getTarget(int index) { return targets.get(index); }
-
-    @Contract(pure = true)
-    public static com.kenshi.NetworkManager.Target getCurrentTarget() { return getTarget(currentTarget); }
+    public static synchronized void setCustomData(Object data) { customData = data; }
 }

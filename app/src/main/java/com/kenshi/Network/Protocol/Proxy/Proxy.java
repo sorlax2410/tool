@@ -1,6 +1,6 @@
-package com.kenshi.Protocol.Server;
+package com.kenshi.Network.Protocol.Proxy;
 
-public class Server implements Runnable {
+public class Proxy implements Runnable {
     /**
      * When an object implementing interface <code>Runnable</code> is used
      * to create a thread, starting the thread causes the object's

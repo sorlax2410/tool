@@ -26,7 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.kenshi.NetworkMapper.optionScan;
+import com.kenshi.Network.NetworkMapper.optionScan;
 import com.mitdroid.kenshi.Main.R;
 
 import java.io.File;
