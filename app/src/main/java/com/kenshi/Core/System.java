@@ -1,11 +1,17 @@
 package com.kenshi.Core;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -13,6 +19,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.SparseIntArray;
 
+import com.kenshi.GUI.Wifi.WifiScannerActivity;
 import com.kenshi.NetworkManager.NetworkChecker;
 import com.kenshi.NetworkManager.Target;
 import com.kenshi.tools.NMap;
@@ -40,6 +47,7 @@ import java.io.StringWriter;
 import java.io.Writer;
 import java.net.NoRouteToHostException;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,7 +75,7 @@ public class System {
     private static UpdateManager updateManager = null;
     private static WifiManager.WifiLock wifiLock = null;
     private static PowerManager.WakeLock wakeLock = null;
-    private static NetworkChecker network = null;
+    private static NetworkChecker networkChecker = null;
     private static Vector<com.kenshi.NetworkManager.Target> targets = null;
     private static int currentTarget = 0;
     private static Map<String, String> services = null;
@@ -155,12 +163,17 @@ public class System {
             tcpDump  = new TcpDump(context);
 
             //initialize network data at the end
-            network = new NetworkChecker(context);
+            networkChecker = new NetworkChecker(context);
 
-            Target target = new Target(network),
-                    gateway = new Target(network.getGatewayAddress(), network.getGatewayHardware()),
-                    device = new Target(network.getLocalAddress(), network.getLocalHardware());
-            gateway.setAlias(network.getSSID());
+            Target target = new Target(networkChecker),
+
+                    gateway = new Target(networkChecker.getGatewayAddress(),
+                            networkChecker.getGatewayHardware()),
+
+                    device = new Target(networkChecker.getLocalAddress(),
+                            networkChecker.getLocalHardware());
+
+            gateway.setAlias(networkChecker.getSSID());
             device.setAlias(android.os.Build.MODEL);
 
             targets.add(target);
@@ -169,6 +182,54 @@ public class System {
 
             initialized = true;
         } catch(Exception e) { errorLogging(tag, e); throw e; }
+    }
+
+    public static void reloadNetworkMapping() {
+        try {
+            networkChecker = new NetworkChecker(context);
+
+            Target network = new Target(networkChecker),
+                    gateway = new Target(networkChecker.getGatewayAddress(),
+                            networkChecker.getGatewayHardware()),
+
+                    device = new Target(networkChecker.getLocalAddress(),
+                            networkChecker.getGatewayHardware());
+
+            gateway.setAlias(networkChecker.getSSID());
+            device.setAlias(Build.MODEL);
+
+            targets.clear();
+            targets.add(network);
+            targets.add(gateway);
+            targets.add(device);
+
+            initialized = true;
+        } catch (Exception e) { errorLogging(tag, e); }
+    }
+
+    public static boolean checkNetworking(final Activity current) {
+        if(!NetworkChecker.isWifiConnected(context)) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(current);
+            builder.setCancelable(false)
+                    .setTitle("Error")
+                    .setMessage("Wifi connectivity went down")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean(WifiScannerActivity.CONNECTED, false);
+                            Intent intent = new Intent();
+                            intent.putExtras(bundle);
+                            current.setResult(Activity.RESULT_OK, intent);
+                            current.finish();
+                        }
+                    });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+            return false;
+        }
+        return true;
     }
 
     public static String getLibraryPath() {
@@ -183,7 +244,7 @@ public class System {
     }
 
     public static NetworkChecker getNetwork()
-            throws NoRouteToHostException, SocketException { return network; }
+            throws NoRouteToHostException, SocketException { return networkChecker; }
 
     public static void setLastError(String error) { lastError = error; }
 
