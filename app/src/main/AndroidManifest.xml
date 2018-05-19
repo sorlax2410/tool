@@ -32,7 +32,8 @@
         <activity android:name="com.kenshi.GUI.Wifi.ActionActivity" />
         <activity android:name="com.kenshi.Plugins.MITM_GUI.HijackerActivity" />
         <activity android:name="com.kenshi.Plugins.MITM_GUI.HijackerWebViewActivity" />
-        <activity android:name="com.kenshi.Plugins.MITM_GUI.SnifferActivity"></activity>
+        <activity android:name="com.kenshi.Plugins.MITM_GUI.SnifferActivity" />
+        <activity android:name="com.kenshi.Plugins.MITM_GUI.PasswordSnifferActivity"></activity>
     </application>
 
 </manifest>
