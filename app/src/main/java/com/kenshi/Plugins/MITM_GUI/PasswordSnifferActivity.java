@@ -1,11 +1,11 @@
 package com.kenshi.Plugins.MITM_GUI;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.mitdroid.kenshi.Main.R;
 
-public class PasswordSnifferActivity extends AppCompatActivity {
+public class PasswordSnifferActivity extends SherlockActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
