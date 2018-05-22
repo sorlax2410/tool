@@ -1,11 +1,11 @@
 package com.kenshi.Plugins.MITM_GUI;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.Activity;
 import android.os.Bundle;
 
 import com.mitdroid.kenshi.Main.R;
 
-public class HijackerWebViewActivity extends AppCompatActivity {
+public class HijackerWebViewActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

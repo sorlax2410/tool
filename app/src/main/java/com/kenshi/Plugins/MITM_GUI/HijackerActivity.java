@@ -1,22 +1,22 @@
 package com.kenshi.Plugins.MITM_GUI;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 
-import org.apache.http.impl.cookie.BasicClientCookie;
-
 import com.kenshi.Plugins.mitm.SpoofSession;
 import com.mitdroid.kenshi.Main.R;
 
+import org.apache.http.impl.cookie.BasicClientCookie;
+
 import java.util.HashMap;
 
-public class HijackerActivity extends AppCompatActivity {
+public class HijackerActivity extends Activity {
 
     public class SessionListAdapter extends ArrayAdapter<Session> {
         private int layoutId = 0;
@@ -81,7 +81,6 @@ public class HijackerActivity extends AppCompatActivity {
 
         public SessionListAdapter(int layoutId) {
             super(HijackerActivity.this, layoutId);
-
             this.layoutId = layoutId;
             sessions = new HashMap<>();
         }
