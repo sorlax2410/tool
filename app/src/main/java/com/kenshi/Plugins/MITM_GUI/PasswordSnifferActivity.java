@@ -21,6 +21,7 @@ import com.mitdroid.kenshi.Main.R;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -251,11 +252,23 @@ public class PasswordSnifferActivity extends SherlockActivity {
     private SpoofSession spoofSession = null;
 
     private void setStopState() {
-        //
+        spoofSession.stop();
+
+        try {
+            if(bufferedWriter != null)
+                bufferedWriter.close();
+        }catch (IOException e) { System.errorLogging(tag, e); }
+
+        sniffProgress.setVisibility(View.INVISIBLE);
+        running = false;
+        sniffToggleButton.setChecked(false);
     }
 
     private void setStartState() {
-        //
+        try {
+            fileWriter = new FileWriter(fileOutput, true);
+            bufferedWriter = new BufferedWriter(fileWriter);
+        }catch (IOException e) {  }
     }
 
     @Override
