@@ -1,23 +1,78 @@
 package com.kenshi.Plugins.MITM_GUI;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+import com.kenshi.Core.System;
 import com.kenshi.Plugins.mitm.SpoofSession;
 import com.mitdroid.kenshi.Main.R;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class PasswordSnifferActivity extends SherlockActivity {
 
     public class ListViewAdapter extends BaseExpandableListAdapter {
+
+        private HashMap<String, ArrayList<String>> groups = null;
+        private Context context;
+
+        public ListViewAdapter(Context context) {
+            groups = new HashMap<>();
+            this.context = context;
+        }
+
+        public boolean children(String name) { return groups.containsKey(name); }
+
+        public void addGroup(String name) {
+            groups.put(name, new ArrayList<String>());
+            notifyDataSetChanged();
+        }
+
+        public boolean hasChild(String group, String line) {
+            ArrayList<String>children = groups.get(group);
+
+            if(!children.isEmpty())
+                for(String child : children)
+                    if(child.equals(line))
+                        return true;
+
+            return false;
+        }
+
+        public synchronized void addChild(String group, String child) {
+            if(groups.get(group).isEmpty())
+                addGroup(group);
+            groups.get(group).add(child);
+
+            Object[]keys = groups.keySet().toArray();
+            int groups = keys.length;
+
+            for(int index = 0; index < groups; index++) {
+                if (keys[index].toString().equals(group)) {
+                    listView.expandGroup(index);
+                    break;
+                }
+            }
+            notifyDataSetChanged();
+        }
+
+        private ArrayList<String>getGroupAt(int position) { return groups.get(groups.keySet().toArray()[position]); }
+
 
         /**
          * Gets the number of groups.
@@ -26,7 +81,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          */
         @Override
         public int getGroupCount() {
-            return 0;
+            return groups.size();
         }
 
         /**
@@ -38,7 +93,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          */
         @Override
         public int getChildrenCount(int groupPosition) {
-            return 0;
+            return getGroupAt(groupPosition).size();
         }
 
         /**
@@ -49,7 +104,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          */
         @Override
         public Object getGroup(int groupPosition) {
-            return null;
+            return groups.keySet().toArray()[groupPosition];
         }
 
         /**
@@ -62,7 +117,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          */
         @Override
         public Object getChild(int groupPosition, int childPosition) {
-            return null;
+            return getGroupAt(groupPosition).get(childPosition);
         }
 
         /**
@@ -76,7 +131,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          */
         @Override
         public long getGroupId(int groupPosition) {
-            return 0;
+            return groupPosition;
         }
 
         /**
@@ -92,7 +147,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          */
         @Override
         public long getChildId(int groupPosition, int childPosition) {
-            return 0;
+            return (groupPosition*10) + childPosition;
         }
 
         /**
@@ -103,9 +158,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          * @see Adapter#hasStableIds()
          */
         @Override
-        public boolean hasStableIds() {
-            return false;
-        }
+        public boolean hasStableIds() { return true; }
 
         /**
          * Gets a View that displays the given group. This View is only for the
@@ -126,8 +179,19 @@ public class PasswordSnifferActivity extends SherlockActivity {
          * @return the View corresponding to the group at the specified position
          */
         @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            return null;
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView,
+                                 ViewGroup parent)
+        {
+            TextView row = (TextView)convertView;
+
+            if(row == null)
+                row = new TextView(context);
+
+            row.setText(getGroup(groupPosition).toString());
+            row.setTextSize(20);
+            row.setTypeface(Typeface.DEFAULT_BOLD);
+            row.setPadding(50, 0, 0, 0);
+            return row;
         }
 
         /**
@@ -149,8 +213,18 @@ public class PasswordSnifferActivity extends SherlockActivity {
          * @return the View corresponding to the child at the specified position
          */
         @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            return null;
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild,
+                                 View convertView, ViewGroup parent)
+        {
+            TextView row = (TextView)convertView;
+
+            if(row == null)
+                row = new TextView(context);
+
+            row.setText(getChild(groupPosition, childPosition).toString());
+            row.setPadding(30, 0, 0, 0);
+
+            return row;
         }
 
         /**
@@ -161,9 +235,7 @@ public class PasswordSnifferActivity extends SherlockActivity {
          * @return whether the child is selectable.
          */
         @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return false;
-        }
+        public boolean isChildSelectable(int groupPosition, int childPosition) { return true; }
     }
 
     private static final String tag = "PASSWORD SNIFFER";
@@ -178,10 +250,55 @@ public class PasswordSnifferActivity extends SherlockActivity {
     private BufferedWriter bufferedWriter = null;
     private SpoofSession spoofSession = null;
 
+    private void setStopState() {
+        //
+    }
+
+    private void setStartState() {
+        //
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle(System.getCurrentTarget() + " > MITM > Password Sniffer");
         setContentView(R.layout.activity_password_sniffer);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        fileOutput = (new File(System.getStoragePath(),
+                System.getSettings().getString("PREF_PASSWORD_FILENAME",
+                        "MitDroid"))
+                .getAbsolutePath()
+        );
+        sniffToggleButton = findViewById(R.id.sniffToggleButton);
+        sniffProgress = findViewById(R.id.sniffProgress);
+        listView = findViewById(R.id.expandableListView);
+        listViewAdapter = new ListViewAdapter(this);
+        spoofSession = new SpoofSession(false, false,
+                null, null
+        );
+        listView.setAdapter(listViewAdapter);
+        sniffToggleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(running)
+                    setStopState();
+                else
+                    setStartState();
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+
+                default:
+                    return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
