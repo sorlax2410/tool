@@ -10,12 +10,15 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.kenshi.Core.System;
+import com.kenshi.GUI.Dialogs.FatalDialog;
 import com.kenshi.Plugins.mitm.SpoofSession;
+import com.kenshi.tools.Ettercap;
 import com.mitdroid.kenshi.Main.R;
 
 import java.io.BufferedWriter;
@@ -268,7 +271,37 @@ public class PasswordSnifferActivity extends SherlockActivity {
         try {
             fileWriter = new FileWriter(fileOutput, true);
             bufferedWriter = new BufferedWriter(fileWriter);
-        }catch (IOException e) {  }
+        }catch (IOException e) {
+            new FatalDialog(
+                    "Error",
+                    e.toString(),
+                    this
+            ).show();
+        }
+
+        Toast.makeText(this, "Logging to " + fileOutput, Toast.LENGTH_SHORT).show();
+
+        spoofSession.start(new Ettercap.OnAccountListener() {
+            @Override
+            public void onAccount(final String protocol,
+                                  final String address,
+                                  final String port,
+                                  final String line) {
+                PasswordSnifferActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(!listViewAdapter.hasChild(protocol, line)) {
+                            try { bufferedWriter.write(line + "\n"); }
+                            catch (IOException e) { System.errorLogging(tag, e); }
+                            listViewAdapter.addChild(protocol, line);
+                        }
+                    }
+                });
+            }
+        });
+
+        sniffProgress.setVisibility(View.VISIBLE);
+        running = true;
     }
 
     @Override
@@ -316,6 +349,8 @@ public class PasswordSnifferActivity extends SherlockActivity {
 
     @Override
     public void onBackPressed() {
+        setStopState();
         super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
     }
 }

@@ -1,14 +1,33 @@
 package com.kenshi.Plugins.mitm;
 
 import com.kenshi.Network.NetworkManager.Target;
+import com.kenshi.tools.Ettercap;
 
 public class SpoofSession {
+
+    public static abstract interface OnSessionReadyListener {
+        void onSessionReady();
+        void onError(String error);
+    }
+
     private static final String tag = "SPOOFSESSION";
 
     private boolean isWithProxy = false,
             isWithServer = false;
     private String serverFilename = null,
             serverMimeType = null;
+
+    public void start(final Target target ,final Ettercap.OnAccountListener onAccountListener) {
+
+    }
+
+    public void start(Ettercap.OnAccountListener onAccountListener) {
+
+    }
+
+    public void start(final OnSessionReadyListener listener) {
+
+    }
 
     public static abstract interface onSessionReadyListener {
         void onSessionReady();
