@@ -175,6 +175,35 @@ public class System {
             return null;
     }
 
+    public static Proxy getProxy() {
+        try {
+            if(proxy == null)
+                proxy = new Proxy(getNetwork().getLocalAddress(), HTTP_PROXY_PORT);
+        } catch (Exception e) { errorLogging(tag, e); }
+
+        return proxy;
+    }
+
+    public static Server getServer() {
+        try {
+            if(server == null)
+                server = new Server(getNetwork().getLocalAddress(), HTTP_SERVER_PORT);
+        } catch (Exception e) { errorLogging(tag, e); }
+
+        return server;
+    }
+
+    public static HTTPSRedirector getHttpsRedirector() {
+        try {
+            if(redirector == null)
+                redirector = new HTTPSRedirector(context,
+                        getNetwork().getLocalAddress(),
+                        HTTP_REDIR_PORT);
+        } catch (Exception e) { errorLogging(tag, e); }
+
+        return redirector;
+    }
+
     public static String getAppVersionName() {
         try {
             PackageManager packageManager = context.getPackageManager();

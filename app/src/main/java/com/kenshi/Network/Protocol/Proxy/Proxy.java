@@ -1,5 +1,9 @@
 package com.kenshi.Network.Protocol.Proxy;
 
+import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 public class Proxy implements Runnable {
     /**
      * When an object implementing interface <code>Runnable</code> is used
@@ -14,6 +18,10 @@ public class Proxy implements Runnable {
      */
     @Override
     public void run() {
+
+    }
+
+    public Proxy(InetAddress inetAddress, int port) throws UnknownHostException, IOException {
 
     }
 }
