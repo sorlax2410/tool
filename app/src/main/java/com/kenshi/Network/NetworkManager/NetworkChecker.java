@@ -186,4 +186,6 @@ public class NetworkChecker {
     public byte[] getGatewayHardware() { return Endpoint.parseMacAddress(wifiInfo.getBSSID()); }
 
     public String getLocalNetworkAsString() { return localHost.toString(); }
+
+    public NetworkInterface getNetworkInterface() { return networkInterface; }
 }

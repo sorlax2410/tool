@@ -137,6 +137,8 @@ public class System {
         return "su";
     }
 
+    public static ArpSpoof getArpSpoof() { return arpSpoof; }
+
     public static InputStream getRawResource(int id) {
         return context.getResources().openRawResource(id);
     }
@@ -183,6 +185,12 @@ public class System {
 
         return proxy;
     }
+
+    public static String getGatewayAddress() {
+        return networkChecker.getGatewayAddress().getHostAddress();
+    }
+
+    public static IPTables getIpTables() { return ipTables; }
 
     public static Server getServer() {
         try {
@@ -237,7 +245,15 @@ public class System {
 
     public static void setLastError(String error) { lastError = error; }
 
+    public static void setForwarding(boolean enabled) {
+        Log.d(tag, "Setting ipv4 forwarding to " + enabled);
 
+        String status = (enabled ? "1" : "0"),
+                command = "echo " + status + " > " + ipv4ForwardFilePath;
+
+        try { Shell.exec(command); }
+        catch (Exception e) { errorLogging(tag, e); }
+    }
 
     public void init(Context context) throws Exception {
         this.context = context;

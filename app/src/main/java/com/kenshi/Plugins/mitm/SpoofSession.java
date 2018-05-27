@@ -1,5 +1,6 @@
 package com.kenshi.Plugins.mitm;
 
+import com.kenshi.Core.Shell;
 import com.kenshi.Core.System;
 import com.kenshi.Network.NetworkManager.Target;
 import com.kenshi.tools.Ettercap;
@@ -75,6 +76,31 @@ public class SpoofSession {
                 new Thread(System.getServer()).start();
             } catch (Exception e) { System.errorLogging(tag, e); isWithServer = false; }
         }
+
+        System.getArpSpoof().spoof(
+                target, new Shell.OutputReceiver() {
+                    @Override
+                    public void onStart(String command) {
+                        System.setForwarding(true);
+                        if(isWithProxy) {
+                            if(System.getSettings()
+                                    .getBoolean("PREF_HTTPS_REDIRECT", true)
+                                    )
+                                System.getIpTables().portRedirect(443, System.HTTP_REDIR_PORT);
+                        }
+                    }
+
+                    @Override
+                    public void onNewLine(String command) {
+
+                    }
+
+                    @Override
+                    public void onEnd(int exitCode) {
+
+                    }
+                }
+        );
     }
 
     public void start(final Target target ,final Ettercap.OnAccountListener onAccountListener) {
