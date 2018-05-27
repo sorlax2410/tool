@@ -137,7 +137,17 @@ public class System {
         return "su";
     }
 
+    @Contract(pure = true)
     public static ArpSpoof getArpSpoof() { return arpSpoof; }
+
+    @Contract(pure = true)
+    public static Ettercap getEttercap() { return ettercap; }
+
+    @Contract(pure = true)
+    public static Hydra getHydra() { return hydra; }
+
+    @Contract(pure = true)
+    public static TcpDump getTcpDump() { return tcpDump; }
 
     public static InputStream getRawResource(int id) {
         return context.getResources().openRawResource(id);

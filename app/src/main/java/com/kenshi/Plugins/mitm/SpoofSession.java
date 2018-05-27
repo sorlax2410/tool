@@ -1,5 +1,7 @@
 package com.kenshi.Plugins.mitm;
 
+import android.util.Log;
+
 import com.kenshi.Core.Shell;
 import com.kenshi.Core.System;
 import com.kenshi.Network.NetworkManager.Target;
@@ -19,11 +21,6 @@ public class SpoofSession {
     private String serverFilename = null,
             serverMimeType = null;
 
-    public static abstract interface onSessionReadyListener {
-        void onSessionReady();
-        void onError(String error);
-    }
-
     public SpoofSession(boolean isWithProxy, boolean isWithServer, String serverFilename,
                         String serverMimeType)
     {
@@ -42,7 +39,7 @@ public class SpoofSession {
         return;
     }
 
-    public void start(Target target, final onSessionReadyListener listener) {
+    public void start(Target target, final OnSessionReadyListener listener) {
         this.stop();
 
         if(isWithProxy) {
@@ -88,11 +85,13 @@ public class SpoofSession {
                                     )
                                 System.getIpTables().portRedirect(443, System.HTTP_REDIR_PORT);
                         }
+                        listener.onSessionReady();
                     }
 
                     @Override
                     public void onNewLine(String command) {
-
+                        if(command.startsWith("[ERROR]"))
+                            listener.onError(command.substring("[ERROR]".length() + 1).trim());
                     }
 
                     @Override
@@ -100,18 +99,32 @@ public class SpoofSession {
 
                     }
                 }
-        );
+        ).start();
     }
 
-    public void start(final Target target ,final Ettercap.OnAccountListener onAccountListener) {
+    public void start(final Target target , final Ettercap.OnAccountListener onAccountListener) {
+        this.stop();
 
+        System.getArpSpoof().spoof(target, new Shell.OutputReceiver() {
+            @Override
+            public void onStart(String command) {
+                System.setForwarding(true);
+                System.getEttercap().dissect(target, onAccountListener).start();
+            }
+
+            @Override
+            public void onNewLine(String command) { Log.d(tag, command); }
+
+            @Override
+            public void onEnd(int exitCode) { Log.d(tag, "onEnd( " + exitCode + " )"); }
+        });
     }
 
     public void start(Ettercap.OnAccountListener onAccountListener) {
-
+        this.start(System.getCurrentTarget(), onAccountListener);
     }
 
     public void start(final OnSessionReadyListener listener) {
-
+        this.start(System.getCurrentTarget(), listener);
     }
 }

@@ -56,4 +56,16 @@ public class IPTables extends Extender {
             );
         } catch (Exception e) { System.errorLogging(tag, e); }
     }
+
+    public void trafficRedirect(String to) {
+        Log.d(tag, "Redirecting traffic to " + to);
+        try { super.run("-t nat -A PREROUTING -j DNAT -p tcp --to " + to); }
+        catch (Exception e) { System.errorLogging(tag, e); }
+    }
+
+    public void undoTrafficRedirect(String to) {
+        Log.d(tag, "Undoing traffic redirection");
+        try { super.run("-t nat -D PREROUTING -j DNAT -p tcp --to " + to); }
+        catch (Exception e) { System.errorLogging(tag, e); }
+    }
 }
