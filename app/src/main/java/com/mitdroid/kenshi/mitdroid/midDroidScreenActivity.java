@@ -15,6 +15,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +40,6 @@ public class midDroidScreenActivity extends AppCompatActivity
 
     public TextView scanResult;
     public Button button;
-    public Button attackButton;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle toggle;
     public NavigationView navigationView;
@@ -68,7 +68,6 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult = findViewById(R.id.scanResult);
         button = findViewById(R.id.mapNetwork);
         drawerLayout = findViewById(R.id.drawerLayout);
-        attackButton = findViewById(R.id.attackButton);
         toggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -77,6 +76,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         );
         navigationView = findViewById(R.id.navigationView);
 
+        scanResult.setMovementMethod(new ScrollingMovementMethod());
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
