@@ -15,7 +15,8 @@ public class NMap extends Extender {
 
     public static abstract class TraceOutputReceiver implements Shell.OutputReceiver {
         private static final Pattern HOP_PATTERN = Pattern.compile(
-                "^(\\d+)\\s+(\\.\\.\\.|[0-9\\.]+\\s[ms]+)\\s+([\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}|[\\d]+).*",
+                "^(\\d+)\\s+(\\.\\.\\.|[0-9\\.]+\\s[ms]+)\\s+" +
+                        "([\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}\\.[\\d]{1,3}|[\\d]+).*",
                 Pattern.CASE_INSENSITIVE
         );
 
