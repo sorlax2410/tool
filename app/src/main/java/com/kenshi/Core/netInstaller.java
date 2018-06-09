@@ -16,7 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
- * @Description:
+ * @Description: A class that handle the installation
  * Created by kenshi on 09/02/2018.
  */
 
