@@ -1,6 +1,9 @@
 package com.kenshi.Core;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
+
+import org.jetbrains.annotations.Contract;
 
 public class Profiler {
     private static volatile Profiler instance = null;
@@ -38,6 +41,8 @@ public class Profiler {
         }
     }
 
+    @NonNull
+    @Contract(pure = true)
     private String format(long delta) {
         if(delta < 1000)
             return delta + " ms";
