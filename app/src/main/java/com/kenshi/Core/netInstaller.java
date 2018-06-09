@@ -3,6 +3,7 @@ package com.kenshi.Core;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
+ * @Description:
  * Created by kenshi on 09/02/2018.
  */
 
@@ -29,6 +31,10 @@ public class netInstaller {
         binDirectory = this.context.getDir("bin", Context.MODE_MULTI_PROCESS);
     }
 
+    /**
+     * @Description: This function will install the resources to folder
+     * @return: true if installed successfully, otherwise false
+     */
     public boolean installResources() {
         Resources resources = this.context.getResources();
 
@@ -63,6 +69,10 @@ public class netInstaller {
             writeFile = new File(binDirectory, "nmap-services");
             moveBinaryResourceToFile(inputStream, writeFile);
 
+            inputStream = resources.openRawResource(R.raw.nmap_mac_prefixes);
+            writeFile = new File(binDirectory, "nmap-mac-prefixes");
+            moveBinaryResourceToFile(inputStream, writeFile);
+
             String[]binaries = {
                     "nmap",
                     "nmap_os_db",
@@ -70,7 +80,8 @@ public class netInstaller {
                     "nmap_protocols",
                     "nmap_rpc",
                     "nmap_service_probes",
-                    "nmap_services"
+                    "nmap_services",
+                    "nmap_mac_prefixes"
             };
 
             //change permission of all files in bin folder
@@ -94,8 +105,16 @@ public class netInstaller {
         return true;
     }
 
-    private void moveBinaryResourceToFile(InputStream inputStream, File outFile) throws
-            IOException {
+    /**
+     * @Description: This function writes executable scripts into app_bin folder
+     * @param inputStream:
+     * @param outFile:
+     * @throws IOException:
+     */
+    private void moveBinaryResourceToFile(@NonNull InputStream inputStream,
+                                          @NonNull File outFile) throws
+            IOException
+    {
         byte[]buffer = new byte[1024];
         int byteCount;
         OutputStream outputStream = new FileOutputStream(outFile.getAbsolutePath());

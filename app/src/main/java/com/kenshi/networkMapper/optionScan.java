@@ -4,14 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
+import android.support.annotation.NonNull;
 
 import com.kenshi.Core.commandProcessor;
 import com.kenshi.ThreadsHandler.workRecord;
+
+import org.jetbrains.annotations.Contract;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * @Description: This class will execute options for scanning technique
  * Created by kenshi on 01/02/2018.
  */
 
@@ -43,6 +47,8 @@ public class optionScan {
      * @param ipAddress the converted integer value
      * @return the converted bits value and change it into string of ip address
      */
+    @NonNull
+    @Contract(pure = true)
     private String ipTransformation(int ipAddress) {
         return ((ipAddress & 0xff) + "." +
                 ((ipAddress >>>= 8) & 0xff) + "." +
@@ -50,7 +56,11 @@ public class optionScan {
                 ((ipAddress >>>= 8) & 0xff));
     }
 
-    private void getGatewayInfo(Context context) {
+    /**
+     * @Description: get the router's general information
+     * @param context: The context passed in by the activity
+     */
+    private void getGatewayInfo(@NonNull Context context) {
         DhcpInfo dhcpInfo = null;
         WifiManager wifiManager = (WifiManager)context.getApplicationContext()
                 .getSystemService(Context.WIFI_SERVICE);
@@ -76,28 +86,62 @@ public class optionScan {
     public String getNetmask() { return netmask; }
     public String getLog() { return log; }
 
+    /**
+     * @Description: quickly scan the local network with a nice format
+     * @param context: The context passed in by the activity
+     * @throws IOException: input output execption
+     * @throws InterruptedException: Interrupted Exception
+     */
     public void initialFormatScan(Context context) throws IOException, InterruptedException {
         String scanOption = quickOption + defaultGateway + "/24" + formatString;
         log = commandExecution(context, scanOption);
     }
 
+    /**
+     * @Description: quickly scan the network without the format
+     * @param context: The context passed in by the activity
+     * @throws IOException: input output exception
+     * @throws InterruptedException: Interrupted Exception
+     */
     public void initialScan(Context context) throws IOException,
             InterruptedException {
         String scanOption = quickOption + defaultGateway + "/24";
         log = commandExecution(context, scanOption);
     }
 
+    /**
+     * @Description: thoroughly scan a specific target
+     * @param context: the context passed in by the activity
+     * @param targetIp: the target ipv4 address
+     * @throws IOException: input output exception
+     * @throws InterruptedException: Interrupted Exception
+     */
     public void normalScan(Context context, String targetIp) throws IOException,
             InterruptedException {
         log = commandExecution(context, targetIp);
     }
 
+    /**
+     * @Description: Scan every detail information about the target
+     * @param context: The context passed in by the activity
+     * @param targetIp: The target ipv4 address
+     * @throws IOException: input output exception
+     * @throws InterruptedException: Interrupted Exception
+     */
     public void detailScan(Context context, String targetIp) throws IOException,
             InterruptedException {
         String scanAll = targetIp + allOption;
         log = commandExecution(context, scanAll);
     }
 
+    /**
+     * @Description: execute the command
+     * @param context: The context passed in by the activity
+     * @param option: options passed in
+     * @return: the result returned
+     * @throws IOException: input output exception
+     * @throws InterruptedException: Interrupted Exception
+     */
     @SuppressLint("WrongConstant")
     private String commandExecution(Context context, String option) throws IOException,
             InterruptedException {
@@ -115,14 +159,6 @@ public class optionScan {
 
     public ArrayList<String>getMACAddresses() {
         return stringSplitter.splitManufacturer(log);
-    }
-
-    /**
-     * Description: this function is to get only the ip addresses
-     */
-    public void ipv4Seperation() {
-        //seperate target ip address
-        //TODO: seperate the strings to get only the ip addresses
     }
 
         /*

@@ -4,6 +4,10 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+/**
+ * @Description: This helper class extract useful information during the initial scan
+ */
+
 public class stringSplitter {
 
     /**
