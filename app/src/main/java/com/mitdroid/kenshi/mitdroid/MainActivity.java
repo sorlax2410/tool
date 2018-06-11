@@ -1,15 +1,19 @@
 package com.mitdroid.kenshi.mitdroid;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -18,23 +22,16 @@ import com.kenshi.Core.netInstaller;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity {
-
-    private String successMsg = "The program will now run. Please wait";
-    private String failedMsg = "If your phone is not rooted please do it now. If it is, please provide root permission for this app";
-
-    private String firstStartPreference = "startPreference";
-    private String debugTag = "debugTag";
-
-    private ConnectivityManager connectivityManager;
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         checkConnection(this);
-        testRoot(this);
+        requestPermission();
         firstInstall(this);
     }
 
@@ -64,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
         String sharedObject = "sharedObject";
         final SharedPreferences sharedPreferences = context.getSharedPreferences(sharedObject,
                 Context.MODE_MULTI_PROCESS);
+        String firstStartPreference = "startPreference";
         firstInstall = sharedPreferences.getBoolean(firstStartPreference, true);
 
         if(firstInstall) {
             final netInstaller installer = new netInstaller(context.getApplicationContext());
             installer.installResources();
+            String debugTag = "debugTag";
             Log.d(debugTag, "installing binaries");
-            sharedPreferences.edit().putBoolean(firstStartPreference, false).commit();
+            sharedPreferences.edit().putBoolean(firstStartPreference, false).apply();
         }
         else
             binInstalledMessage(context);
@@ -91,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void testRoot(Context context) {
+    private boolean testRoot(Context context) {
         try {
             Process process = Runtime.getRuntime().exec("su -c");
             DataOutputStream outputStream = new DataOutputStream(process.getOutputStream());
@@ -100,15 +99,75 @@ public class MainActivity extends AppCompatActivity {
             outputStream.flush();
             try{
                 process.waitFor();
-                if(process.exitValue() != 255)
+                if(process.exitValue() != 255) {
                     successMessage(context);
-                else
+                    return true;
+                }
+                else {
                     failedMessage(context);
+                    return false;
+                }
             }catch(InterruptedException e) {
                 failedMessage(context);
+                return false;
             }
         }catch(IOException e) {
             failedMessage(context);
+            return false;
+        }
+    }
+
+    private void requestPermission() {
+        if(!testRoot(this)) {
+            if(
+                    ContextCompat.checkSelfPermission(
+                                    this,
+                                    Manifest.permission.INTERNET
+                    ) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_WIFI_STATE
+                    ) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.CHANGE_WIFI_STATE
+                    ) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(
+                            this,
+                            Manifest.permission.ACCESS_NETWORK_STATE
+                    ) != PackageManager.PERMISSION_GRANTED
+                )
+            {
+                ActivityCompat.requestPermissions(
+                        this,
+                        new String[]{
+                                Manifest.permission.ACCESS_NETWORK_STATE,
+                                Manifest.permission.INTERNET,
+                                Manifest.permission.ACCESS_WIFI_STATE,
+                                Manifest.permission.CHANGE_WIFI_STATE
+                        },
+                        1
+                );
+
+                Toast.makeText(
+                        this,
+                        "Thank you for granting permission",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+            else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Permission check")
+                        .setMessage("The permission is not granted, hence you cannot use the app" +
+                                "\nThe application will automatically terminated")
+                        .setNegativeButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                System.exit(0);
+                            }
+                        })
+                        .show();
+            }
         }
     }
 
@@ -118,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             dialog = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
         else
             dialog = new AlertDialog.Builder(context);
+        String successMsg = "The program will now run. Please wait";
         dialog.setTitle("Notifier")
                 .setMessage(successMsg)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -133,6 +193,8 @@ public class MainActivity extends AppCompatActivity {
             dialog = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
         else
             dialog = new AlertDialog.Builder(context);
+        String failedMsg = "If your phone is not rooted please do it now." +
+                " If it is, please provide root permission for this app";
         dialog.setTitle("Notifier")
                 .setMessage(failedMsg)
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
@@ -143,8 +205,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkConnection(Context context) {
-        connectivityManager = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] networkInfo = connectivityManager.getAllNetworkInfo();
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo[] networkInfo = Objects.requireNonNull(connectivityManager).getAllNetworkInfo();
         for (int i = 0; i < networkInfo.length; i++)
             if(networkInfo[i].getState() == NetworkInfo.State.CONNECTED)
                 Toast.makeText(context, "you are connected", Toast.LENGTH_SHORT)
