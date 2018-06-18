@@ -123,19 +123,19 @@ public class MainActivity extends Activity {
                     ContextCompat.checkSelfPermission(
                                     this,
                                     Manifest.permission.INTERNET
-                    ) != PackageManager.PERMISSION_GRANTED ||
+                    ) == PackageManager.PERMISSION_DENIED ||
                     ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.ACCESS_WIFI_STATE
-                    ) != PackageManager.PERMISSION_GRANTED ||
+                    ) == PackageManager.PERMISSION_DENIED ||
                     ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.CHANGE_WIFI_STATE
-                    ) != PackageManager.PERMISSION_GRANTED ||
+                    ) == PackageManager.PERMISSION_DENIED ||
                     ContextCompat.checkSelfPermission(
                             this,
                             Manifest.permission.ACCESS_NETWORK_STATE
-                    ) != PackageManager.PERMISSION_GRANTED
+                    ) == PackageManager.PERMISSION_DENIED
                 )
             {
                 ActivityCompat.requestPermissions(

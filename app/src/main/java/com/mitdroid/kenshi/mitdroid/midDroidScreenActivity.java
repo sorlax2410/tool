@@ -60,7 +60,7 @@ public class midDroidScreenActivity extends Activity
     }
 
     /**
-     *
+     * @Description:
      */
     private void initInstance() {
         scanner = new optionScan(this);
