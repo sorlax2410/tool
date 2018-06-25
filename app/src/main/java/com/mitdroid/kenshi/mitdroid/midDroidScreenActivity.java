@@ -1,7 +1,6 @@
 package com.mitdroid.kenshi.mitdroid;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +14,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
@@ -33,8 +33,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Objects;
 
-public class midDroidScreenActivity extends Activity
+public class midDroidScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public TextView scanResult;
@@ -78,7 +79,7 @@ public class midDroidScreenActivity extends Activity
         scanResult.setMovementMethod(new ScrollingMovementMethod());
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        //Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         navigationView.setNavigationItemSelectedListener(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
