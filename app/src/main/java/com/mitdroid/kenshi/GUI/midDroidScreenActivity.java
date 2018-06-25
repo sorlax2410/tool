@@ -195,8 +195,6 @@ public class midDroidScreenActivity extends AppCompatActivity
             MACAddress = scanner.getMACAddresses();
             changeScreen();
         }
-        for(int index = 0; index < ipAddresses.size(); index++)
-            scanResult.append(ipAddresses.get(index));
     }
 
     /**
