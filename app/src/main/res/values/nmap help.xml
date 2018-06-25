@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="targetSpecification">TARGET SPECIFICATION</string>
+
+    <!--SCAN TECHNIQUES-->
+    <string name="scanTechniques">SCAN TECHNIQUES</string>
+
+    <!--PORT SPECIFICATIONS AND SCAN ORDERS-->
+    <string name="portSpecificationAndScanOrder">PORT SPECIFICATIONS AND SCAN ORDERS</string>
+
+    <!--SERVICE/VERSION DETECTION-->
+    <string name="serviceVersionDetection">SERVICE/VERSION DETECTION</string>
+
+    <!--OS DETECTION-->
+    <string name="osDetection">OS DETECTION</string>
+
+    <!--TIMING AND PERFORMANCE-->
+    <string name="timingAndPerformance">TIMING AND PERFORMANCE</string>
+
+    <!--FIREWALL EVASION AND SPOOFING-->
+    <string name="firewallEvasionAndSpoofing">FIREWALL EVASION AND SPOOFING</string>
+
 </resources>

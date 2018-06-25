@@ -5,11 +5,35 @@
     android:layout_height="match_parent"
     tools:context="com.mitdroid.kenshi.GUI.ChooseFlagActivity">
 
-    <group>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
+    <group
+        android:id="@id/scanTechniquesGroup"
+        android:checkableBehavior="single" >
+
+    </group>
+
+    <group
+        android:id="@id/portSpecificationAndScanOrderGroup"
+        android:checkableBehavior="single" >
+    </group>
+
+    <group
+        android:id="@id/serviceVersionDetectionGroup"
+        android:checkableBehavior="single" >
+    </group>
+
+    <group
+        android:id="@id/osDetectionGroup"
+        android:checkableBehavior="single" >
+    </group>
+
+    <group
+        android:id="@id/timingAndPerformanceGroup"
+        android:checkableBehavior="single" >
+    </group>
+
+    <group
+        android:id="@id/firewallEvasionAndSpoofingGroup"
+        android:checkableBehavior="single" >
     </group>
 
 </android.support.constraint.ConstraintLayout>

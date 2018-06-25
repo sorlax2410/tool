@@ -53,7 +53,13 @@ public class midDroidScreenActivity extends AppCompatActivity
     private String extension = ".txt";
     private optionScan scanner;
     private boolean format;
-    private enum options{scanlocalnetwork, scanspecifictarget, scandetail};
+    private enum options {
+        scanlocalnetwork,
+        scanspecifictarget,
+        scandetail,
+        customscan,
+        vulnerabilitiesdisplay
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,6 +159,12 @@ public class midDroidScreenActivity extends AppCompatActivity
                     inputTarget();
                 changeString(options.scandetail);
                 break;
+
+            case R.id.customScanItem:
+                if(target == null)
+                    inputTarget();
+                changeFlagCustomizationScreen();
+                break;
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -244,10 +256,18 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     /**
-     * @Description:
+     * @Description: change to flag customization screen
      */
-    private void changeErrorDisplayScreen() {
-        Intent switcher = new Intent(this, ErrorDisplay.class)
+    private void changeFlagCustomizationScreen() {
+        Intent switcher = new Intent(this, ChooseFlagActivity.class);
+        startActivityForResult(switcher, 3);
+    }
+
+    /**
+     * @Description: change to error display screen
+     */
+    private void changeVulnerabilitiesDisplayScreen() {
+        Intent switcher = new Intent(this, VulnerabilitiesDisplay.class)
                 .putExtra("services", services);
         startActivity(switcher);
     }
@@ -269,8 +289,12 @@ public class midDroidScreenActivity extends AppCompatActivity
         }
         else if(requestCode == 2 && resultCode == RESULT_OK) {
             target = data.getStringExtra("target ip");
-            scanResult.setText("The chosen target:\n" + target);
+            //scanResult.setText("The chosen target:\n" + target);
             ipAddresses.clear();
+        }
+        else if(requestCode == 3 && resultCode == RESULT_OK) {
+            scanner.setCustomFlag(data.getStringExtra("custom flags"));
+            changeString(options.customscan);
         }
     }
 
