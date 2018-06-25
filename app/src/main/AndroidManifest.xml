@@ -17,16 +17,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name="com.mitdroid.kenshi.GUI.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".midDroidScreenActivity" />
-        <activity android:name=".displayFormattedTargets" />
-        <activity android:name=".displayTargets"></activity>
+        <activity android:name="com.mitdroid.kenshi.GUI.midDroidScreenActivity" />
+        <activity android:name="com.mitdroid.kenshi.GUI.displayFormattedTargets" />
+        <activity android:name="com.mitdroid.kenshi.GUI.displayTargets"></activity>
     </application>
 
 </manifest>

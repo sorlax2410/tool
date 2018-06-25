@@ -1,4 +1,4 @@
-package com.mitdroid.kenshi.mitdroid;
+package com.mitdroid.kenshi.GUI;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kenshi.networkMapper.optionScan;
+import com.mitdroid.kenshi.mitdroid.R;
 
 import java.io.File;
 import java.io.IOException;

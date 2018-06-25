@@ -1,4 +1,4 @@
-package com.mitdroid.kenshi.mitdroid;
+package com.mitdroid.kenshi.GUI;
 
 import android.Manifest;
 import android.app.Activity;
@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.kenshi.Core.netInstaller;
+import com.mitdroid.kenshi.mitdroid.R;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -78,11 +79,7 @@ public class MainActivity extends Activity {
     private void binInstalledMessage(Context context) {
         AlertDialog.Builder builder;
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            builder = new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert);
-        else
-            builder = new AlertDialog.Builder(context);
-        builder.setTitle("Notifier")
-                .setMessage("The binary is already installed")
+            builder = new AlertDialog.Builder(con.setMessage("The binary is already installed")
                 .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {}
