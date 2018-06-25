@@ -48,6 +48,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     private ArrayList<String> FormattedIpAddresses = new ArrayList<>();
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private ArrayList<String> MACAddress = new ArrayList<>();
+    private ArrayList<String> services = new ArrayList<>();
     private String log, logName, target;
     private String extension = ".txt";
     private optionScan scanner;
@@ -62,7 +63,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     /**
-     * @Description:
+     * @Description: create, structure and initialize GUI variables
      */
     private void initInstance() {
         scanner = new optionScan(this);
@@ -224,7 +225,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     /**
-     * Description: change to another activity to choose a target
+     * @Description: change to another activity to choose a target
      */
     private void changeScreen() {
         Intent switcher = new Intent(this, displayTargets.class)
@@ -234,12 +235,21 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     /**
-     * Description: change to the formatted activity to choose a target
+     * @Description: change to the formatted activity to choose a target
      */
     private void changeFormattedScreen() {
         Intent switcher = new Intent(this, displayFormattedTargets.class)
                 .putExtra("Formatted target list", FormattedIpAddresses);
         startActivityForResult(switcher, 1);
+    }
+
+    /**
+     * @Description:
+     */
+    private void changeErrorDisplayScreen() {
+        Intent switcher = new Intent(this, ErrorDisplay.class)
+                .putExtra("services", services);
+        startActivity(switcher);
     }
 
     /**

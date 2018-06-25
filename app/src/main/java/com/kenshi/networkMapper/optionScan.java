@@ -30,8 +30,7 @@ public class optionScan {
     public String filename = null;
 
     private String quickOption = " -sP -n ";
-    private String allOption = " -A ";
-    private String formatString = " -oG - ";
+    private String customFlag;
 
     public optionScan(Context context) {
         //initial scan
@@ -86,6 +85,8 @@ public class optionScan {
     public String getNetmask() { return netmask; }
     public String getLog() { return log; }
 
+    public void setCustomFlag(String flag) { customFlag = flag; }
+
     /**
      * @Description: quickly scan the local network with a nice format
      * @param context: The context passed in by the activity
@@ -93,6 +94,7 @@ public class optionScan {
      * @throws InterruptedException: Interrupted Exception
      */
     public void initialFormatScan(Context context) throws IOException, InterruptedException {
+        String formatString = " -oG - ";
         String scanOption = quickOption + defaultGateway + "/24" + formatString;
         log = commandExecution(context, scanOption);
     }
@@ -130,8 +132,22 @@ public class optionScan {
      */
     public void detailScan(Context context, String targetIp) throws IOException,
             InterruptedException {
+        String allOption = " -A ";
         String scanAll = targetIp + allOption;
         log = commandExecution(context, scanAll);
+    }
+
+    /**
+     * @Description: Scan with custom-made flags
+     * @param context: The context passed in by the activity
+     * @param targetIp: The target ipv4 address
+     * @throws IOException: input output exception
+     * @throws InterruptedException: Interrupted Exception
+     */
+    public void customScan(Context context, String targetIp) throws IOException,
+            InterruptedException {
+        String combination = targetIp + customFlag;
+        log = commandExecution(context, combination);
     }
 
     /**

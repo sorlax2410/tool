@@ -27,7 +27,8 @@
         <activity android:name="com.mitdroid.kenshi.GUI.midDroidScreenActivity" />
         <activity android:name="com.mitdroid.kenshi.GUI.displayFormattedTargets" />
         <activity android:name="com.mitdroid.kenshi.GUI.displayTargets" />
-        <activity android:name="com.mitdroid.kenshi.GUI.ErrorDisplay"></activity>
+        <activity android:name="com.mitdroid.kenshi.GUI.ErrorDisplay" />
+        <activity android:name="com.mitdroid.kenshi.GUI.ChooseFlagActivity"></activity>
     </application>
 
 </manifest>
