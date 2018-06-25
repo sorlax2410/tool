@@ -260,7 +260,8 @@ public class midDroidScreenActivity extends AppCompatActivity
      */
     private void changeFlagCustomizationScreen() {
         Intent switcher = new Intent(this, ChooseFlagActivity.class);
-        startActivityForResult(switcher, 3);
+        //startActivityForResult(switcher, 3);
+        startActivity(switcher);
     }
 
     /**
@@ -292,10 +293,10 @@ public class midDroidScreenActivity extends AppCompatActivity
             //scanResult.setText("The chosen target:\n" + target);
             ipAddresses.clear();
         }
-        else if(requestCode == 3 && resultCode == RESULT_OK) {
+        /*else if(requestCode == 3 && resultCode == RESULT_OK) {
             scanner.setCustomFlag(data.getStringExtra("custom flags"));
             changeString(options.customscan);
-        }
+        }*/
     }
 
     /**
