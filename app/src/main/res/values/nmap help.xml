@@ -3,20 +3,60 @@
 
     <!--SCAN TECHNIQUES-->
     <string name="scanTechniques">SCAN TECHNIQUES</string>
+    
+    <!--SCAN DESCRIPTION-->
+    <string name="udpScanDescription">UDP Scan</string>
+    <string name="tcpSynScanDescription">TCP(protocol) SYN(synchronization) scan</string>
+    <string name="ackScanDescription"> ACK(acknowledgement) scan</string>
+    <string name="maimonScanDescription">Maimon scan</string>
+    <string name="windowScanDecssription">Window scan</string>
+    <string name="connectScanDescription">Connect() scan</string>
+    <string name="tcpNullScanDescription">TCP NULL scan</string>
+    <string name="finScanDescription">FIN scan</string>
+    <string name="xmasScanDescription">XMAS scan</string>
+    <string name="sctpInitScanDescription">SCTP INIT scan</string>
+    <string name="cookieEchoScanDescription">COOKIE-ECHO scan</string>
+    <string name="protocolScanDescription">IP Protocol scan</string>
+    
+    
+    <!--SCAN OPTIONS-->
+    <string name="tcpSynScan"> -sS </string>
+    <string name="connectScan"> -sT </string>
+    <string name="udpScan"> -sU </string>
 
     <!--PORT SPECIFICATIONS AND SCAN ORDERS-->
     <string name="portSpecificationAndScanOrder">PORT SPECIFICATIONS AND SCAN ORDERS</string>
 
+    <!--PORT SPECIFICATIONS AND SCAN ORDERS DESCRIPTION-->
+
+    <!--PORT SPECIFICATIONS AND SCAN ORDERS -->
+OPTIONS
     <!--SERVICE/VERSION DETECTION-->
     <string name="serviceVersionDetection">SERVICE/VERSION DETECTION</string>
+
+    <!--SERVICE/VERSION DETECTION DESCRIPTION-->
+
+    <!--SERVICE/VERSION DETECTION OPTIONS-->
 
     <!--OS DETECTION-->
     <string name="osDetection">OS DETECTION</string>
 
+    <!--OS DETECTION DESCRIPTION-->
+
+    <!--OS DETECTION OPTIONS-->
+
     <!--TIMING AND PERFORMANCE-->
     <string name="timingAndPerformance">TIMING AND PERFORMANCE</string>
 
+    <!--TIMING AND PERFORMANCE DESCRIPTION-->
+
+    <!--TIMING AND PERFORMANCE OPTIONS-->
+
     <!--FIREWALL EVASION AND SPOOFING-->
     <string name="firewallEvasionAndSpoofing">FIREWALL EVASION AND SPOOFING</string>
+
+    <!--FIREWALL EVASION AND SPOOFING DESCRIPTION-->
+
+    <!--FIREWALL EVASION AND SPOOFING OPTIONS-->
 
 </resources>
