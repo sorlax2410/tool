@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--TIMING AND PERFORMANCE TEMPLATE-->
+    <string name="timingTemplateParanoid"> paranoid </string>
+    <string name="timingTemplateSneaky"> sneaky </string>
+    <string name="timingTemplatePolite"> polite </string>
+    <string name="timingTemplateNormal"> normal </string>
+    <string name="timingTemplateAggressive"> aggressive </string>
+    <string name="timingTemplateInsane"> insane </string>
+
+    <!--NSOCK ENGINE TEMPLATE-->
+    <string name="nsockEngineTemplateEpoll"> epoll </string>
+    <string name="nsockEngineTemplateKqueue"> kqueue </string>
+    <string name="nsockEngineTemplatePoll"> poll </string>
+    <string name="nsockEngineTemplateSelect"> select </string>
+
+
+</resources>

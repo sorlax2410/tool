@@ -17,6 +17,9 @@
     <string name="sctpInitScanDescription">SCTP INIT scan</string>
     <string name="cookieEchoScanDescription">COOKIE-ECHO scan</string>
     <string name="protocolScanDescription">IP Protocol scan</string>
+    <string name="FTPRelayHostDescription">FTP HOST RELAY</string>
+    <string name="IdleScanDescription">IDLE SCAN</string>
+    <string name="customizeTCPDescription">  </string>
     
     <!--SCAN OPTIONS-->
     <string name="setScanTcpSyn"> -sS </string>
@@ -31,6 +34,9 @@
     <string name="setScanSCTPInit"> -sY </string>
     <string name="setScanCookieEcho"> -sZ </string>
     <string name="setScanProtocol"> -sO </string>
+    <string name="setFTPRelay"> -b </string>
+    <string name="setIdleScan"> -sI </string>
+    <string name="setCustomizedTCPFlags"> --scanflags </string>
 
     
     
@@ -48,6 +54,8 @@
     <string name="setPortsExclusion"> --exclude-ports </string>
     <string name="setPortFastMode"> -F </string>
     <string name="setPortConsecutiveScan"> -r </string>
+    <string name="setTopPorts"> --top-ports </string>
+    <string name="setPortRatio"> --port-ratio </string>
 
     
     
@@ -62,6 +70,7 @@
     <string name="setVersionLight"> --version-light </string>
     <string name="setVersionAll"> --version-all </string>
     <string name="setVersionTrace"> --version-trace </string>
+    <string name="setVersionIntesity"> --version-intensity </string>
     
     
     <!--OS DETECTION-->
@@ -111,5 +120,21 @@
 
     <!--FIREWALL EVASION AND SPOOFING OPTIONS-->
     <string name="setFragmentPacket"> -f </string>
+    <string name="setMTU"> --mtu </string>
+    <string name="setDecoy"> -D </string>
+    <string name="setSpoofSourceAddress"> -S </string>
+    <string name="setInterface"> -e </string>
+    <string name="setSourcePort"> --source-port </string>
+    <string name="setProxies"> --proxies </string>
+    <string name="setBinaryPayloadToSentPackage"> --data </string>
+    <string name="setStringToSentPackage"> --data-string </string>
+    <string name="setRandomDataToSentPackage"> --data-length </string>
+    <string name="setSendPackageIPOptions"> --ip-options </string>
+    <string name="setTimeToLive"> --ttl </string>
+    <string name="setSpoofMACAddress"> --spoof-mac </string>
+    <string name="setSendPackageBogus"> --badsum </string>
+    <string name="setADLER32Algorithm"> --adler32 </string> <!--in documentation-->
+    <string name="setRandomizeHostOrder"> --randomize-hosts </string> <!--in documentation-->
+
 
 </resources>
