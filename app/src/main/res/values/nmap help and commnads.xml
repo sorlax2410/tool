@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--SCAN TECHNIQUES-->
+    <string name="scanTechniques">SCAN TECHNIQUES</string>
+    
+    <!--SCAN DESCRIPTION-->
+    <string name="udpScanDescription">Send UDP packets to targeted port(usually 53, 161)</string>
+    <string name="tcpSynScanDescription">TCP(protocol) SYN(synchronization) scan</string>
+    <string name="ackScanDescription"> ACK(acknowledgement) scan</string>
+    <string name="maimonScanDescription">Maimon scan</string>
+    <string name="windowScanDecssription">Window scan</string>
+    <string name="connectScanDescription">TCP CONNECT scan</string>
+    <string name="tcpNullScanDescription">TCP NULL scan</string>
+    <string name="finScanDescription">FIN scan</string>
+    <string name="xmasScanDescription">XMAS scan</string>
+    <string name="sctpInitScanDescription">SCTP INIT scan</string>
+    <string name="cookieEchoScanDescription">COOKIE-ECHO scan</string>
+    <string name="protocolScanDescription">IP Protocol scan</string>
+    
+    <!--SCAN OPTIONS-->
+    <string name="setScanTcpSyn"> -sS </string>
+    <string name="setScanConnect"> -sT </string>
+    <string name="setScanAck"> -sA </string>
+    <string name="setScanWindow"> -sW </string>
+    <string name="setScanMaimon"> -sM </string>
+    <string name="setScanUdp"> -sU </string>
+    <string name="setScanTcpNull"> -sN </string>
+    <string name="setScanFin"> -sF </string>
+    <string name="setScanXmas"> -sX </string>
+    <string name="setScanSCTPInit"> -sY </string>
+    <string name="setScanCookieEcho"> -sZ </string>
+    <string name="setScanProtocol"> -sO </string>
+
+    
+    
+    
+    <!--PORT SPECIFICATIONS AND SCAN ORDERS-->
+    <string name="portSpecificationAndScanOrder">PORT SPECIFICATIONS AND SCAN ORDERS</string>
+
+    <!--PORT SPECIFICATIONS AND SCAN ORDERS DESCRIPTION-->
+    <string name="portSpecificationDescription"></string>
+    <string name="portsExcludeDescription"></string>
+    <string name="portFastmodeDescription"></string>
+
+    <!--PORT SPECIFICATIONS AND SCAN ORDERS OPTIONS-->
+    <string name="setPortSpecification"> -p </string>
+    <string name="setPortsExclusion"> --exclude-ports </string>
+    <string name="setPortFastMode"> -F </string>
+    <string name="setPortConsecutiveScan"> -r </string>
+
+    
+    
+    
+    <!--SERVICE/VERSION DETECTION-->
+    <string name="serviceVersionDetection">SERVICE/VERSION DETECTION</string>
+
+    <!--SERVICE/VERSION DETECTION DESCRIPTION-->
+
+    <!--SERVICE/VERSION DETECTION OPTIONS-->
+    <string name="setVersionDetection"> -sV </string>
+    <string name="setVersionLight"> --version-light </string>
+    <string name="setVersionAll"> --version-all </string>
+    <string name="setVersionTrace"> --version-trace </string>
+    
+    
+    <!--OS DETECTION-->
+    <string name="osDetection">OS DETECTION</string>
+
+    <!--OS DETECTION DESCRIPTION-->
+    <string name="osEnableDescription">Enable scanning OS</string>
+
+    <!--OS DETECTION OPTIONS-->
+    <string name="setOSEnable"> -O </string>
+    <string name="setOSLimit"> --osscan-limit </string>
+    <string name="setOSGuess"> --osscan-guess </string>
+    <string name="setOSMaxTries"> --max-os-tries </string> <!--in documentation-->
+
+    
+    
+    
+    <!--TIMING AND PERFORMANCE-->
+    <string name="timingAndPerformance">TIMING AND PERFORMANCE</string>
+
+    <!--TIMING AND PERFORMANCE DESCRIPTION-->
+
+    <!--TIMING AND PERFORMANCE OPTIONS-->
+    <string name="setTime"> -T </string>
+    <string name="setMinParallelScanGroupSize"> --min-hostgroup </string>
+    <string name="setMaxParallelScanGroupSize"> --max-hostgroup </string>
+    <string name="setMaxParallelProbe"> --max-parallelism </string>
+    <string name="setMinParallelProbe"> --min-parallelism </string>
+    <string name="setMinProbeTimeout"> --min-rtt-timeout </string>
+    <string name="setMaxProbeTimeout"> --max-rtt-timeout </string>
+    <string name="setInitProbeTimeout"> --initial-rtt-timeout </string>
+    <string name="setMaxRetries"> --max-retries </string>
+    <string name="setHostTimeout"> --host-timeout </string>
+    <string name="setScanDelay"> --scan-delay </string>
+    <string name="setMaxScanDelay"> --max-scan-delay </string>
+    <string name="setMinPacketRate"> --min-rate </string>
+    <string name="setMaxPacketRate"> --max-rate </string>
+    <string name="setNsockEngine"> --nsock-engine </string> <!--in documentation-->
+    <string name="setReduceICMPErrorMsg"> --defeat-rst-ratelimit </string> <!--in documentation-->
+    
+    
+    
+    <!--FIREWALL EVASION AND SPOOFING-->
+    <string name="firewallEvasionAndSpoofing">FIREWALL EVASION AND SPOOFING</string>
+
+    <!--FIREWALL EVASION AND SPOOFING DESCRIPTION-->
+
+    <!--FIREWALL EVASION AND SPOOFING OPTIONS-->
+    <string name="setFragmentPacket"> -f </string>
+
+</resources>
