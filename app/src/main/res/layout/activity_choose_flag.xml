@@ -278,20 +278,20 @@
                 android:text="@string/osEnableDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox29"
+                android:id="@+id/checkBoxOSLimit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/osLimitDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox28"
+                android:id="@+id/checkBoxOSGuess"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/osGuessDescription" />
 
 
 
@@ -305,76 +305,76 @@
                 android:textAlignment="center" />
 
             <CheckBox
-                android:id="@+id/checkBox39"
+                android:id="@+id/checkBoxTimeOption"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/timeOptionDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox38"
+                android:id="@+id/checkBoxMinParallelScan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/minParallelScanDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox37"
+                android:id="@+id/checkBoxMaxParallelScan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/maxParallelScanDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox36"
+                android:id="@+id/checkBoxMinParallelProbe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/minParallelProbeDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox35"
+                android:id="@+id/checkBoxMaxParallelProbe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/maxParallelProbeDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox34"
+                android:id="@+id/checkBoxMaxProbeTimeout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/maxProbeTimeoutDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox33"
+                android:id="@+id/checkBoxMinProbeTimeout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/minProbeTimeoutDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox32"
+                android:id="@+id/checkBoxInitProbeTimeout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/initProbeTimeoutDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox31"
+                android:id="@+id/checkBoxMaxRetries"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/maxRetriesDescription" />
 
 
 
@@ -389,108 +389,108 @@
                 android:textAlignment="center" />
 
             <CheckBox
-                android:id="@+id/checkBox52"
+                android:id="@+id/checkBoxFragmentPacket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setFragmentPacketDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox51"
+                android:id="@+id/checkBoxMTU"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setMTUDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox50"
+                android:id="@+id/checkBoxDecoy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setDecoyDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox49"
+                android:id="@+id/checkBoxSendPackageIPOptions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setSendPackageIPOptionsDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox48"
+                android:id="@+id/checkBoxInterface"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setInterfaceDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox47"
+                android:id="@+id/checkBoxSourcePort"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setSourcePortDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox46"
+                android:id="@+id/checkBoxProxies"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setProxiesDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox45"
+                android:id="@+id/checkBoxRandomDataToSentPackage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setRandomDataToSentPackageDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox44"
+                android:id="@+id/checkBoxStringToSentPackage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setStringToSentPackageDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox43"
+                android:id="@+id/checkBoxBinaryPayloadToSentPackage"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setBinaryPayloadToSentPackageDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox42"
+                android:id="@+id/checkBoxSendPackageBogus"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setSendPackageBogusDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox41"
+                android:id="@+id/checkBoxTimeToLive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setTimeToLiveDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox40"
+                android:id="@+id/checkBoxSpoofMACAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/setSpoofMACAddressDescription" />
 
         </LinearLayout>
 
