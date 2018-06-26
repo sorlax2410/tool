@@ -5,21 +5,113 @@
     <string name="scanTechniques">SCAN TECHNIQUES</string>
     
     <!--SCAN DESCRIPTION-->
-    <string name="udpScanDescription">Send UDP packets to targeted port(usually 53, 161)</string>
-    <string name="tcpSynScanDescription">TCP(protocol) SYN(synchronization) scan</string>
-    <string name="ackScanDescription"> ACK(acknowledgement) scan</string>
-    <string name="maimonScanDescription">Maimon scan</string>
-    <string name="windowScanDecssription">Window scan</string>
-    <string name="connectScanDescription">TCP CONNECT scan</string>
-    <string name="tcpNullScanDescription">TCP NULL scan</string>
-    <string name="finScanDescription">FIN scan</string>
-    <string name="xmasScanDescription">XMAS scan</string>
-    <string name="sctpInitScanDescription">SCTP INIT scan</string>
-    <string name="cookieEchoScanDescription">COOKIE-ECHO scan</string>
-    <string name="protocolScanDescription">IP Protocol scan</string>
-    <string name="FTPRelayHostDescription">FTP HOST RELAY</string>
-    <string name="IdleScanDescription">IDLE SCAN</string>
-    <string name="customizeTCPDescription">  </string>
+    <string name="udpScanDescription">
+        Send UDP packets to targeted port\n
+        UDP[6] services are widely deployed. DNS,\n
+        SNMP, and DHCP (registered ports 53,\n
+        161/162, and 67/68) are three of the\n
+        most common.
+    </string>
+
+    <string name="tcpSynScanDescription">
+        It can be performed quickly, scanning\n
+        thousands of ports per second on a fast\n
+        network not hampered by restrictive\n
+        firewalls. It is also relatively\n
+        unobtrusive and stealthy since it never\n
+        completes TCP connections.
+    </string>
+
+    <string name="ackScanDescription">
+        This scan is different than the others\n
+        discussed so far in that it never\n
+        determines open (or even open|filtered)\n
+        ports. It is used to map out firewall\n
+        rulesets, determining whether they are\n
+        stateful or not and which ports are\n
+        filtered.
+    </string>
+
+    <string name="maimonScanDescription">
+        This technique is exactly the same as\n
+        NULL, FIN, and Xmas scans, except that\n
+        the probe is FIN/ACK.
+    </string>
+
+    <string name="windowScanDecssription">
+        Window scan is exactly the same as ACK\n
+        scan except that it exploits an\n
+        implementation detail of certain\n
+        systems to differentiate open ports\n
+        from closed ones, rather than always\n
+        printing unfiltered when a RST is\n
+        returned.
+    </string>
+
+    <string name="connectScanDescription">
+        TCP connect scan is the default TCP\n
+        scan type when SYN scan is not an\n
+        option. This is the case when a\n
+        user does not have raw packet\n
+        privileges.
+    </string>
+
+    <string name="tcpNullScanDescription">
+        Does not set any bits (TCP flag\n
+        header is 0)
+    </string>
+
+    <string name="finScanDescription">
+        Sets just the TCP FIN bit.
+    </string>
+
+    <string name="xmasScanDescription">
+        Sets the FIN, PSH, and URG flags,\n
+        lighting the packet up like a\n
+        Christmas tree.
+    </string>
+
+    <string name="sctpInitScanDescription">
+        It is mostly being used for\n
+        SS7/SIGTRAN related services but\n
+        has the potential to be used for\n
+        other applications as well.\n
+        SCTP INIT scan is the SCTP\n
+        equivalent of a TCP SYN scan.
+    </string>
+
+    <string name="cookieEchoScanDescription">
+        It takes advantage of the fact that\n
+        SCTP implementations should silently\n
+        drop packets containing COOKIE ECHO\n
+        chunks on open ports, but send an\n
+        ABORT if the port is closed.
+    </string>
+
+    <string name="protocolScanDescription">
+        IP protocol scan allows you to determine\n
+        which IP protocols (TCP,ICMP,IGMP,etc.)\n
+        are supported by target machines.
+    </string>
+
+    <string name="FTPRelayHostDescription">
+        This allows a user to connect to one FTP\n
+        server, then ask that files be sent to a\n
+        third-party server.
+    </string>
+
+    <string name="IdleScanDescription">
+        This advanced scan method allows for a\n
+        truly blind TCP port scan of the target\n
+        (meaning no packets are sent to the\n
+        target from your real IP address).
+    </string>
+
+    <string name="customizeTCPDescription">
+        The scanflags option allows you to\n
+        design your own scan by specifying\n
+        arbitrary TCP flags..
+    </string>
     
     <!--SCAN OPTIONS-->
     <string name="setScanTcpSyn"> -sS </string>
