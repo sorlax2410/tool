@@ -152,58 +152,59 @@
                 android:id="@+id/portSpecificationAndScanOrder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
                 android:paddingTop="16dp"
                 android:text="@string/portSpecificationAndScanOrder"
-                android:textAlignment="viewStart" />
+                android:textAlignment="viewStart"
+                tools:ignore="RtlSymmetry" />
 
             <CheckBox
-                android:id="@+id/checkBox16"
+                android:id="@+id/checkBoxPortSpecification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/portSpecificationDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox22"
+                android:id="@+id/checkBoxPortsExclude"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/portsExcludeDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox20"
+                android:id="@+id/checkBoxPortFastmode"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/portFastmodeDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox19"
+                android:id="@+id/checkBoxPortConsecutive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/portConsecutiveDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox18"
+                android:id="@+id/checkBoxTopPorts"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/topPortsDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox17"
+                android:id="@+id/checkBoxPortRatio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/portRatioDescription" />
 
 
 
@@ -217,44 +218,44 @@
                 android:textAlignment="center" />
 
             <CheckBox
-                android:id="@+id/checkBox27"
+                android:id="@+id/checkBoxServiceVersion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/serviceVersionDetection" />
 
             <CheckBox
-                android:id="@+id/checkBox26"
+                android:id="@+id/checkBoxVersionIntensity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/versionIntensityDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox25"
+                android:id="@+id/checkBoxVersionLight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/versionLightDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox24"
+                android:id="@+id/checkBoxVersionAll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/versionAllDescription" />
 
             <CheckBox
-                android:id="@+id/checkBox23"
+                android:id="@+id/checkBoxVersionTrace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/versionTraceDescription" />
 
 
 
@@ -269,12 +270,12 @@
                 android:textAlignment="center" />
 
             <CheckBox
-                android:id="@+id/checkBox30"
+                android:id="@+id/checkBoxOSEnable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
-                android:text="CheckBox" />
+                android:text="@string/osEnableDescription" />
 
             <CheckBox
                 android:id="@+id/checkBox29"

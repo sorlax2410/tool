@@ -138,27 +138,37 @@
 
     <!--PORT SPECIFICATIONS AND SCAN ORDERS DESCRIPTION-->
     <string name="portSpecificationDescription">
-
+        This option specifies which ports you\n
+        want to scan and overrides the default.
     </string>
 
     <string name="portsExcludeDescription">
-
+        This option specifies which ports you do\n
+        want to exclude from scanning.
     </string>
 
     <string name="portFastmodeDescription">
-
+        Specifies that you wish to scan fewer\n
+        ports than the default.
     </string>
 
     <string name="portConsecutiveDescription">
-
+        This randomization is normally desirable,\n
+        but you can specify -r for sequential\n
+        (sorted from lowest to highest) port\n
+        scanning instead.
     </string>
 
     <string name="topPortsDescription">
-
+        Scans the n highest-ratio ports found in\n
+        nmap-services file after excluding all\n
+        ports specified by exclude-ports.
     </string>
 
     <string name="portRatioDescription">
-
+        Scans all ports in nmap-services file\n
+        with a ratio greater than the one given.\n
+        Ratio must be between 0.0 and 1.1.
     </string>
 
     <!--PORT SPECIFICATIONS AND SCAN ORDERS OPTIONS-->
@@ -177,23 +187,32 @@
 
     <!--SERVICE/VERSION DETECTION DESCRIPTION-->
     <string name="versionDetectionDescription">
-
+        Enables version detection
     </string>
 
     <string name="versionLightDescription">
-
+        This light mode makes version scanning\n
+        much faster, but it is slightly less\n
+        likely to identify services.
     </string>
 
     <string name="versionAllDescription">
-
+        ensuring that every single probe is\n
+        attempted against each port.
     </string>
 
     <string name="versionTraceDescription">
-
+        This causes Nmap to print out extensive\n
+        debugging info about what version\n
+        scanning is doing.
     </string>
 
     <string name="versionIntensityDescription">
-
+        The higher the number, the more likely\n
+        it is the service will be correctly\n
+        identified. However, high intensity\n
+        scans take longer. The intensity must be\n
+        between 0 and 9..  The default is 7..
     </string>
 
     <!--SERVICE/VERSION DETECTION OPTIONS-->
@@ -213,15 +232,27 @@
     </string>
 
     <string name="osLimitDescription">
-
+        Set this option and Nmap will not even\n
+        try OS detection against hosts that do\n
+        not meet this criteria.
     </string>
 
     <string name="osGuessDescription">
-
+        When Nmap is unable to detect a perfect\n
+        OS match, it sometimes offers up\n
+        near-matches as possibilities. The\n
+        match has to be very close for Nmap to\n
+        do this by default.
     </string>
 
     <string name="osMaxTriesDescription">
-
+        When Nmap performs OS detection against\n
+        a target and fails to find a perfect\n
+        match, it usually repeats the attempt.\n
+        By default, Nmap tries five times if\n
+        conditions are favorable for OS\n
+        fingerprint submission, and twice when\n
+        conditions aren't so good.
     </string>
 
     <!--OS DETECTION OPTIONS-->
@@ -238,67 +269,74 @@
 
     <!--TIMING AND PERFORMANCE DESCRIPTION-->
     <string name="timeOptionDescription">
-
+        Set a timing template
     </string>
 
     <string name="minParallelScanDescription">
-
+        Adjust parallel scan group sizes
     </string>
 
     <string name="maxParallelScanDescription">
-
+        Adjust parallel scan group sizes
     </string>
 
     <string name="minParallelProbeDescription">
-
+        Adjust probe parallelization
     </string>
 
     <string name="maxParallelProbeDescription">
-
+        Adjust probe parallelization
     </string>
 
     <string name="minProbeTimeoutDescription">
-
+        Adjust probe timeouts
     </string>
 
     <string name="maxProbeTimeoutDescription">
-
+        Adjust probe timeouts
     </string>
 
     <string name="initProbeTimeoutDescription">
-
+        Adjust probe timeouts
     </string>
 
     <string name="maxRetriesDescription">
-
+        Specify the maximum number of port scan\n
+        probe retransmissions
     </string>
 
     <string name="hostTimeoutDescription">
-
+        Give up on slow target hosts
     </string>
 
     <string name="scanDelayDescription">
-
+        Adjust delay between probes
     </string>
 
     <string name="maxScanDelayDescription">
-
+        Adjust delay between probes
     </string>
 
     <string name="minPacketRateDescription">
-
+        Directly control the scanning rate
     </string>
 
     <string name="maxPacketRateDescription">
-
+        Directly control the scanning rate
     </string>
 
     <string name="nsockEngineDescription">
-
+        Enforce use of a given nsock IO
+        multiplexing engine. Only the\n
+        select(2)-based fallback engine is\m
+        guaranteed to be available on your\n
+        system.
     </string>
 
     <string name="reduceICMPDescription">
-
+        reduce the number of ICMP error\n
+        messages (such as port-unreachable\n
+        errors) received.
     </string>
 
     <!--TIMING AND PERFORMANCE OPTIONS-->
@@ -326,67 +364,82 @@
 
     <!--FIREWALL EVASION AND SPOOFING DESCRIPTION-->
     <string name="setFragmentPacketDescription">
-
+        The -f option causes the requested scan\n
+        (including ping scans) to use tiny\n
+        fragmented IP packets. Don't also\n
+        specify -f if you use mtu.
     </string>
 
     <string name="setMTUDescription">
-
+        IP header fragment packets offset size\n
+        specification.
     </string>
 
     <string name="setDecoyDescription">
-
+        Cloak a scan with decoys
     </string>
 
     <string name="setSpoofSourceAddressDescription">
-
+        Spoof source address
     </string>
 
     <string name="setInterfaceDescription">
-
+        Use specified interface
     </string>
 
     <string name="setSourcePortDescription">
-
+        Spoof source port number
     </string>
 
     <string name="setProxiesDescription">
-
+        Relay TCP connections through a chain\n
+        of proxies.
     </string>
 
     <string name="setBinaryPayloadToSentPackageDescription">
-
+        Append custom binary data to sent\n
+        packets
     </string>
 
     <string name="setStringToSentPackageDescription">
-
+        Append custom string to sent packets
     </string>
 
     <string name="setRandomDataToSentPackageDescription">
-
+        Append random data to sent packets
     </string>
 
     <string name="setSendPackageIPOptionsDescription">
-
+        Send packets with specified ip options\n
+        The IP protocol[13] offers several\n
+        options which may be placed in packet\n
+        headers. Unlike the ubiquitous TCP\n
+        options, IP options are rarely seen due\n
+        to practicality and security concerns.
     </string>
 
     <string name="setTimeToLiveDescription">
-
+        Sets the IPv4 time-to-live field in\n
+        sent packets to the given value.
     </string>
 
     <string name="setSpoofMACAddressDescription">
-
+        Spoof MAC address
     </string>
 
     <string name="setSendPackageBogusDescription">
-
+        Asks Nmap to use an invalid TCP, UDP\n
+        or SCTP checksum for packets sent to\n
+        target hosts
     </string>
 
     <string name="setADLER32AlgorithmDescription">
-
+        Use deprecated Adler32 instead of\n
+        CRC32C for SCTP checksums
     </string>
 
     <string name="setRandomizeHostOrderDescription">
-
+        Randomize target host order
     </string>
 
     <!--FIREWALL EVASION AND SPOOFING OPTIONS-->
