@@ -48,6 +48,9 @@
     <string name="portSpecificationDescription"></string>
     <string name="portsExcludeDescription"></string>
     <string name="portFastmodeDescription"></string>
+    <string name="portConsecutiveDescription"></string>
+    <string name="topPortsDescription"></string>
+    <string name="portRatioDescription"></string>
 
     <!--PORT SPECIFICATIONS AND SCAN ORDERS OPTIONS-->
     <string name="setPortSpecification"> -p </string>
@@ -64,6 +67,11 @@
     <string name="serviceVersionDetection">SERVICE/VERSION DETECTION</string>
 
     <!--SERVICE/VERSION DETECTION DESCRIPTION-->
+    <string name="versionDetectionDescription"></string>
+    <string name="versionLightDescription"></string>
+    <string name="versionAllDescription"></string>
+    <string name="versionTraceDescription"></string>
+    <string name="versionIntensityDescription"></string>
 
     <!--SERVICE/VERSION DETECTION OPTIONS-->
     <string name="setVersionDetection"> -sV </string>
@@ -78,6 +86,9 @@
 
     <!--OS DETECTION DESCRIPTION-->
     <string name="osEnableDescription">Enable scanning OS</string>
+    <string name="osLimitDescription"></string>
+    <string name="osGuessDescription"></string>
+    <string name="osMaxTriesDescription"></string>
 
     <!--OS DETECTION OPTIONS-->
     <string name="setOSEnable"> -O </string>
@@ -92,6 +103,22 @@
     <string name="timingAndPerformance">TIMING AND PERFORMANCE</string>
 
     <!--TIMING AND PERFORMANCE DESCRIPTION-->
+    <string name="timeOptionDescription"></string>
+    <string name="minParallelScanDescription"></string>
+    <string name="maxParallelScanDescription"></string>
+    <string name="minParallelProbeDescription"></string>
+    <string name="maxParallelProbeDescription"></string>
+    <string name="minProbeTimeoutDescription"></string>
+    <string name="maxProbeTimeoutDescription"></string>
+    <string name="initProbeTimeoutDescription"></string>
+    <string name="maxRetriesDescription"></string>
+    <string name="hostTimeoutDescription"></string>
+    <string name="scanDelayDescription"></string>
+    <string name="maxScanDelayDescription"></string>
+    <string name="minPacketRateDescription"></string>
+    <string name="maxPacketRateDescription"></string>
+    <string name="nsockEngineDescription"></string>
+    <string name="reduceICMPDescription"></string>
 
     <!--TIMING AND PERFORMANCE OPTIONS-->
     <string name="setTime"> -T </string>
@@ -117,6 +144,22 @@
     <string name="firewallEvasionAndSpoofing">FIREWALL EVASION AND SPOOFING</string>
 
     <!--FIREWALL EVASION AND SPOOFING DESCRIPTION-->
+    <string name="setFragmentPacketDescription"></string>
+    <string name="setMTUDescription"></string>
+    <string name="setDecoyDescription"></string>
+    <string name="setSpoofSourceAddressDescription"></string>
+    <string name="setInterfaceDescription"></string>
+    <string name="setSourcePortDescription"></string>
+    <string name="setProxiesDescription"></string>
+    <string name="setBinaryPayloadToSentPackageDescription"></string>
+    <string name="setStringToSentPackageDescription"></string>
+    <string name="setRandomDataToSentPackageDescription"></string>
+    <string name="setSendPackageIPOptionsDescription"></string>
+    <string name="setTimeToLiveDescription"></string>
+    <string name="setSpoofMACAddressDescription"></string>
+    <string name="setSendPackageBogusDescription"></string>
+    <string name="setADLER32AlgorithmDescription"></string>
+    <string name="setRandomizeHostOrderDescription"></string>
 
     <!--FIREWALL EVASION AND SPOOFING OPTIONS-->
     <string name="setFragmentPacket"> -f </string>
