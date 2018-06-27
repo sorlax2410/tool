@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/tcpSynScanDescription" />
 
             <CheckBox
@@ -38,6 +39,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/connectScanDescription" />
 
             <CheckBox
@@ -46,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/ackScanDescription" />
 
             <CheckBox
@@ -54,6 +57,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/windowScanDecssription" />
 
             <CheckBox
@@ -62,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/maimonScanDescription" />
 
             <CheckBox
@@ -70,6 +75,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/udpScanDescription" />
 
             <CheckBox
@@ -78,6 +84,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/tcpNullScanDescription" />
 
             <CheckBox
@@ -86,6 +93,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/finScanDescription" />
 
             <CheckBox
@@ -94,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/xmasScanDescription" />
 
             <CheckBox
@@ -102,6 +111,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/IdleScanDescription" />
 
             <CheckBox
@@ -110,6 +120,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/sctpInitScanDescription" />
 
             <CheckBox
@@ -118,6 +129,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/cookieEchoScanDescription" />
 
             <CheckBox
@@ -126,6 +138,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/protocolScanDescription" />
 
             <CheckBox
@@ -134,6 +147,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/FTPRelayHostDescription" />
 
             <CheckBox
@@ -142,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/customizeTCPDescription" />
 
 
@@ -164,6 +179,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/portSpecificationDescription" />
 
             <CheckBox
@@ -172,6 +188,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/portsExcludeDescription" />
 
             <CheckBox
@@ -180,6 +197,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/portFastmodeDescription" />
 
             <CheckBox
@@ -188,6 +206,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/portConsecutiveDescription" />
 
             <CheckBox
@@ -196,6 +215,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/topPortsDescription" />
 
             <CheckBox
@@ -204,6 +224,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/portRatioDescription" />
 
 
@@ -223,6 +244,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/serviceVersionDetection" />
 
             <CheckBox
@@ -231,6 +253,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/versionIntensityDescription" />
 
             <CheckBox
@@ -239,6 +262,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/versionLightDescription" />
 
             <CheckBox
@@ -247,6 +271,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/versionAllDescription" />
 
             <CheckBox
@@ -255,6 +280,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/versionTraceDescription" />
 
 
@@ -275,6 +301,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/osEnableDescription" />
 
             <CheckBox
@@ -283,6 +310,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/osLimitDescription" />
 
             <CheckBox
@@ -291,6 +319,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/osGuessDescription" />
 
 
@@ -310,6 +339,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/timeOptionDescription" />
 
             <CheckBox
@@ -318,6 +348,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/minParallelScanDescription" />
 
             <CheckBox
@@ -326,6 +357,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/maxParallelScanDescription" />
 
             <CheckBox
@@ -334,6 +366,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/minParallelProbeDescription" />
 
             <CheckBox
@@ -342,6 +375,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/maxParallelProbeDescription" />
 
             <CheckBox
@@ -350,6 +384,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/maxProbeTimeoutDescription" />
 
             <CheckBox
@@ -358,6 +393,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/minProbeTimeoutDescription" />
 
             <CheckBox
@@ -366,6 +402,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/initProbeTimeoutDescription" />
 
             <CheckBox
@@ -374,6 +411,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/maxRetriesDescription" />
 
 
@@ -394,6 +432,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setFragmentPacketDescription" />
 
             <CheckBox
@@ -402,6 +441,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setMTUDescription" />
 
             <CheckBox
@@ -410,6 +450,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setDecoyDescription" />
 
             <CheckBox
@@ -418,6 +459,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setSendPackageIPOptionsDescription" />
 
             <CheckBox
@@ -426,6 +468,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setInterfaceDescription" />
 
             <CheckBox
@@ -434,6 +477,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setSourcePortDescription" />
 
             <CheckBox
@@ -442,6 +486,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setProxiesDescription" />
 
             <CheckBox
@@ -450,6 +495,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setRandomDataToSentPackageDescription" />
 
             <CheckBox
@@ -458,6 +504,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setStringToSentPackageDescription" />
 
             <CheckBox
@@ -466,6 +513,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setBinaryPayloadToSentPackageDescription" />
 
             <CheckBox
@@ -474,6 +522,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setSendPackageBogusDescription" />
 
             <CheckBox
@@ -482,6 +531,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setTimeToLiveDescription" />
 
             <CheckBox
@@ -490,6 +540,7 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
+                android:onClick="chosenFlag"
                 android:text="@string/setSpoofMACAddressDescription" />
 
         </LinearLayout>
