@@ -129,15 +129,15 @@ public class stringSplitter {
     }
 
     public static String breakdownCustomFlags(ArrayList<String>customFlag) {
-        String flagsConcat = "";
-        String[]customFlags = (String[]) customFlag.toArray();
-        for(int index = 0; index < customFlag.size(); index++) {
-            flagsConcat = flagsConcat + (
-                    " " + customFlags[index] + " "
-            );
+        String flagsConcat = customFlag.toString();
+        Log.d("CUSTOM FLAG", customFlag.toString());
+        String[] container = flagsConcat.split("[\\[,\\]]");
+        flagsConcat = "";
+        for(int index = 0; index < container.length; index++) {
+            Log.d("CONTAINER", container[index]);
+            flagsConcat.concat(" " + container[index]);
             Log.d("FLAGCONCAT", flagsConcat);
         }
-        Log.d("CUSTOM FLAG", customFlag.toString());
         return flagsConcat;
     }
 
