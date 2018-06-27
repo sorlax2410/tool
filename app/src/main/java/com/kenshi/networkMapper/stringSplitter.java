@@ -128,4 +128,17 @@ public class stringSplitter {
         return container;
     }
 
+    public static String breakdownCustomFlags(ArrayList<String>customFlag) {
+        String flagsConcat = "";
+        String[]customFlags = (String[]) customFlag.toArray();
+        for(int index = 0; index < customFlag.size(); index++) {
+            flagsConcat = flagsConcat + (
+                    " " + customFlags[index] + " "
+            );
+            Log.d("FLAGCONCAT", flagsConcat);
+        }
+        Log.d("CUSTOM FLAG", customFlag.toString());
+        return flagsConcat;
+    }
+
 }

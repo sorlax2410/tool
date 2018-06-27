@@ -15,6 +15,8 @@ import org.jetbrains.annotations.Contract;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static com.kenshi.networkMapper.stringSplitter.breakdownCustomFlags;
+
 /**
  * @Description: This class will execute options for scanning technique
  * Created by kenshi on 01/02/2018.
@@ -31,7 +33,6 @@ public class optionScan {
     public String filename = null;
 
     private String quickOption = " -sP -n ";
-    private String flagsConcat;
     private ArrayList<String> customFlag;
 
     public optionScan(Context context) {
@@ -148,8 +149,8 @@ public class optionScan {
      */
     public void customScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        breakdownCustomFlags();
-        String combination = targetIp + flagsConcat;
+        String combination = targetIp + breakdownCustomFlags(customFlag);;
+        Log.d("COMBINATION", combination);
         log = commandExecution(context, combination);
     }
 
@@ -178,16 +179,6 @@ public class optionScan {
 
     public ArrayList<String>getMACAddresses() {
         return stringSplitter.splitManufacturer(log);
-    }
-
-    private void breakdownCustomFlags() {
-        for(int index = 0; index < customFlag.size(); index++) {
-            flagsConcat = flagsConcat + (
-                    " " + customFlag.indexOf(index) + " "
-            );
-            Log.d("FLAGCONCAT", flagsConcat);
-        }
-        Log.d("CUSTOM FLAG", customFlag.toString());
     }
 
         /*

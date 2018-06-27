@@ -105,7 +105,7 @@ public class ChooseFlagActivity extends AppCompatActivity {
                     flags.add(getResources().getString(R.string.setMaxParallelScanGroupSize));
                 else
                     flags.remove(getResources().getString(R.string.setMaxParallelScanGroupSize));
-                    break;
+                break;
 
             case R.id.checkBoxMinParallelScan:
                 if(isChecked)
