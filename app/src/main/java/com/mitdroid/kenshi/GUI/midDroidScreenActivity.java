@@ -293,8 +293,10 @@ public class midDroidScreenActivity extends AppCompatActivity
             ipAddresses.clear();
         }
         else if(requestCode == 3 && resultCode == RESULT_OK) {
-            scanner.setCustomFlag(data.getStringExtra("custom flags"));
+            ArrayList<String> result = data.getStringArrayListExtra("custom flags");
             changeString(options.customscan);
+            scanResult.setText("Your chosen flags:\n" + result);
+            scanner.setCustomFlag(result);
         }
     }
 
@@ -392,12 +394,24 @@ public class midDroidScreenActivity extends AppCompatActivity
                 }
             });
         }
-        else {
+        else if(option == options.scandetail) {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
                         detailScan(target);
+                    } catch (IOException | InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        else {
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        customScan();
                     } catch (IOException | InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -425,6 +439,11 @@ public class midDroidScreenActivity extends AppCompatActivity
             case scandetail:
                 button.setText(R.string.scanDetail);
                 click(button, options.scandetail);
+                break;
+
+            case customscan:
+                button.setText(R.string.customScan);
+                click(button, options.customscan);
                 break;
         }
     }
@@ -455,6 +474,12 @@ public class midDroidScreenActivity extends AppCompatActivity
      */
     public void normalScan(String target) throws IOException, InterruptedException {
         scanner.normalScan(this, target);
+        log = scanner.getLog();
+        scanResult.setText(log);
+    }
+
+    public void customScan() throws IOException, InterruptedException {
+        scanner.customScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
     }

@@ -27,113 +27,114 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanAck));
                 else
-                    //remove flag
+                    flags.remove(getResources().getString(R.string.setScanAck));
                 break;
 
             case R.id.checkBoxConnectScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanConnect));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanConnect));
                 break;
 
             case R.id.checkBoxFinScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanFin));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanFin));
                 break;
 
             case R.id.checkBoxIdleScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setIdleScan));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setIdleScan));
                 break;
 
             case R.id.checkBoxMaimonScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanMaimon));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanMaimon));
                 break;
 
             case R.id.checkBoxSctpInitScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanSCTPInit));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanSCTPInit));
                 break;
 
             case R.id.checkBoxProtocolScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanProtocol));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanProtocol));
                 break;
 
             case R.id.checkBoxUDPScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanUdp));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanUdp));
                 break;
 
             case R.id.checkBoxWindowScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanWindow));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanWindow));
                 break;
 
             case R.id.checkBoxXmasScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanXmas));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanXmas));
                 break;
 
             case R.id.checkBoxCookieEchoScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanCookieEcho));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanCookieEcho));
                 break;
 
             case R.id.checkBoxMaxParallelScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setMaxParallelScanGroupSize));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setMaxParallelScanGroupSize));
                     break;
 
             case R.id.checkBoxMinParallelScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setMinParallelScanGroupSize));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setMinParallelScanGroupSize));
                 break;
 
             case R.id.checkBoxTCPNullScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanTcpNull));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanTcpNull));
                     break;
 
             case R.id.checkBoxTcpSynScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanTcpSyn));
                 else
-                    //remove the flag
+                    flags.remove(getResources().getString(R.string.setScanTcpSyn));
                 break;
         }
     }
 
-    public void sendData() {
+    public void sendData(View view) {
         Intent intent = new Intent();
-        intent.putExtra("flags", flags);
+        intent.putExtra("custom flags", flags);
         setResult(RESULT_OK, intent);
+        finish();
     }
 
 }

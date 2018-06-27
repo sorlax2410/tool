@@ -5,6 +5,7 @@ import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.kenshi.Core.commandProcessor;
 import com.kenshi.ThreadsHandler.workRecord;
@@ -30,7 +31,8 @@ public class optionScan {
     public String filename = null;
 
     private String quickOption = " -sP -n ";
-    private String customFlag;
+    private String flagsConcat;
+    private ArrayList<String> customFlag;
 
     public optionScan(Context context) {
         //initial scan
@@ -85,7 +87,7 @@ public class optionScan {
     public String getNetmask() { return netmask; }
     public String getLog() { return log; }
 
-    public void setCustomFlag(String flag) { customFlag = flag; }
+    public void setCustomFlag(ArrayList<String> flag) { customFlag = flag; }
 
     /**
      * @Description: quickly scan the local network with a nice format
@@ -146,7 +148,8 @@ public class optionScan {
      */
     public void customScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        String combination = targetIp + customFlag;
+        breakdownCustomFlags();
+        String combination = targetIp + flagsConcat;
         log = commandExecution(context, combination);
     }
 
@@ -175,6 +178,16 @@ public class optionScan {
 
     public ArrayList<String>getMACAddresses() {
         return stringSplitter.splitManufacturer(log);
+    }
+
+    private void breakdownCustomFlags() {
+        for(int index = 0; index < customFlag.size(); index++) {
+            flagsConcat = flagsConcat + (
+                    " " + customFlag.indexOf(index) + " "
+            );
+            Log.d("FLAGCONCAT", flagsConcat);
+        }
+        Log.d("CUSTOM FLAG", customFlag.toString());
     }
 
         /*
