@@ -239,13 +239,13 @@
                 android:textAlignment="center" />
 
             <CheckBox
-                android:id="@+id/checkBoxServiceVersion"
+                android:id="@+id/checkBoxVersionDetection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
-                android:text="@string/serviceVersionDetection" />
+                android:text="@string/versionDetectionDescription" />
 
             <CheckBox
                 android:id="@+id/checkBoxVersionIntensity"
