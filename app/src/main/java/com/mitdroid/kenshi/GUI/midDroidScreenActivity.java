@@ -102,7 +102,8 @@ public class midDroidScreenActivity extends AppCompatActivity
     }
 
     @Override
-    public void onPostCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+    public void onPostCreate(@Nullable Bundle savedInstanceState,
+                             @Nullable PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
         toggle.syncState();
     }
@@ -266,9 +267,9 @@ public class midDroidScreenActivity extends AppCompatActivity
     /**
      * @Description: change to error display screen
      */
-    private void changeVulnerabilitiesDisplayScreen() {
+    public void changeVulnerabilitiesDisplayScreen(View view) {
         Intent switcher = new Intent(this, VulnerabilitiesDisplay.class)
-                .putExtra("services", services);
+                .putExtra("vulnerabilities", services);
         startActivity(switcher);
     }
 
@@ -448,10 +449,6 @@ public class midDroidScreenActivity extends AppCompatActivity
         }
     }
 
-    public void attackButton(View view) {
-        //display attack methods
-    }
-
     /**
      * Description: scan a specific target carefully(including displaying it's OS)
      * @param target: the chosen target(must not be null)
@@ -478,6 +475,11 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult.setText(log);
     }
 
+    /**
+     * @Description: scan a target with a customized flag
+     * @throws IOException: an input/output exception
+     * @throws InterruptedException: an interrupted exception(another button is pressed while
+     */
     public void customScan() throws IOException, InterruptedException {
         scanner.customScan(this, target);
         log = scanner.getLog();

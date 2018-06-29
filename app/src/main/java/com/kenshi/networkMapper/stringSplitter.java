@@ -128,6 +128,11 @@ public class stringSplitter {
         return container;
     }
 
+    /**
+     * @Description: turn a formatted custom flag into raw custom flag
+     * @param customFlag: chosen flags
+     * @return String: return the raw flag
+     */
     public static String breakdownCustomFlags(ArrayList<String>customFlag) {
         String flagsConcat = customFlag.toString();
         Log.d("CUSTOM FLAG", customFlag.toString());
@@ -139,6 +144,17 @@ public class stringSplitter {
             Log.d("FLAGCONCAT", flagsConcat);
         }
         return flagsConcat;
+    }
+
+    /**
+     * @Description: split the sevices used by the target
+     * @param log: Captured log
+     * @return: Services used by the target
+     */
+    public static String[] splitService(String log) {
+        //TODO: split services from nmap
+        String[] result = log.split("[\n]");
+        return result;
     }
 
 }

@@ -30,4 +30,5 @@ dependencies {
     compileOnly files('src/libs/bugsense3.0.6.jar')
     compileOnly files('src/libs/juniversalchardet-1.0.3.jar')
     implementation 'org.jetbrains:annotations-java5:15.0'
+    apply plugin: 'org.owasp.dependencycheck'
 }
