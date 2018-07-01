@@ -152,7 +152,6 @@ public class stringSplitter {
      * @return: Services used by the target
      */
     public static ArrayList<String> splitPorts(String log) {
-        //TODO: split services from nmap
         String[] container = log.split("[\n/]");
         ArrayList<String> result = new ArrayList<>();
         int counter = 0;

@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kenshi.networkMapper.optionScan;
+import com.kenshi.networkMapper.stringSplitter;
 import com.mitdroid.kenshi.mitdroid.R;
 
 import java.io.File;
@@ -40,7 +41,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public TextView scanResult;
-    public Button button;
+    public Button button, oddPortsDisplayButton;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle toggle;
     public NavigationView navigationView;
@@ -48,7 +49,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     private ArrayList<String> FormattedIpAddresses = new ArrayList<>();
     private ArrayList<String> ipAddresses = new ArrayList<>();
     private ArrayList<String> MACAddress = new ArrayList<>();
-    private ArrayList<String> services = new ArrayList<>();
+    private ArrayList<String> ports = new ArrayList<>();
     private String log, logName, target;
     private String extension = ".txt";
     private optionScan scanner;
@@ -58,7 +59,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanspecifictarget,
         scandetail,
         customscan,
-        vulnerabilitiesdisplay
+        portsdisplay
     };
 
     @Override
@@ -76,6 +77,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult = findViewById(R.id.scanResult);
         button = findViewById(R.id.mapNetwork);
         drawerLayout = findViewById(R.id.drawerLayout);
+        oddPortsDisplayButton = findViewById(R.id.oddPortsDisplayButton);
         toggle = new ActionBarDrawerToggle(
                 this,
                 drawerLayout,
@@ -268,8 +270,9 @@ public class midDroidScreenActivity extends AppCompatActivity
      * @Description: change to error display screen
      */
     public void changePortsDisplayScreen(View view) {
+        ports = stringSplitter.splitPorts(log);
         Intent switcher = new Intent(this, portsDisplay.class)
-                .putExtra("vulnerabilities", services);
+                .putExtra("ports", ports);
         startActivity(switcher);
     }
 
@@ -460,6 +463,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanner.detailScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
+        oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -473,6 +477,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanner.normalScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
+        oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -484,6 +489,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanner.customScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
+        oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 
 

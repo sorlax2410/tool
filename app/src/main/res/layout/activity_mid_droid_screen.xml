@@ -63,7 +63,7 @@
                     android:textColor="@color/green" />
 
                 <Button
-                    android:id="@+id/showVulnerabilitiesButton"
+                    android:id="@+id/oddPortsDisplayButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
