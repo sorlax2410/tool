@@ -267,8 +267,8 @@ public class midDroidScreenActivity extends AppCompatActivity
     /**
      * @Description: change to error display screen
      */
-    public void changeVulnerabilitiesDisplayScreen(View view) {
-        Intent switcher = new Intent(this, VulnerabilitiesDisplay.class)
+    public void changePortsDisplayScreen(View view) {
+        Intent switcher = new Intent(this, portsDisplay.class)
                 .putExtra("vulnerabilities", services);
         startActivity(switcher);
     }

@@ -27,7 +27,7 @@
         <activity android:name="com.mitdroid.kenshi.GUI.midDroidScreenActivity" />
         <activity android:name="com.mitdroid.kenshi.GUI.displayFormattedTargets" />
         <activity android:name="com.mitdroid.kenshi.GUI.displayTargets" />
-        <activity android:name="com.mitdroid.kenshi.GUI.VulnerabilitiesDisplay" />
+        <activity android:name="com.mitdroid.kenshi.GUI.portsDisplay" />
         <activity android:name="com.mitdroid.kenshi.GUI.ChooseFlagActivity"></activity>
     </application>
 

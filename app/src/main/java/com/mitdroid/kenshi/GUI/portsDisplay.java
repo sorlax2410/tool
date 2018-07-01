@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.mitdroid.kenshi.mitdroid.R;
 
-public class VulnerabilitiesDisplay extends AppCompatActivity {
+public class portsDisplay extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_vulnerabilities_display);
+        setContentView(R.layout.activity_ports_display);
     }
 }

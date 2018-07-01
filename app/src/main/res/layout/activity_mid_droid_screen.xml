@@ -68,8 +68,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:onClick="changeVulnerabilitiesDisplayScreen"
-                    android:text="show vulnerabilities"
+                    android:onClick="changePortsDisplayScreen"
+                    android:text="@string/ShowOddPorts"
                     android:visibility="invisible" />
 
             </RelativeLayout>

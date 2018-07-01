@@ -151,9 +151,19 @@ public class stringSplitter {
      * @param log: Captured log
      * @return: Services used by the target
      */
-    public static String[] splitService(String log) {
+    public static ArrayList<String> splitPorts(String log) {
         //TODO: split services from nmap
-        String[] result = log.split("[\n]");
+        String[] container = log.split("[\n/]");
+        ArrayList<String> result = new ArrayList<>();
+        int counter = 0;
+        for(int index = 0; index < container.length; index++) {
+            Log.d("SPLITPORTS " + index, container[index]);
+            if(Integer.parseInt(container[index]) > 10000) {
+                result.add(container[index]);
+                Log.d("RESULT", String.valueOf(result.indexOf(counter)));
+                counter++;
+            }
+        }
         return result;
     }
 
