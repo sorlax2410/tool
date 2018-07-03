@@ -41,7 +41,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public TextView scanResult;
-    public Button button, oddPortsDisplayButton;
+    public Button button, oddPortsDisplayButton, inputTargetButton;
     public DrawerLayout drawerLayout;
     public ActionBarDrawerToggle toggle;
     public NavigationView navigationView;
@@ -76,6 +76,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanner = new optionScan(this);
         scanResult = findViewById(R.id.scanResult);
         button = findViewById(R.id.mapNetwork);
+        inputTargetButton = findViewById(R.id.inputTarget);
         drawerLayout = findViewById(R.id.drawerLayout);
         oddPortsDisplayButton = findViewById(R.id.oddPortsDisplayButton);
         toggle = new ActionBarDrawerToggle(
@@ -271,9 +272,17 @@ public class midDroidScreenActivity extends AppCompatActivity
      */
     public void changePortsDisplayScreen(View view) {
         ports = stringSplitter.splitPorts(log);
-        Intent switcher = new Intent(this, portsDisplay.class)
-                .putExtra("ports", ports);
-        startActivity(switcher);
+        if(!ports.isEmpty()) {
+            Intent switcher = new Intent(this, portsDisplay.class)
+                    .putExtra("ports", ports);
+            startActivity(switcher);
+        }
+        else
+            Toast.makeText(
+                    this,
+                    "There are no odd open ports found. The system is safe for now",
+                    Toast.LENGTH_LONG)
+                    .show();
     }
 
     /**
@@ -463,6 +472,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanner.detailScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
+        inputTargetButton.setX(250);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 
@@ -477,6 +487,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanner.normalScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
+        inputTargetButton.setX(250);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 
@@ -489,6 +500,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanner.customScan(this, target);
         log = scanner.getLog();
         scanResult.setText(log);
+        inputTargetButton.setX(250);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 

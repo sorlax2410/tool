@@ -154,15 +154,31 @@ public class stringSplitter {
     public static ArrayList<String> splitPorts(String log) {
         String[] container = log.split("[\n/]");
         ArrayList<String> result = new ArrayList<>();
-        int counter = 0;
-        for(int index = 0; index < container.length; index++) {
+        ArrayList<String> ports = new ArrayList<>();
+
+        for(int index = 0; index < container.length; index++)
             Log.d("SPLITPORTS " + index, container[index]);
-            if(Integer.parseInt(container[index]) > 10000) {
-                result.add(container[index]);
-                Log.d("RESULT", String.valueOf(result.indexOf(counter)));
-                counter++;
+
+        try {
+            for (int index = 8; index < container.length; index++) {
+                if (index % 2 == 0 &&
+                        !container[index].contains("MAC") &&
+                        !container[index].contains("Nmap"))
+                    ports.add(container[index]);
             }
-        }
+
+            for (int index = 0; index < ports.size(); index++)
+                Log.d("SPITTED PORT " + index, ports.get(index));
+
+            for (int index = 0; index < ports.size(); index++)
+                if (Integer.parseInt(ports.get(index)) > 10000)
+                    result.add(ports.get(index));
+
+            for (int index = 0; index < result.size(); index++)
+                Log.d("RESULT " + index, result.get(index));
+
+            Log.d("RESULT", String.valueOf(result));
+        } catch (Exception e) { Log.d("EXCEPTION", "NO PORTS ARE OPEN"); }
         return result;
     }
 
