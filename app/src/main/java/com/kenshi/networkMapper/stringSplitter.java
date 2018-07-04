@@ -147,7 +147,7 @@ public class stringSplitter {
     }
 
     /**
-     * @Description: split the sevices used by the target
+     * @Description: split the odd ports opened by the target
      * @param log: Captured log
      * @return: Services used by the target
      */

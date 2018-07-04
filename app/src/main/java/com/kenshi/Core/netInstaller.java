@@ -25,6 +25,10 @@ public class netInstaller {
     private File binDirectory;
     private Context context;
 
+    private final static String tag = "NETINSTALLER";
+    private final static String filename = "nmap.zip";
+    private final static int BUFFER_SIZE = 4096;
+
     @SuppressLint("WrongConstant")
     public netInstaller(Context context) {
         this.context = context;
@@ -125,4 +129,94 @@ public class netInstaller {
         inputStream.close();
         outputStream.close();
     }
+
+    /*
+    public boolean installCompressedFile() {
+        ZipInputStream zipInputStream;
+        ZipEntry zipEntry;
+        byte[] buffer = new byte[BUFFER_SIZE];
+        int read;
+        FileOutputStream fileOutputStream;
+        String filename,
+                destination = context.getFilesDir().getAbsolutePath();
+
+        try {
+            zipInputStream = new ZipInputStream(
+                    new BufferedInputStream(
+                            context.getAssets()
+                                    .open(this.filename)
+                    )
+            );
+
+            while( (zipEntry = zipInputStream.getNextEntry()) != null) {
+                filename = destination + "/" + zipEntry.getName();
+                binDirectory = new File(destination + "/" + zipEntry.getName());
+
+                if(zipEntry.isDirectory())
+                    binDirectory.mkdirs();
+                else {
+                    fileOutputStream = new FileOutputStream(filename);
+
+                    while((read = zipInputStream.read(buffer, 0, BUFFER_SIZE)) > -1)
+                        fileOutputStream.write(buffer, 0, read);
+
+                    fileOutputStream.close();
+                    zipInputStream.closeEntry();
+                }
+            }
+
+            zipInputStream.close();
+
+            String command = "chmod ";
+
+            commandProcessor.runCommand(command, binDirectory);
+            return true;
+        } catch(Exception e) { errorLogging(tag, e); return false; }
+    }
+
+    private void errorLogging(String tag, Exception exception) {
+        String message = "Unknown error.",
+                trace = "Unknown trace.",
+                filename = (
+                        new File(
+                                Environment
+                                        .getExternalStorageDirectory()
+                                        .toString(),
+                                "MitDroid-debug-error-log.log"
+                        ).getAbsolutePath()
+                );
+        if(exception != null) {
+            if(exception.getMessage() != null && !exception.getMessage().isEmpty())
+                message = exception.getMessage();
+            else if(exception.toString() != null)
+                message = exception.toString();
+
+            Writer writer = new StringWriter();
+            PrintWriter printWriter = new PrintWriter(writer);
+
+            exception.printStackTrace(printWriter);
+            trace = writer.toString();
+
+            if(context != null &&
+                    getSettings()
+                            .getBoolean("PREF_DEBUG_ERROR_LOGGING", false))
+            {
+                try {
+                    FileWriter fileWriter = new FileWriter(filename, true);
+                    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+                    bufferedWriter.write(trace);
+                    bufferedWriter.close();
+                } catch (IOException ioe) { Log.e(tag, ioe.toString()); }
+            }
+        }
+
+        Log.e(tag, message);
+        Log.e(tag, trace);
+    }
+
+    private SharedPreferences getSettings() {
+        return PreferenceManager.getDefaultSharedPreferences(context);
+    }
+     */
 }
