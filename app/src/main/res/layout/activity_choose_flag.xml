@@ -104,7 +104,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/xmasScanDescription" />
-
+<!--
             <CheckBox
                 android:id="@+id/checkBoxIdleScan"
                 android:layout_width="match_parent"
@@ -113,7 +113,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/IdleScanDescription" />
-
+            -->
             <CheckBox
                 android:id="@+id/checkBoxSctpInitScan"
                 android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/protocolScanDescription" />
-
+<!--
             <CheckBox
                 android:id="@+id/checkBoxFTPRelayHost"
                 android:layout_width="match_parent"
@@ -158,7 +158,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/customizeTCPDescription" />
-
+            -->
 
 
 
@@ -172,7 +172,7 @@
                 android:text="@string/portSpecificationAndScanOrder"
                 android:textAlignment="viewStart"
                 tools:ignore="RtlSymmetry" />
-
+<!--
             <CheckBox
                 android:id="@+id/checkBoxPortSpecification"
                 android:layout_width="match_parent"
@@ -190,7 +190,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/portsExcludeDescription" />
-
+            -->
             <CheckBox
                 android:id="@+id/checkBoxPortFastmode"
                 android:layout_width="match_parent"
@@ -208,7 +208,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/portConsecutiveDescription" />
-
+<!--
             <CheckBox
                 android:id="@+id/checkBoxTopPorts"
                 android:layout_width="match_parent"
@@ -226,7 +226,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/portRatioDescription" />
-
+            -->
 
 
             <!--SERVICE/VERSION DETECTION-->
@@ -246,7 +246,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/versionDetectionDescription" />
-
+<!--
             <CheckBox
                 android:id="@+id/checkBoxVersionIntensity"
                 android:layout_width="match_parent"
@@ -255,7 +255,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/versionIntensityDescription" />
-
+            -->
             <CheckBox
                 android:id="@+id/checkBoxVersionLight"
                 android:layout_width="match_parent"
@@ -325,6 +325,7 @@
 
 
             <!--TIMING AND PERFORMANCE-->
+            <!--
             <TextView
                 android:id="@+id/timingAndPerformance"
                 android:layout_width="match_parent"
@@ -413,7 +414,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/maxRetriesDescription" />
-
+            -->
 
 
 
@@ -425,7 +426,7 @@
                 android:paddingTop="16dp"
                 android:text="@string/firewallEvasionAndSpoofing"
                 android:textAlignment="center" />
-
+<!--
             <CheckBox
                 android:id="@+id/checkBoxFragmentPacket"
                 android:layout_width="match_parent"
@@ -515,7 +516,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/setBinaryPayloadToSentPackageDescription" />
-
+-->
             <CheckBox
                 android:id="@+id/checkBoxSendPackageBogus"
                 android:layout_width="match_parent"
@@ -524,7 +525,7 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/setSendPackageBogusDescription" />
-
+<!--
             <CheckBox
                 android:id="@+id/checkBoxTimeToLive"
                 android:layout_width="match_parent"
@@ -542,14 +543,14 @@
                 android:paddingBottom="5dp"
                 android:onClick="chosenFlag"
                 android:text="@string/setSpoofMACAddressDescription" />
-
+-->
             <Button
                 android:id="@+id/chooseFlagButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/black"
                 android:onClick="sendData"
-                android:text="Choose marked flags"
+                android:text="@string/choose_marked_flags"
                 android:textColor="@color/green" />
 
         </LinearLayout>

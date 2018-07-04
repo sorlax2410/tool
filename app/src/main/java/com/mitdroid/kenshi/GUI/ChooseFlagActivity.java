@@ -43,14 +43,14 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setScanFin));
                 break;
-
+/*
             case R.id.checkBoxIdleScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setIdleScan));
                 else
                     flags.remove(getResources().getString(R.string.setIdleScan));
                 break;
-
+*/
             case R.id.checkBoxMaimonScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanMaimon));
@@ -99,7 +99,7 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setScanCookieEcho));
                 break;
-
+/*
             case R.id.checkBoxMaxParallelScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setMaxParallelScanGroupSize));
@@ -113,7 +113,7 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setMinParallelScanGroupSize));
                 break;
-
+*/
             case R.id.checkBoxTCPNullScan:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setScanTcpNull));
@@ -127,7 +127,7 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setScanTcpSyn));
                 break;
-
+/*
             case R.id.checkBoxBinaryPayloadToSentPackage:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setBinaryPayloadToSentPackage));
@@ -218,7 +218,7 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setMTU));
                 break;
-
+*/
             case R.id.checkBoxOSEnable:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setOSEnable));
@@ -253,7 +253,7 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setPortFastMode));
                 break;
-
+/*
             case R.id.checkBoxPortRatio:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setPortRatio));
@@ -288,28 +288,28 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setRandomDataToSentPackage));
                 break;
-
+*/
             case R.id.checkBoxSendPackageBogus:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setSendPackageBogus));
                 else
                     flags.remove(getResources().getString(R.string.setSendPackageBogus));
                 break;
-
+/*
             case R.id.checkBoxSendPackageIPOptions:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setSendPackageIPOptions));
                 else
                     flags.remove(getResources().getString(R.string.setSendPackageIPOptions));
                 break;
-
+*/
             case R.id.checkBoxVersionDetection:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setVersionDetection));
                 else
                     flags.remove(getResources().getString(R.string.setVersionDetection));
                 break;
-
+/*
             case R.id.checkBoxSourcePort:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setSourcePort));
@@ -351,21 +351,21 @@ public class ChooseFlagActivity extends AppCompatActivity {
                 else
                     flags.remove(getResources().getString(R.string.setTopPorts));
                 break;
-
+*/
             case R.id.checkBoxVersionAll:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setVersionAll));
                 else
                     flags.remove(getResources().getString(R.string.setVersionAll));
                 break;
-
+/*
             case R.id.checkBoxVersionIntensity:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setVersionIntesity));
                 else
                     flags.remove(getResources().getString(R.string.setVersionIntesity));
                 break;
-
+*/
             case R.id.checkBoxVersionLight:
                 if(isChecked)
                     flags.add(getResources().getString(R.string.setVersionLight));
