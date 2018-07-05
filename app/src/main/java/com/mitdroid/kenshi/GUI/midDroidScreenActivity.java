@@ -205,12 +205,27 @@ public class midDroidScreenActivity extends AppCompatActivity
 
         if(format) {
             FormattedIpAddresses = scanner.getFormattedTarget();
-            changeFormattedScreen();
+            if(FormattedIpAddresses != null && !FormattedIpAddresses.isEmpty())
+                changeFormattedScreen();
+            else {
+                Toast.makeText(this,
+                        "Currently there are no hosts found",
+                        Toast.LENGTH_LONG).show();
+            }
         }
         else {
             ipAddresses = scanner.getTargets();
             MACAddress = scanner.getMACAddresses();
-            changeScreen();
+            if(ipAddresses != null &&
+                    !ipAddresses.isEmpty() &&
+                    MACAddress != null &&
+                    !MACAddress.isEmpty())
+                changeScreen();
+            else {
+                Toast.makeText(this,
+                        "Currently there are no hosts found",
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 

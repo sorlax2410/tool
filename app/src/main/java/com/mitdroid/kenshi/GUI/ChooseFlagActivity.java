@@ -1,8 +1,8 @@
 package com.mitdroid.kenshi.GUI;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -10,7 +10,7 @@ import com.mitdroid.kenshi.mitdroid.R;
 
 import java.util.ArrayList;
 
-public class ChooseFlagActivity extends AppCompatActivity {
+public class ChooseFlagActivity extends Activity {
 
     private ArrayList<String> flags = new ArrayList<>();
 
