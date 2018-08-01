@@ -125,7 +125,7 @@ public class optionScan {
      */
     public void normalScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        log = commandExecution(context, targetIp);
+        log = commandExecution(context, targetIp + " --system-dns ");
         displayLog();
     }
 
@@ -138,7 +138,7 @@ public class optionScan {
      */
     public void detailScan(Context context, String targetIp) throws IOException,
             InterruptedException {
-        String allOption = " -A ";
+        String allOption = " -sV -O -sC ";
         String scanAll = targetIp + allOption;
         log = commandExecution(context, scanAll);
         displayLog();

@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(firstInstall) {
             final netInstaller installer = new netInstaller(context.getApplicationContext());
-            installer.installCompressedFile();
+            installer.installResources();
             String debugTag = "debugTag";
             Log.d(debugTag, "installing binaries");
             sharedPreferences.edit().putBoolean(firstStartPreference, false).apply();

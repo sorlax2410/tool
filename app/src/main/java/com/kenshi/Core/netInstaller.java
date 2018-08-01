@@ -89,6 +89,10 @@ public class netInstaller {
             writeFile = new File(binDirectory, "nmap-mac-prefixes");
             moveBinaryResourceToFile(inputStream, writeFile);
 
+            inputStream = resources.openRawResource(R.raw.nmap_mac_prefixes);
+            writeFile = new File(binDirectory, "nse_main.lua");
+            moveBinaryResourceToFile(inputStream, writeFile);
+
             String[]binaries = {
                     "nmap",
                     "nmap_os_db",
@@ -97,7 +101,8 @@ public class netInstaller {
                     "nmap_rpc",
                     "nmap_service_probes",
                     "nmap_services",
-                    "nmap_mac_prefixes"
+                    "nmap_mac_prefixes",
+                    "nse_main.lua"
             };
 
             //change permission of all files in bin folder
