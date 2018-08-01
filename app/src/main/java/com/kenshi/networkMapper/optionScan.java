@@ -100,6 +100,7 @@ public class optionScan {
         String formatString = " -oG - ";
         String scanOption = quickOption + defaultGateway + "/24" + formatString;
         log = commandExecution(context, scanOption);
+        displayLog();
     }
 
     /**
@@ -112,6 +113,7 @@ public class optionScan {
             InterruptedException {
         String scanOption = quickOption + defaultGateway + "/24";
         log = commandExecution(context, scanOption);
+        displayLog();
     }
 
     /**
@@ -124,6 +126,7 @@ public class optionScan {
     public void normalScan(Context context, String targetIp) throws IOException,
             InterruptedException {
         log = commandExecution(context, targetIp);
+        displayLog();
     }
 
     /**
@@ -138,6 +141,7 @@ public class optionScan {
         String allOption = " -A ";
         String scanAll = targetIp + allOption;
         log = commandExecution(context, scanAll);
+        displayLog();
     }
 
     /**
@@ -152,6 +156,7 @@ public class optionScan {
         String combination = targetIp + breakdownCustomFlags(customFlag);;
         Log.d("COMBINATION", combination);
         log = commandExecution(context, combination);
+        displayLog();
     }
 
     /**
@@ -181,6 +186,7 @@ public class optionScan {
         return stringSplitter.splitManufacturer(log);
     }
 
+    public void displayLog() { Log.d("INFORMATION", log); }
         /*
 
                 String[]binaries = {

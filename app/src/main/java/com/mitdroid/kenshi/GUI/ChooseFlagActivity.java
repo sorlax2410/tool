@@ -20,6 +20,11 @@ public class ChooseFlagActivity extends Activity {
         setContentView(R.layout.activity_choose_flag);
     }
 
+    /**
+     * @Description:
+     * @param view
+     */
+
     public void chosenFlag(View view) {
         boolean isChecked = ((CheckBox)view).isChecked();
         switch (view.getId()) {
@@ -375,6 +380,10 @@ public class ChooseFlagActivity extends Activity {
         }
     }
 
+    /**
+     * @Description:
+     * @param view
+     */
     public void sendData(View view) {
         Intent intent = new Intent();
         intent.putExtra("custom flags", flags);
