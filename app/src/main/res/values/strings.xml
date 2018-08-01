@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MitDroid</string>
+    <string name="app_name">MitDroidTest</string>
     <string name="settings">scan option</string>
     <string name="mapNetwork">scan local network</string>
     <string name="getTarget">input target</string>
