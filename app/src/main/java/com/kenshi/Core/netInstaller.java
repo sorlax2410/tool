@@ -2,18 +2,29 @@ package com.kenshi.Core;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.mitdroid.kenshi.mitdroid.R;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 /**
  * @Description: A class that handle the installation
@@ -27,6 +38,7 @@ public class netInstaller {
 
     private final static String tag = "NETINSTALLER";
     private final static String filename = "nmap.zip";
+    private final static String zipname = "nmap_zip.zip";
     private final static int BUFFER_SIZE = 4096;
 
     @SuppressLint("WrongConstant")
@@ -130,7 +142,6 @@ public class netInstaller {
         outputStream.close();
     }
 
-    /*
     public boolean installCompressedFile() {
         ZipInputStream zipInputStream;
         ZipEntry zipEntry;
@@ -198,8 +209,8 @@ public class netInstaller {
             trace = writer.toString();
 
             if(context != null &&
-                    getSettings()
-                            .getBoolean("PREF_DEBUG_ERROR_LOGGING", false))
+                    getSettings().getBoolean("PREF_DEBUG_ERROR_LOGGING", false)
+                    )
             {
                 try {
                     FileWriter fileWriter = new FileWriter(filename, true);
@@ -218,5 +229,4 @@ public class netInstaller {
     private SharedPreferences getSettings() {
         return PreferenceManager.getDefaultSharedPreferences(context);
     }
-     */
 }
