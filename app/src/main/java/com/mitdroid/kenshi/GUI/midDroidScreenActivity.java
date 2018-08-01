@@ -486,6 +486,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     public void detailScan(@NonNull String target) throws IOException, InterruptedException {
         scanner.detailScan(this, target);
         log = scanner.getLog();
+        displayLog();
         scanResult.setText(log);
         inputTargetButton.setX(250);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
@@ -501,6 +502,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     public void normalScan(String target) throws IOException, InterruptedException {
         scanner.normalScan(this, target);
         log = scanner.getLog();
+        displayLog();
         scanResult.setText(log);
         inputTargetButton.setX(250);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
@@ -514,6 +516,7 @@ public class midDroidScreenActivity extends AppCompatActivity
     public void customScan() throws IOException, InterruptedException {
         scanner.customScan(this, target);
         log = scanner.getLog();
+        displayLog();
         scanResult.setText(log);
         inputTargetButton.setX(250);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
@@ -575,4 +578,6 @@ public class midDroidScreenActivity extends AppCompatActivity
             Log.e("Exception", "File write fail" + e.toString());
         }
     }
+
+    public void displayLog() { Log.d("INFORMATION", log); }
 }
