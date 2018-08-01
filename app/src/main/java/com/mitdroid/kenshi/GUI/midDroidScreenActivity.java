@@ -488,7 +488,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         log = scanner.getLog();
         displayLog();
         scanResult.setText(log);
-        inputTargetButton.setX(250);
+        inputTargetButton.setX(400);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 
@@ -504,7 +504,7 @@ public class midDroidScreenActivity extends AppCompatActivity
         log = scanner.getLog();
         displayLog();
         scanResult.setText(log);
-        inputTargetButton.setX(250);
+        inputTargetButton.setX(400);
         oddPortsDisplayButton.setVisibility(View.VISIBLE);
     }
 
