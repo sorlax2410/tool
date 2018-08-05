@@ -155,6 +155,7 @@ public class stringSplitter {
         String[] container = log.split("[\n/]");
         ArrayList<String> result = new ArrayList<>();
         ArrayList<String> ports = new ArrayList<>();
+        ArrayList<String> oddPortContainer = new ArrayList<>();
 
         for(int index = 0; index < container.length; index++)
             Log.d("SPLITPORTS " + index, container[index]);
@@ -168,16 +169,22 @@ public class stringSplitter {
             }
 
             for (int index = 0; index < ports.size(); index++)
-                Log.d("SPITTED PORT " + index, ports.get(index));
+                Log.d("SPITTED PORT" + index, ports.get(index));
 
             for (int index = 0; index < ports.size(); index++)
                 if (Integer.parseInt(ports.get(index)) > 10000)
                     result.add(ports.get(index));
 
+            for(int index = 0; index < PortElimination.portList.size(); index++) {
+                if(!PortElimination.portList.contains(result.get(index)))
+                    oddPortContainer.add(result.get(index));
+            }
+
             for (int index = 0; index < result.size(); index++)
                 Log.d("RESULT " + index, result.get(index));
 
             Log.d("RESULT", String.valueOf(result));
+            Log.d("ODD PORTS", oddPortContainer.toString());
         } catch (Exception e) { Log.d("EXCEPTION", "NO PORTS ARE OPEN"); }
         return result;
     }
