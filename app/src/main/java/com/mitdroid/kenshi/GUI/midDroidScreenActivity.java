@@ -203,6 +203,8 @@ public class midDroidScreenActivity extends AppCompatActivity
         scanResult.append("Your ip address: " + scanner.getIpAdress());
         scanResult.append("Subnet mask: " + scanner.getNetmask());
 
+        Log.d("MITDROIDSCREEN", scanner.log);
+
         if(format) {
             FormattedIpAddresses = scanner.getFormattedTarget();
             if(FormattedIpAddresses != null && !FormattedIpAddresses.isEmpty())
